@@ -1,6 +1,11 @@
 # VBiTraining
 Materials for the Vectorbite Training workshops
 
+
+Monday 11th, 08:30 - 12:00; 13:00 --17:00
+Tuesday 12th  08:30 - 12:00; 13:00 --17:00
+Wednesday 13th 08:30 - 12:00
+
 ----
 The plan is to prepare [jupyter notebooks](https://github.com/mhasoba/TheMulQuaBio/blob/master/notebooks/Intro.ipynb) that cover the following materials (see [example here](https://github.com/mhasoba/TheMulQuaBio/blob/master/notebooks/NLLS.ipynb)):
 
@@ -14,6 +19,7 @@ The plan is to prepare [jupyter notebooks](https://github.com/mhasoba/TheMulQuaB
   - http://dist.stat.tamu.edu/pub/rvideos/
   - https://www.r-bloggers.com/how-to-learn-r-2/
   - Probability distributions
+  - https://kingaa.github.io/R_Tutorial/
 
 * *Modelling Probability, Statisics background*
   - Intro to modelling and fitting models to data - Samraat's lecture
