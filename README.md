@@ -1,4 +1,12 @@
 # Welcome to VectorBiTE Training 2018!
+<!-- TOC -->
+
+- [Welcome to VectorBiTE Training 2018!](#welcome-to-vectorbite-training-2018)
+    - [The Schedule](#the-schedule)
+    - [The Teaching Tools](#the-teaching-tools)
+    - [How to prepare for the Workshop](#how-to-prepare-for-the-workshop)
+
+<!-- /TOC -->
 
 ## The Schedule
 
@@ -28,7 +36,7 @@
 |                     | 15:00 --15:30| *Break*                               | ??|
 |                     | 15:30 --17:30| Abundance: (Group) challenge discussion  | ??|
 
-*Model Selection?
+*Model Selection 
 
 All the teaching materials, including the lectures, jupter notebooks, code, and data are at [this git repository](https://github.com/vectorbite/VBiTraining).
 
