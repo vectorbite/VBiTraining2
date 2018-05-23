@@ -16,6 +16,7 @@
 |                     | 09:00 - 10:30| Intro to Model Fitting Lecture            | ??|
 |                     | 10:30 - 11:00| *Break*                               | ??|
 |                     | 11:00 - 12:00| Data principles/wrangling             | ??|
+|                     | 12:00 - 13:00| *Lunch*                               | ??|
 |                     | 13:00 --14:00| Principles: Probability, Likelihoods              | ??|
 |                     | 14:00 --15:00| Traits: Linear Models + NLLS          | ??|
 |                     | 15:00 --15:30| *Break*                               | ??|
@@ -24,6 +25,7 @@
 |                     | 09:00 - 10:30| Traits: (Group) challenge/exercise*   | ??|
 |                     | 10:30 - 11:00| *Break*                               | ??|
 |                     | 11:00 - 12:00| Traits: (Group) challenge discussion  | ??|
+|                     | 12:00 - 13:00| *Lunch*                               | ??|
 |                     | 13:00 - 14:00| Abundance/Incidence: Linear Models + NLS  | ??|
 |                     | 14:00 --15:00| A/I: Time series                      | ??|
 |                     | 15:00 --15:30| *Break*                               | ??|
@@ -32,6 +34,7 @@
 |                     | 09:00 - 10:30| A/I: (Group) challenge/exercise*      | ??|
 |                     | 10:30 - 11:00| *Break*                               | ??|
 |                     | 11:00 - 12:00| A/I: (Group) challenge discussion     | ??|
+|                     | 12:00 - 13:00| *Lunch*                               | ??|
 |                     | 13:00 --15:00| Working Group Preliminaries           | ??|
 |                     | 15:00 --15:30| *Break*                               | ??|
 |                     | 15:30 --17:30| Registration/socializing for open session  | ??|
