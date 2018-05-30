@@ -10,36 +10,36 @@
 
 ## The Schedule
 
-| Date                | Time         | Topic                                 | Location |
-|:------              |------        |:------                                |:------   |
-|Monday, 11th June    | 08:30 - 09:00| General Intro and Setting up          | ??|
-|                     | 09:00 - 10:30| Intro to Model Fitting Lecture            | ??|
-|                     | 10:30 - 11:00| *Break*                               | ??|
-|                     | 11:00 - 12:00| Data principles/wrangling             | ??|
-|                     | 12:00 - 13:00| *Lunch*                               | ??|
-|                     | 13:00 --14:00| Principles: Probability, Likelihoods              | ??|
-|                     | 14:00 --15:00| Traits: Linear Models + NLLS          | ??|
-|                     | 15:00 --15:30| *Break*                               | ??|
-|                     | 15:30 --17:30| Traits: MLE + Bayesian (Jags)         | ??|
-|Tuesday, 12th June   | 08:30 - 09:00| Q & A                                 | ??|
-|                     | 09:00 - 10:30| Traits: (Group) challenge/exercise*   | ??|
-|                     | 10:30 - 11:00| *Break*                               | ??|
-|                     | 11:00 - 12:00| Traits: (Group) challenge discussion  | ??|
-|                     | 12:00 - 13:00| *Lunch*                               | ??|
-|                     | 13:00 - 14:00| Abundance/Incidence: Linear Models + NLS  | ??|
-|                     | 14:00 --15:00| A/I: Time series                      | ??|
-|                     | 15:00 --15:30| *Break*                               | ??|
-|                     | 15:30 --17:30| A/I: MLE + Bayesian                   | ??|
-|Wednesday, 13th June | 08:30 - 09:00| Q & A                                 | ??|
-|                     | 09:00 - 10:30| A/I: (Group) challenge/exercise*      | ??|
-|                     | 10:30 - 11:00| *Break*                               | ??|
-|                     | 11:00 - 12:00| A/I: (Group) challenge discussion     | ??|
-|                     | 12:00 - 13:00| *Lunch*                               | ??|
-|                     | 13:00 --15:00| Working Group Preliminaries           | ??|
-|                     | 15:00 --15:30| *Break*                               | ??|
-|                     | 15:30 --17:30| Registration/socializing for open session  | ??|
+| Date                | Time         | Topic                                 |
+|:------              |------        |:------                                |
+|Monday, 11th June    | 08:30 - 09:00| General Intro and Setting up          |
+|                     | 09:00 - 10:30| Intro to Model Fitting Lecture            |
+|                     | 10:30 - 11:00| *Break*                               | 
+|                     | 11:00 - 12:00| Data principles/wrangling             | 
+|                     | 12:00 - 13:00| *Lunch*                               | 
+|                     | 13:00 --14:00| Principles: Probability, Likelihoods              | 
+|                     | 14:00 --15:00| Traits: Linear Models + NLLS          | 
+|                     | 15:00 --15:30| *Break*                               | 
+|                     | 15:30 --17:30| Traits: MLE + Bayesian (Jags)         | 
+|Tuesday, 12th June   | 08:30 - 09:00| Q & A                                 | 
+|                     | 09:00 - 10:30| Traits: (Group) challenge/exercise*   | 
+|                     | 10:30 - 11:00| *Break*                               | 
+|                     | 11:00 - 12:00| Traits: (Group) challenge discussion  | 
+|                     | 12:00 - 13:00| *Lunch*                               | 
+|                     | 13:00 - 14:00| Abundance/Incidence: Linear Models + NLS  | 
+|                     | 14:00 --15:00| A/I: Time series                      | 
+|                     | 15:00 --15:30| *Break*                               | 
+|                     | 15:30 --17:30| A/I: MLE + Bayesian                   | 
+|Wednesday, 13th June | 08:30 - 09:00| Q & A                                 | 
+|                     | 09:00 - 10:30| A/I: (Group) challenge/exercise*      | 
+|                     | 10:30 - 11:00| *Break*                               | 
+|                     | 11:00 - 12:00| A/I: (Group) challenge discussion     | 
+|                     | 12:00 - 13:00| *Lunch*                               | 
+|                     | 13:00 --15:00| Working Group Preliminaries           | 
+|                     | 15:00 --15:30| *Break*                               | 
+|                     | 15:30 --17:30| Registration/socializing for open session  | 
 
-*Model Selection 
+*This will involve model challenge
 
 All the teaching materials, including the lectures, jupter notebooks, code, and data are at [this git repository](https://github.com/vectorbite/VBiTraining).
 
@@ -60,8 +60,8 @@ A good bit of the traing will focus on data visualization. In particular, you mi
 
   * Bring your laptop. Any operating system/platform will do.
   
-  * Have R (version 3.2 or higher) installed. 
+  * Have R (version 3.2 or higher) installed.
   
   * Have some code editor installed. [RStudio](https://www.rstudio.com/) is a great option, as it is a good code editor + a inuitive [GUI](https://en.wikipedia.org/wiki/Graphical_user_interface).
   
-  * Inculcate the coding Jedi inside of you - or the Sith lord - whatever works.
+  * Inculcate the coding Jedi inside of you - or the Sith - whatever works.
