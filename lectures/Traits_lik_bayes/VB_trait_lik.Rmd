@@ -19,8 +19,8 @@ knit_hooks$set(no.main = function(before, options, envir) {
     if (before) par(mar = c(4.1, 4.1, 1.1, 1.1))  # smaller margin on top
 })
 knitr::opts_chunk$set(echo = FALSE)
-#source("../../code/logistic_functions.R")
-source("logistic_functions.R")
+source("../../code/logistic_functions.R")
+#source("logistic_functions.R")
 set.seed(123)
 library("deSolve")
 ```
@@ -48,8 +48,8 @@ We also fit other functions to data, like the logistic function to the <span sty
 
 ```{r alby1}
 ### load in the data
-## alb<-read.csv(file="../../data/albatross_grow.csv")
-alb<-read.csv(file="albatross_grow.csv")
+alb<-read.csv(file="../../data/albatross_grow.csv")
+##alb<-read.csv(file="albatross_grow.csv")
 alb<-subset(x=alb, !is.na(alb$wt))
 
 ## define functions
