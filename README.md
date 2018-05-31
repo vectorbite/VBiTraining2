@@ -18,18 +18,18 @@
 |                     | 11:00 - 12:00| Data principles/wrangling             | 
 |                     | 12:00 - 13:00| *Lunch*                               | 
 |                     | 13:00 --14:00| Principles: Probability, Likelihoods              | 
-|                     | 14:00 --15:00| Traits: Linear Models + NLLS          | 
+|                     | 14:00 --15:00| Intro to Bayesian Methods          | 
 |                     | 15:00 --15:30| *Break*                               | 
-|                     | 15:30 --17:30| Traits: MLE + Bayesian (Jags)         | 
+|                     | 15:30 --17:30| Traits: Linear Models + NLLS + MLE    | 
 |Tuesday, 12th June   | 08:30 - 09:00| Q & A                                 | 
 |                     | 09:00 - 10:30| Traits: (Group) challenge/exercise*   | 
 |                     | 10:30 - 11:00| *Break*                               | 
 |                     | 11:00 - 12:00| Traits: (Group) challenge discussion  | 
 |                     | 12:00 - 13:00| *Lunch*                               | 
-|                     | 13:00 - 14:00| Abundance/Incidence: Linear Models + NLS  | 
-|                     | 14:00 --15:00| A/I: Time series                      | 
+|                     | 13:00 - 14:00| Abundance/Incidence: Time series     | 
+|                     | 14:00 --15:00| A/I:  Linear Models + NLLS + MLE      | 
 |                     | 15:00 --15:30| *Break*                               | 
-|                     | 15:30 --17:30| A/I: MLE + Bayesian                   | 
+|                     | 15:30 --17:30| Basics of Bayesian Analyses with JAGS | 
 |Wednesday, 13th June | 08:30 - 09:00| Q & A                                 | 
 |                     | 09:00 - 10:30| A/I: (Group) challenge/exercise*      | 
 |                     | 10:30 - 11:00| *Break*                               | 
