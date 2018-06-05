@@ -362,6 +362,110 @@ where $\theta$ is the success rate of the treatment. Based on this, write down t
 \end{frame}
 
 
+
+\begin{frame}
+\chap{Conjugate Bayesian Models}
+
+Some sets of priors/likelihoods/posteriors exhibit a special relationship called {\em \bl conjugacy}. This happens if the posterior distribution has the same form as the prior. For instance, in our above Beta-Binomial/Bernoilli examples:
+\begin{align*}
+\theta & \sim \mr{Beta} (a,b)\\
+Y|\theta &  \sim \mr{Bin} (n, \theta)\\
+\theta | Y & \sim \mr{Beta}(a^*, b^*)
+\end{align*}
+{\em Are all posteriors in the same family as the priors?} {\rd \bf No}\\
+
+Conjugacy is a nice special property, but most of the time this isn't the case and getting an analytic form of the posterior distribution can be hard or impossible.  
+
+\end{frame}
+
+\begin{frame}
+\chap{What do you do with a Posterior?}
+
+\begin{itemize}
+\item Summarize important aspects of the posterior
+	\begin{itemize}
+	\item mean, median, mode, variance...
+	\end{itemize}
+\item Check sensitivity of posterior to prior choice
+\item Say what range of parameters is consistent with the observed data given our prior information
+\item Make predictions
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\chap{Posterior Summaries}
+
+If we are interested in point-summaries of our posterior then the (full) distribution allows us many choices. For example for the Beta-Binomial model, we found that
+\begin{equation*}
+p(\theta | y)=\mr{Beta}(a+y, b+n-y)
+\end{equation*}
+So, for example:
+\begin{align*}
+\mr{E}[\theta|Y] & = \frac{a+y}{a+b+n} \\
+\mr{mode}(\theta|Y) & = \frac{a+y-1}{a+b+n-2} ~~~ \dagger \\
+\end{align*}
+\vfill 
+\hfill {\bl \footnotesize $\dagger$ a.k.a. the maximum {\em a posteriori estimator} (MAP)}
+\end{frame}
+
+
+\begin{frame}
+\chap{Prior Sensitivity}
+
+As we saw earlier for the Beta-Binomial model, the posterior expectation can be written as a weighted average of information from the prior and the data
+\begin{align*}
+\mr{E}\{\theta|Y=y\} =   \frac{n}{a + b +n} \bar{y} + \frac{a+b}{a+b+n} \theta_0.
+\end{align*}
+Thus $a$ and $b$ can be interpreted here as ``prior data'' where $a$ is the number of ``prior successes'' and $a+b$ is the ``prior sample size''. When $n\gg a+b$ most of our information comes from the data instead of the prior. 
+\end{frame}
+
+\begin{frame}
+\chap{Prior Sensitivity}
+
+We usually visualize the prior vs.~posterior to check for sensitivity, since we don't have analytic ways, in general. 
+\begin{center}
+\includegraphics[scale=0.5,trim=30 50 0 20]{prior_sens}
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\chap{Confidence Regions}
+
+An interval $[l(y), u(y)]$, based on the observed data $Y=y$, has 95\% Bayesian coverage for $\theta$ if
+\begin{align*}
+P(l(y) <\theta < u(y)|Y=y)=0.95
+\end{align*}
+The interpretation: it describes your information about the true value of $\theta$ after you have observed $Y=y$.\\
+
+\sk
+Such intervals are typically called {\bl credible intervals}, to distinguish them from frequentist confidence intervals. Both are referred to as CIs. 
+
+\end{frame}
+
+\begin{frame}
+\chap{Quantile-based (Bayesian) CI}
+
+Perhaps the easiest way to obtain a credible interval is to use the posterior quantiles.
+
+To make a $100 \times (1-\alpha)$\% quantile-based CI, find numbers $\theta_{\alpha/2}<\theta_{1- \alpha/2}$ such that
+
+\begin{enumerate}
+\item $P(\theta <\theta_{\alpha/2} |Y=y)=\alpha/2$
+\item $P(\theta >\theta_{1-\alpha/2} |Y=y)=\alpha/2$
+\end{enumerate}
+The numbers $\theta_{\alpha/2},\theta_{1- \alpha/2}$ are the $\alpha/2$ and  $1-\alpha/2$ posterior quantiles of $\theta$.\\
+
+\end{frame}
+
+
+
+
+\end{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \iffalse
 \begin{frame}
 \begin{enumerate}
@@ -494,27 +598,3 @@ $ \textbf{Beta}(a^*, b^*) = \dfrac{\Gamma (a^*+b^*)}{\Gamma (a^*)\Gamma (b^*)} \
 
 \fi
 
-\begin{frame}
-\chap{Conjugate Bayesian Models}
-
-Some sets of priors/likelihoods/posteriors exhibit a special relationship called {\em \bl conjugacy}. This happens if the posterior distribution has the same form as the prior. For instance, in our above Beta-Binomial/Bernoilli examples:
-\begin{align*}
-\theta & \sim \mr{Beta} (a,b)\\
-Y|\theta &  \sim \mr{Bin} (n, \theta)\\
-\theta | Y & \sim \mr{Beta}(a*, b*)
-\end{align*}
-{\em Are all posteriors in the same family as the priors?} {\rd \bf No}\\
-
-Conjugacy is a nice special property, but most of the time this isn't the case and getting an analytic form of the posterior distribution can be hard or impossible.  
-
-\end{frame}
-
-\begin{frame}
-\chap{What do you do with a Posterior?}
-
-
-\end{frame}
-
-
-
-\end{document}
