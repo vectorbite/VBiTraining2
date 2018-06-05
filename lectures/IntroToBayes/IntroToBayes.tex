@@ -88,34 +88,74 @@
 % doc spacing
 \setstretch{1.1}
 
+
+\begin{frame}
+\chap{Learning Objectives}
+
+\begin{enumerate}
+\item Understand the basic principles underlying Bayesian modeling methodology
+\item  Introduce how to use Bayesian inference for real-world problems
+\item Introduce computation tools to perform inference for simple models in R (how to turn the Bayesian crank)
+\item Appreciate the need for sensitivity analysis, model checking and comparison, and the potential dangers of Bayesian methods.
+\end{enumerate}
+
+\end{frame}
+
+
 \begin{frame}
 \chap{Recall: Bayes Theorem} 
 
-Bayes Theorem allows us to related the conditional probabilities of two events $A$ and $B$:
+Bayes Theorem allows us to relate the conditional probabilities of two events $A$ and $B$:
 
 \begin{equation*}
 \pr(A|B) = \frac{\pr(B|A)\pr(A)}{\pr(B)}
 \end{equation*}
 
-The theory of Bayesian statistics is based on {\bl Bayes} theorem.
+\end{frame}
+
+\begin{frame}
+\chap{What is Bayesian Inference?} 
+
+In the Bayesian approach our probabilities numerically represent rational beliefs. Bayes rule provides a rational method for updating those beliefs in light of new information and incorporating/quantifying uncertainty in those beliefs.\\
+
+\sk
+
+Thus, Bayesian inference is an approach for understanding data inductively. 
 
 \end{frame}
 
 \begin{frame}
-\chap{What is Bayesian Statistics?} 
+\chap{What is Bayesian Inference?} 
 
-Bayesian statistics is an approach for finding information in data and making inference with uncertainty based on the probability distribution of parameters given data.
-\sk
+We can re-write Bayes rule in terms of our parameters, $\theta$ and our data, $Y$:
+\begin{align*}
+\text{Pr}(\theta|Y) & = \frac{\text{Pr}(Y|\theta)\text{Pr}(\theta)}{\text{Pr}(Y)}\\
+\end{align*}
 
-This probability distribution is called {\bl posterior} and denoted $f(\theta|Y)$, where
-
+The LHS is the main quantity of interest in a Bayesian analysis, the {\bl posterior},  denoted $f(\theta|Y)$:
 \begin{equation*}
-\overbrace{f(\theta|Y)}^\text{Posterior} \propto \overbrace{f(Y|\theta)}^\text{Likelihood} \times \overbrace{f(\theta)}^\text{Prior}
+\overbrace{f(\theta|Y)}^\text{Posterior} \propto \overbrace{\mathcal{L}(\theta; Y)}^\text{Likelihood} \times \overbrace{f(\theta)}^\text{Prior}
 \end{equation*}
 
 
+\end{frame}
+
+
+\begin{frame}
+\chap{Bayesian methods provide} 
+
+\begin{enumerate}
+\item models for rational, quantitative learning
+\item parameter estimates with good statistical properties
+\item estimators that work for small and large sample sizes
+\item parsimonious descriptions of data, predictions for missing data, and forecasts for future data
+\item a coherent computational framework for model estimation, selection and validation
+\end{enumerate}
+
 
 \end{frame}
+
+
 
 \begin{frame}
 \chap{Classical vs Bayesian} 
@@ -141,21 +181,25 @@ Bayesian & data ($Y$) & param ($\theta$)\\
 \begin{frame}
 \chap{Why/Why Not Bayesian Statistics?} 
 
+{\footnotesize
 {\bf \bl Pros}
 \begin{enumerate}
-\item We are naturally Bayesian, in terms of being subjective.
-\item It provides interpretable answers, such as the 95\% CI.
-\item It provides a wide range of possible models, such as hierarchical models and missing data problems.
+\item If $f(\theta)$ \& $\mathcal{L}(\theta; Y)$ represent a rational person's beliefs, then Bayes' rule is an optimal method of updating these beliefs given new info (Cox 1946, 1961; Savage 1954; 1972).
+\item Provides more intuitive answers in terms of the probability that parameters have particular values. 
+\item In many complicated statistical problems there are no obvious non-Bayesian inference methods.
 \end{enumerate}
 {\bf \bl Cons}
 \begin{enumerate}
-\item There is no correct way to choose a prior.
-\item It can produce posterior distributions that are heavily influenced by the priors.
-\item It often requires high computational cost.
+\item It can be hard to mathematically formulate prior beliefs (choice of $f(\theta)$ often ad hoc or for computational reasons)
+\item Posterior distributions can be sensitive to prior choice.
+\item Analyses can be computationally costly.
 \end{enumerate}
-
+}
 
 \end{frame}
+
+
+
 
 
 \begin{frame}
@@ -174,29 +218,155 @@ The difference between {\bl Classical} and {\bl Bayesian} lies in step 4: (C) us
 \end{frame}
 
 
+\begin{frame}
+\chap{Example: Estimating the probability of a rare event}
+
+Suppose we are interested in the prevalence of an infectious disease in a small city.  A small random sample of 20 individuals will be checked for infection.
+\begin{itemize}
+\item Interest is in the fraction of infected individuals
+\begin{align*}
+\theta \in \Theta =[0,1]
+\end{align*}
+\item The data records the number of infected individuals
+\begin{align*}
+y \in \mathcal{Y} =\{0,1, \ldots, 20\}
+\end{align*}
+\end{itemize}
+
+\end{frame}
 
 \begin{frame}
-\chap{Example}
-\begin{enumerate}
-\item {\bf RQ:} whether a cancer drug is effective or not?
-\item {\bf Data:}
+\chap{Example: Likelihood/sampling model}
 
+Before the sample is obtained, the number of infected individuals is unknown. 
+\begin{itemize}
+\item Let $Y$ denote this to-be-determined value
+\item If $\theta$ were known, a sensible {\bl sampling} model is
+\begin{align*}
+Y|\theta \sim \mr{Bin} (20, \theta)
+\end{align*}
+\end{itemize}
+\begin{center}
+\includegraphics[scale=0.375,trim=20 50 0 100]{bin_sampling}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}
+\chap{Example: Prior}
+
+Other studies from various parts of the country indicate that the infection rate ranges from about
+0.05 to 0.20, with an average prevalence of 0.1. 
+\begin{itemize}
+\item Moment matching from a beta distribution (a convenient choice) gives the prior
+\begin{align*}
+\theta \sim \mr{Beta} (2,20)
+\end{align*}
+\end{itemize}
+\begin{center}
+\includegraphics[scale=0.55,trim=10 50 0 125]{beta_prior}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}
+\chap{Example: Posterior}
+
+The prior and sample model combination:
+\begin{align*}
+\theta & \sim \mr{Beta} (a,b)\\
+Y|\theta &  \sim \mr{Bin} (n, \theta)
+\end{align*}
+and an observed $y$ (the data), leads to the posterior 
+\begin{align*}
+p(\theta|y)=\mr{Beta}(a+y, b+n-y)
+\end{align*}
+
+\end{frame}
+
+
+\begin{frame}
+\chap{Example: Posterior}
+
+For our case, we have $a=2$, $b=20$, $n=20$. \\
+
+If we don't find any infections, then $y=0$ our posterior is:
+\begin{align*}
+p(\theta|y=0)=\mr{Beta}(2, 40)
+\end{align*}
+\begin{center}
+\includegraphics[scale=0.55,trim=10 50 0 60]{beta_bin_posterior}
+\end{center}
+
+\end{frame}
+
+\begin{frame}
+\chap{Example: Sensitivity Analysis }
+
+How influential is our prior?
+
+The posterior expectation is
+\begin{align*}
+\mr{E}\{\theta|Y=y\} =   \frac{n}{w+n} \bar{y} + \frac{w}{w+n} \theta_0
+\end{align*}
+a weighted average of the sample mean and the prior expectation:
+\begin{align*}
+\theta_0 & =  \frac{a}{a+b} ~~~~ {\rd \rightarrow} \text{ prior expectation (or guess)}\\
+w & = a + b  ~~~~ {\rd \rightarrow} \text{  prior confidence} 
+\end{align*}
+
+
+\end{frame}
+
+
+\begin{frame}
+\chap{Example: A non-Bayesian approach}
+
+A standard estimate of a population proportion, $\theta$ is the sample mean  $\bar{y} = y/n$, the fraction of infected people in the sample. 
+
+\sk
+If $y=0$, this gives zero, so reporting the sampling uncertainty is crucial (e.g., for reporting to health officials). 
+
+\sk
+The most popular 95\% confidence interval for a population proportion is the {\bl Wald Interval}:
+\begin{equation*}
+\bar{y} \pm 1.96 \sqrt{\bar{y}(1-\bar{y})/n}.
+\end{equation*}
+This has the correct {\it asymptotic} coverage, but {\rd $y=0$ is still problematic}!
+
+\end{frame}
+
+
+\begin{frame}
+\nochap
+{\bf \fb Exercise: is a treatment for cancer effective?}\\
+
+{\footnotesize
+We have data on $n$ cancer patients that have been given a particular treatment. Our outcome variable is whether or not it was ``effective'':
+\begin{center}
  \begin{tabular}{lll}
 Patient & Effectiveness & Numerical Data \\
 1& N& 0\\
 2&N&0\\
 3&Y&1\\
-4&Y&1\\
-5&N&0
+\vdots &\vdots &\vdots \\
 \end{tabular}
-\item {\bf Model:} 
+\end{center}
+The appropriate sampling model for each patient is a Bernoilli:
+$$Y_i|\theta  \stackrel{iid}{\sim} f(Y|\theta) = \text{Bern}(\theta)$$ 
+where $\theta$ is the success rate of the treatment. Based on this, write down the likelihood for the $n$ patients. Then, assuming a $\mr{Beta}(a,b)$ prior for $\theta$ find the posterior distribution for $\theta|Y$. Does this look familiar?
+}
 
-$$Y_i|\rho  \stackrel{iid}{\sim} f(Y|\rho) = \text{Bern}(\rho)$$ 
-\end{enumerate}
 \end{frame}
 
+
+\iffalse
 \begin{frame}
 \begin{enumerate}
+
+
 
 \item[4. ] {\bf Posterior:}
 First we need to decide on an appropriate  {\bl prior} for $\rho.$ To look at the domain of $\rho$ we recall that 
@@ -279,10 +449,15 @@ f(\rho|\tilde{Y}) &\propto  \prod_{i=1}^{n=5} \rho^{Y_i} (1- \rho)^{n-Y_i} \dfra
 \end{align*}
 where
 $ \textbf{Beta}(a^*, b^*) = \dfrac{\Gamma (a^*+b^*)}{\Gamma (a^*)\Gamma (b^*)} \rho^{a^*-1} (1-\rho)^{b^*-1}.$
+
 {\rd Now what do we do with this posterior?}
 
 \end{enumerate}
 \end{frame}
+
+
+
+
 
 \begin{frame}
 \begin{enumerate}
@@ -317,39 +492,28 @@ $ \textbf{Beta}(a^*, b^*) = \dfrac{\Gamma (a^*+b^*)}{\Gamma (a^*)\Gamma (b^*)} \
 \end{enumerate}
 \end{frame}
 
+\fi
 
 \begin{frame}
-\chap{Bayesian Models:}
+\chap{Conjugate Bayesian Models}
 
-\begin{tabular}{ll}
-Beta-Bernoulli & Gamma-Poisson\\
-$Y_i|\rho \sim \textbf{Bern}(\rho)$ & $Y_i|\lambda \sim \textbf{Pois}(\rho)$ \\
-$\rho \sim \textbf{Beta}(a,b)$ &  $\lambda \sim \textbf{Gamma}(a,b)$\\
-$\rho|\tilde{Y} \sim \textbf{Beta}(a^*, b^*)$ & $\lambda|\tilde{Y} \sim \textbf{Gamma}(a^*, b^*)$\\
-\end{tabular}
-\sk
+Some sets of priors/likelihoods/posteriors exhibit a special relationship called {\em \bl conjugacy}. This happens if the posterior distribution has the same form as the prior. For instance, in our above Beta-Binomial/Bernoilli examples:
+\begin{align*}
+\theta & \sim \mr{Beta} (a,b)\\
+Y|\theta &  \sim \mr{Bin} (n, \theta)\\
+\theta | Y & \sim \mr{Beta}(a*, b*)
+\end{align*}
+{\em Are all posteriors in the same family as the priors?} {\rd \bf No}\\
 
-{\rd \bf Question:} Are all posteriors in Bayesian analysis the same family as the priors?
-
-{\rd \bf Answer:} No 
+Conjugacy is a nice special property, but most of the time this isn't the case and getting an analytic form of the posterior distribution can be hard or impossible.  
 
 \end{frame}
 
 \begin{frame}
-\chap{Definition of Conjugacy:}
-
-Consider a parameter $\theta,$ if the derived posterior distribution $f(\theta|\tilde{Y})$ has the same form as the prior $f(\theta),$ then the prior is called {\bl conjugate prior distribution} 
+\chap{What do you do with a Posterior?}
 
 
 \end{frame}
-
-\begin{frame}
-\chap{Examples of Conjugate Priors}
-\nsk
-
-
-\end{frame}
-
 
 
 
