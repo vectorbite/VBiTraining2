@@ -1,5 +1,5 @@
 #####################################
-## Coninuous logistic growth
+## Continuous logistic growth
 
 logistic1<-function(t, r, K, N0){
   N0*K*exp(r*t)/(K+N0*(exp(r*t)-1))

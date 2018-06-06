@@ -1,13 +1,16 @@
-# Welcome to VectorBiTE Training 2018!
+# Welcome to the VectorBiTE Training Workshop!
+
+<img src="notebooks/graphics/VB_logo.jpg" alt="VBiTE Logo" width="75"> 
+
 <!-- TOC -->
 
-- [Welcome to VectorBiTE Training 2018!](#welcome-to-vectorbite-training-2018)
-    - [Schedule](#schedule)
-    - [The Teaching Tools](#the-teaching-tools)
-    - [How to prepare for the Workshop](#how-to-prepare-for-the-workshop)
+- [Welcome to the VectorBiTE Training Workshop!](#welcome-to-the-vectorbite-training-workshop)
+  - [Schedule](#schedule)
+  - [The Teaching Tools](#the-teaching-tools)
+  - [How to prepare for the Workshop](#how-to-prepare-for-the-workshop)
 - [For Instructors](#for-instructors)
-    - [General instructions](#general-instructions)
-    - [Planned Topics](#planned-topics)
+  - [General instructions](#general-instructions)
+  - [Planned Topics](#planned-topics)
 
 <!-- /TOC -->
 

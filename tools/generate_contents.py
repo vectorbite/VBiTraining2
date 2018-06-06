@@ -7,26 +7,24 @@ import re
 import itertools
 import nbformat
 
-NOTEBOOK_DIR = os.path.join(os.path.dirname(__file__), '..', 'notebooks')
+# NOTEBOOK_DIR = os.path.join(os.path.dirname(__file__), '..', 'notebooks')
+NOTEBOOK_DIR = '../notebooks'
 
-CHAPTERS = {"00": "R_viz",
-            "01": "NumPy",
-            "02": "Pandas",
-            "03": "Matplotlib",
-            "04": "Machine Learning"}
+CHAPTERS = {"01": "R_viz",
+            "02": "R_data",
+            "03": "Abundances",
+            "04": "Traits"}
 
 REG = re.compile(r'(\d\d)\.(\d\d)-(.*)\.ipynb')
 
 def iter_notebooks():
     return sorted(nb for nb in os.listdir(NOTEBOOK_DIR) if REG.match(nb))
 
-
 def get_notebook_title(nb_file):
     nb = nbformat.read(os.path.join(NOTEBOOK_DIR, nb_file), as_version=4)
     for cell in nb.cells:
         if cell.source.startswith('#'):
             return cell.source[1:].splitlines()[0].strip()
-
 
 def gen_contents(directory=None):
     for nb in iter_notebooks():
