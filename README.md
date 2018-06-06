@@ -55,7 +55,7 @@ All the teaching materials, including the lectures, jupter notebooks, code, and 
 
 ## The Teaching Tools
 
-We will be using `R`. The materials will be delivered through lectures and [Jupyter notebooks](http://jupyter.org/). If you would like to use jupyter (not required for the workshop), have a look at this [Intro to Jupyter notebooks](https://github.com/mhasoba/TheMulQuaBio/blob/master/notebooks/Intro.ipynb), or something else online.
+We will be using `R`. The materials will be delivered through lectures and [Jupyter notebooks](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining/blob/master/notebooks/Index.ipynb). If you would like to use jupyter (not required for the workshop), have a look at this [Intro to Jupyter notebooks](https://github.com/mhasoba/TheMulQuaBio/blob/master/notebooks/Intro.ipynb), or something else online.
 
 ## How to prepare for the Workshop
 
@@ -66,7 +66,7 @@ We will be using `R`. The materials will be delivered through lectures and [Jupy
      - https://www.datacamp.com/courses/free-introduction-to-r/?tap_a=5644-dce66f&tap_s=10907-287229
      - https://kingaa.github.io/R_Tutorial/
 
-A good bit of the traing will focus on data visualization. In particular, you might want to have a look at [ggplot](http://ggplot.yhathq.com/). There is a section on this in the [Workshop notes](https://github.com/vectorbite/VBiTraining/blob/master/notebooks/R_viz.ipynb),  but plenty of other online resources are available --- just google ggplot!
+A good bit of the traing will focus on data visualization. In particular, you might want to have a look at [ggplot](http://ggplot.yhathq.com/). There is a section on this in the [Workshop notes](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining/blob/master/notebooks/Index.ipynb),  but plenty of other online resources are available --- just google ggplot!
 
   * Bring your laptop. Any operating system/platform will do.
   
