@@ -1,0 +1,86 @@
+---
+title: 'VectorBiTE Training Workshop: <br>Dengue Challenge Solution'
+author: ''
+date: "June 2018"
+output:
+  html_document: default
+  pdf_document:
+    keep_tex: yes
+    latex_engine: xelatex
+graphics: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(1234)
+```
+
+## Dengue Incidence Data
+
+
+The data for this question consist of time series of dengue case data from San Juan, Puerto Rico together with environmental data for each location across a number of transmission seasons. The data files are in the file  ${ {\tt combined\_sanjuan\_new.csv}$. Detailed descriptions of the data are available at ${\tt http://dengueforecasting.noaa.gov/}$. 
+
+To operate effectively, health departments must be able to predict weekly cases, as this will correspond to hospital demand and resources.  Your task is to provide a fitted model for forecasting weekly total dengue cases in San Juan. You can use autoregressive components, sine/cosine, trends to build your model. You can also use the environmental covariates. Remember that you want to be able to predict into the future so you will only include lagged predictors into your prediction model. Below we suggest a series of steps for the analysis and then you'll have the opportunity to develop your own model(s) and choose which components that you want to keep. We'll compare models during the group discussion.  
+
+First you should read in the data
+
+```{r sjdat}
+### load in the data
+sanjuan<-read.csv(file="../data/combined_sanjuan_new.csv")
+names(sanjuan)
+summary(sanjuan)
+```
+
+Next let's plot the target output, ${\tt total_cases}$ across time:
+
+```{r sj1, fig.width=6, fig.height=4}
+t<-seq(1, length(sanjuan$total_cases))
+
+plot(t, sanjuan$total_cases, type="l")
+```
+
+It may be a little hard to tell, but the variance when you have a lot of cases the variance is higher, too. As in the airline example we want to do a transformation. However, we have zeros in the total cases, so instead of a log we'll use a square-root.
+
+```{r sj1, fig.width=6, fig.height=4}
+t<-seq(1, length(sanjuan$total_cases))
+
+plot(t, sqrt(sanjuan$total_cases), type="l")
+```
+
+Next, look at the ACF plot for the square-root of total cases
+```{r}
+acf(sanjuan$total_cases, lag.max=52)
+```
+
+So we'll definitely want to include autocorrelation. 
+
+If you were to look at your covariates, you'd notice that there's a lot of correlation between things like average and max or min temperature and population and the adjusted population. So we don't want to include absolutely everything here, so we're going to select things down a bit. 
+
+First, build a new data frame with sqrt of cases as your response, AR1 of the sqrt response, a trend, and sine/cosine with a 52 week period. 
+```{r}
+n<-max(t)
+Xy.raw <- data.frame(sqrty=sqrt(sanjuan$total_cases[2:n]),
+                     sqrty.m1=sqrt(sanjuan$total_cases[1:n-1]),
+                     t=t[2:n],
+                     sin1=sin((2:n)*2*pi/52),
+                     cos1=cos((2:n)*2*pi/52),
+                     
+                         lgm=data$lgm, 
+                         season=data$season,
+                         w=data$season_week,
+                         ##epi=as.factor(data$epi),
+                         lpop=log(data$pop+1),
+                         lp=log(data$prec+1),
+                         tavg=data$tavg,
+                         ndvi45=data$NDVI.18.45.66.14.,
+                         ndvi50=data$NDVI.18.50..66.14.,
+                         R0=R0,
+                         nino12=data$nino12,
+                         ##nino34=data$nino34,
+                         soi=data$soi)
+```
+
+
+<br>
+<br>
+<br>
