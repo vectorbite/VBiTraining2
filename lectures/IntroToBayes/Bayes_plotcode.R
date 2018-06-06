@@ -42,3 +42,13 @@ legend("topright", c("posterior (y=5, n=100)", "prior (a=15, b=20)"),
 abline(v=(a2+5*y)/(a2+b2+5*n), col=2, lty=2)
 
 
+#####
+## Quantile based CI example
+
+x<-seq(0,1, length=1000)
+plot(x, dbeta(x, 3, 9), type="l", col="black", xlab="", ylab="density", lwd=3,
+     ylim=c(0,3.25), bty="l")
+abline(v=qbeta(0.025, 3, 9), col=2, lty=2, lwd=2)
+abline(v=qbeta(0.975, 3, 9), col=2, lty=2, lwd=2)
+legend("topright", c("posterior", "95% CI"),
+       col=c("black", "red"), lwd=3, lty=c(1,2), bty="n")

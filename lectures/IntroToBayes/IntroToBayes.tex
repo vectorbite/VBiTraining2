@@ -405,7 +405,7 @@ So, for example:
 \mr{E}[\theta|Y] & = \frac{a+y}{a+b+n} \\
 \mr{mode}(\theta|Y) & = \frac{a+y-1}{a+b+n-2} ~~~ \dagger \\
 \end{align*}
-\vfill 
+\vspace{0.25cm}
 \hfill {\bl \footnotesize $\dagger$ a.k.a. the maximum {\em a posteriori estimator} (MAP)}
 \end{frame}
 
@@ -450,12 +450,128 @@ Such intervals are typically called {\bl credible intervals}, to distinguish the
 Perhaps the easiest way to obtain a credible interval is to use the posterior quantiles.
 
 To make a $100 \times (1-\alpha)$\% quantile-based CI, find numbers $\theta_{\alpha/2}<\theta_{1- \alpha/2}$ such that
-
 \begin{enumerate}
 \item $P(\theta <\theta_{\alpha/2} |Y=y)=\alpha/2$
 \item $P(\theta >\theta_{1-\alpha/2} |Y=y)=\alpha/2$
 \end{enumerate}
 The numbers $\theta_{\alpha/2},\theta_{1- \alpha/2}$ are the $\alpha/2$ and  $1-\alpha/2$ posterior quantiles of $\theta$.\\
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\chap{Example: Binomial sampling + uniform prior}
+
+Suppose out of $n=10$ conditionally independent draws of a binary random variable we observe $Y=2$ ones (successes). \\
+
+\sk
+Using a uniform prior distribution (a.k.a., $\mr{Beta}(1,1)$) for $\theta$, the posterior distribution is $\theta | Y=2 ~ \mr{Beta}(1+2,1+10-2)$. \\
+
+\sk
+A 95\% CI can be obtained from the 0.025 and 0.975 quantiles of this beta distribution (e.g., using {\sf R}):\\
+{\bl \footnotesize
+\begin{verbatim}
+> round(qbeta(p=c(0.025, 0.975), 3, 9), 2)
+[1] 0.06 0.52
+\end{verbatim}
+}
+Thus the posterior probability that $\theta \in [0.06, 0.52]$ is 95\%. 
+\end{frame}
+
+
+\begin{frame}[fragile]
+\chap{Example: Binomial sampling + uniform prior}
+
+One drawback: Notice that there are $\theta$-values outside the quantile-based CI that have higher probability [density] than some points inside the interval.
+
+\begin{center}
+\includegraphics[scale=0.5,trim=30 50 0 50]{quantCI}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}
+\chap{HPD region}
+
+An alternative is a more restrictive type of interval. A $100 \times(1-\alpha)$\% highest posterior density (HPD) regions is the part of parameter space, $s(y)$, such that:
+\begin{enumerate}
+\item $P(\theta \in s(y) |Y=y)= 1-\alpha$
+\item If $\theta_a \in s(y)$ and $\theta_b \notin s(y)$ then $P(\theta_a |Y=y)>P(\theta_b |Y=y)$
+\end{enumerate}
+So that all points in the HPD region have higher probability density than those outside.
+
+\end{frame}
+
+
+\begin{frame}
+\chap{Example: Binomial sampling + uniform prior}
+
+Numerically, we collect the highest density points with cumulative density greater that $1-\alpha$: 
+\begin{center}
+\includegraphics[scale=0.275,trim=30 30 0 20]{HPD_example}
+\end{center}
+The 95\% HPD region is [0.04, 0.48] which is narrower than the quantile-based CI, yet both contain 95\% probability.
+\end{frame}
+
+
+\begin{frame}
+\chap{Numerical Methods}
+
+Most of the time we can't get a nice analytic form for a posterior distribution. If we go back to the full Bayes theorem:
+\begin{align*}
+\text{Pr}(\theta|Y) & = \frac{\mathcal{L}(\theta; Y)f(\theta)}{{\rd \text{Pr}(Y)}}
+\end{align*}
+We are usually specifying the likelihood and the prior but we often don't know the normalizing constant in the denominator. Without this, the probabilities don't properly integrate to 1 and we {\rd can't make probability statements}. We need a way to approximate the distribution \\
+\end{frame}
+
+\begin{frame}
+\chap{Monte Carlo Simulation}
+
+Instead we ``Monte Carlo'' (MC) methods to generate random deviates in the right ratios from the target posterior called ``{\bl draws}'' or samples. We then use these draws to approximate our distribution and make inference statements (estimates, CIs, etc). 
+
+\sk
+We can also use the draws to calculate the posterior distribution of {\bf \bl any function of our estimated parameters}. As the number of draws/samples gets large we can approximate these quantities arbitrarily high precision.
+
+
+\end{frame}
+
+
+\begin{frame}
+\chap{Markov Chain MC (MCMC)}
+
+The most commonly used numerical algorithm for generating posterior samples is MCMC. \\
+
+\sk
+A {\bl Markov Chain} is a randomly generated sequence of numbers where each draw depends on the one immediately preceding it $\rightarrow$ random walk.
+
+
+\begin{center}
+\hspace{2.75cm} \includegraphics[scale=0.375,trim=30 80 0 70]{MCMC}
+\end{center}
+
+\vfill
+\hfill {\tiny Plot -- Ian Murray (http://mlg.eng.cam.ac.uk/zoubin/tut06/mcmc.pdf)} 
+\end{frame}
+
+\begin{frame}
+\chap{Gibbs Sampling}
+
+One specific algorithm that is commonly used is {\bl Gibbs Sampling}. \\
+
+\sk
+Gibbs sampling leverages the {\em conditional} distributions of parameters to generate samples by proposing them one at a time. This is the algorithm implemented in the popular Bayesian packages {\sf BUGS}, {\sf WinBUGS}, and {\sf JAGS}/{\tt rjags}. 
+
+\sk 
+We will treat Gibbs sampling and other of the numerical methods as mostly ``black boxes''. We'll learn to diagnose output from these later on in the practical component.
+
+
+\end{frame}
+
+
+\begin{frame}
+\chap{What do we do with Posterior Samples?}
+
 
 \end{frame}
 
