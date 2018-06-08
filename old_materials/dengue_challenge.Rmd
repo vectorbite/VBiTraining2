@@ -1,5 +1,5 @@
 ---
-title: 'VectorBiTE Training Workshop: <br>Dengue Challenge Solution'
+title: 'VectorBiTE Training Workshop: <br>Dengue Time Series Challenge Problem'
 author: ''
 date: "June 2018"
 output:
@@ -18,11 +18,13 @@ set.seed(1234)
 ## Dengue Incidence Data
 
 
-The data for this question consist of time series of dengue case data from San Juan, Puerto Rico together with environmental data for each location across a number of transmission seasons. The data files are in the file  ${ {\tt combined\_sanjuan\_new.csv}$. Detailed descriptions of the data are available at ${\tt http://dengueforecasting.noaa.gov/}$. 
+The data for this question consist of time series of dengue case data from San Juan, Puerto Rico together with environmental data for each location across a number of transmission seasons. The data files are in the file  ${\tt combined\_sanjuan\_new.csv}$. Detailed descriptions of the data are available at ${\tt http://dengueforecasting.noaa.gov/}$. 
 
-To operate effectively, health departments must be able to predict weekly cases, as this will correspond to hospital demand and resources.  Your task is to provide a fitted model for forecasting weekly total dengue cases in San Juan. You can use autoregressive components, sine/cosine, trends to build your model. You can also use the environmental covariates. Remember that you want to be able to predict into the future so you will only include lagged predictors into your prediction model. Below we suggest a series of steps for the analysis and then you'll have the opportunity to develop your own model(s) and choose which components that you want to keep. We'll compare models during the group discussion.  
+To operate effectively, health departments must be able to predict weekly cases, as this will correspond to hospital demand and resources.  Your task is to provide a fitted model for forecasting weekly total dengue cases in San Juan. You can use autoregressive components, sine/cosine, trends to build your model. You can also use the environmental covariates. Remember that you want to be able to predict into the future so you will only include lagged predictors into your prediction model. Below we suggest a series of steps for the analysis and then you'll have the opportunity to develop your own model(s) and choose which components that you want to keep. We'll compare models during the group discussion. 
 
-First you should read in the data
+We provide some code to get you started.
+
+First we read in the data and look at the summary
 
 ```{r sjdat}
 ### load in the data
@@ -31,7 +33,7 @@ names(sanjuan)
 summary(sanjuan)
 ```
 
-Next let's plot the target output, ${\tt total_cases}$ across time:
+Next let's plot the response output, ${\tt total\_cases}$ across time:
 
 ```{r sj1, fig.width=6, fig.height=4}
 t<-seq(1, length(sanjuan$total_cases))
@@ -47,16 +49,18 @@ t<-seq(1, length(sanjuan$total_cases))
 plot(t, sqrt(sanjuan$total_cases), type="l")
 ```
 
-Next, look at the ACF plot for the square-root of total cases
+
 ```{r}
-acf(sanjuan$total_cases, lag.max=52)
+## ACF plot here
+acf(sqrt(sanjuan$total_cases))
 ```
 
-So we'll definitely want to include autocorrelation. 
+___Q1: What do you notice about the ACF? What does this tell you about terms you might want to include in your regression?___
 
-If you were to look at your covariates, you'd notice that there's a lot of correlation between things like average and max or min temperature and population and the adjusted population. So we don't want to include absolutely everything here, so we're going to select things down a bit. 
+<br>
+<br>
 
-First, you want to build a new data frame with a subset of possible covariates. We start with the sqrt of cases as your response, AR1 of the sqrt response, a trend, and sine/cosine with a 52 week period. 
+If you were to look at your covariates, you'd notice that there's a lot of correlation between things like average and max or min temperature and population and the adjusted population. Thus, we don't want to include absolutely everything here. Instead, we're going to select a subset of covariates here. As always, it's a good idea to build a new data frame with the subset of covariates that you want to explore. We start with the sqrt of cases as your response, AR1 of the sqrt response, a trend, and sine/cosine with a 52 week period together with a subset of the environmental covariates at 1 week lags. (As an aside, temperature, precipitation, etc, will be correlated with the sine/cosine terms.)
 ```{r}
 n<-max(t)
 YX <- data.frame(sqrty=sqrt(sanjuan$total_cases)[2:n],
@@ -75,166 +79,42 @@ YX <- data.frame(sqrty=sqrt(sanjuan$total_cases)[2:n],
                  soi.m1=sanjuan$soi[1:(n-1)])
 ```
 
-```{r}
-pairs(YX[c(4,5, 8:14)])
+### Task 1: Hypotheses
 
-```
-
-
-Now fit a linear model with the trend, and sine/cosine components, only.
-```{r}
-mod1 <- lm(sqrty ~ t + sin1 + cos1, data=YX)
-summary(mod1)
-```
-
-___Q3: Are all of the predictors significant? What is the $R^2$ of your regression?___
+Before you start, think about which things you expect to be good predictors of dengue transmission. Think of 2 or 3 hypotheses and write down a (linear) model to represent the mathematical form of the hypothesis.
 
 
-Next, we plot the data on a square-root scale (drawn with a dotted line).  Overlay the FITTED values from your regression (e.g., if your regression model was called "reg" you want to plot reg$fitted vs t) as a solid line in another color. This solid line is your prediction.
+### Task 2: Fitting and analyzing a first model
 
-```{r, fig.align="center", fig.width=6, fig.height=4}
-plot(YX$t, YX$sqrty, xlab="season",
-     ylab="sqrt weekly cases", type="l", col=4, lty=2,
-     xaxt="n", lwd=2)
-axis(1, at=(0:18)*52, labels=levels(YX$season))
-lines(YX$t, mod1$fitted, col=2, lwd=2)
-legend("topleft", legend=c("data", "fitted"), lty=c(2,1), col=c(4,2))
-```
-The difference between the solid and dotted lines at each month are your residuals across time. As always, we want to also look at our residuals explicitly to see if we're doing a good job of explaining things. For TS we primarily look at residuals across time, and the ACF of our residuals. So make those two plots here. 
-
-```{r, fig.align="center", fig.width=6, fig.height=4}
-par(mfrow=c(1,2))
-plot(mod1$resid, xlab="year", ylab="residual", type="l",
-     col=4, main="residuals in time",  xaxt="n", lwd=2)
-axis(1, at=(0:18)*52, labels=levels(YX$season))
-acf(mod1$resid, lwd=2, lag.max=55)
-```
-We're missing a lot. 
-
-Now add in the AR component and check things again.
-
-```{r}
-mod2 <- lm(sqrty ~ sqrty.m1 + t + sin1 + cos1, data=YX)
-summary(mod2)
-```
+Fit a linear model to the square-root response with the trend, and sine/cosine components, ONLY. Then you'll evaluate the model. Following the examples in the lecture, plot the residuals over time and the ACF of the residuals. Also plot the data together with the predicted values (e.g., the _fitted_ values from your model). Examine your summary -- are all of the coefficiants significantly different from zero; what is your $R^2$ value? Based on the combination of residual diagnositcs and summaries, are you satisfied with this model?
 
 
-```{r, fig.align="center", fig.width=6, fig.height=4}
-plot(YX$t, YX$sqrty, xlab="season",
-     ylab="sqrt weekly cases", type="l", col=4, lty=2,
-     xaxt="n", lwd=2)
-axis(1, at=(0:18)*52, labels=levels(YX$season))
-lines(YX$t, mod2$fitted, col=2, lwd=2)
-legend("topleft", legend=c("data", "fitted"), lty=c(2,1), col=c(4,2))
-```
+### Task 3: Building a comparison model
+
+Build a second model by adding in the AR-1 component. Again examine your summaries, residual diagnostics, and predictions. How do you think this model compares to the first one? You may also want to try building boxplots of residuals by week in the season and see if there are any patterns, similarly to the airline example.
 
 
-```{r, fig.align="center", fig.width=6, fig.height=4}
-par(mfrow=c(1,2))
-plot(mod2$resid, xlab="year", ylab="residual", type="l",
-     col=4, main="residuals in time",  xaxt="n", lwd=2)
-axis(1, at=(0:18)*52, labels=levels(YX$season))
-acf(mod2$resid, lwd=2, lag.max=55)
-```
-There's not a lot that's obvious that's going on here. Let's try the boxplots of residuals by week in the season and see if there's anything obvious.
+### Task 4: Including environmental components
 
-```{r, fig.align="center", fig.width=6, fig.height=4}
-boxplot(mod2$resid ~ YX$w[YX$t], xlab="week",
-        ylab="residuals", col=7)
-```
-
-Not a lot obviously going on. By trial and error (or if you know another way, such as the step function) try to build a better model while staying parsimonious. 
-
-```{r}
-mod3 <- lm(sqrty ~ sqrty.m1 + t + sin1 + cos1 + nino12.m1, data=YX)
-summary(mod3)
-```
+By trial and error (or if you know another way, such as the step function) try to build a better model that includes at least one environmental covariate while staying parsimonious. Again check your diagnostics, etc.
 
 
-```{r, fig.align="center", fig.width=6, fig.height=4}
-plot(YX$t, YX$sqrty, xlab="season",
-     ylab="sqrt weekly cases", type="l", col=4, lty=2,
-     xaxt="n", lwd=2)
-axis(1, at=(0:18)*52, labels=levels(YX$season))
-lines(YX$t, mod3$fitted, col=2, lwd=2)
-legend("topleft", legend=c("data", "fitted"), lty=c(2,1), col=c(4,2))
-```
+### Task 5: Comparing models
+
+Now compare your 3 models via BIC (optional: calculate the relative model probabilities). Which comes out on top? Is this what you expected?
 
 
-```{r, fig.align="center", fig.width=6, fig.height=4}
-par(mfrow=c(1,2))
-plot(mod3$resid, xlab="year", ylab="residual", type="l",
-     col=4, main="residuals in time",  xaxt="n", lwd=2)
-axis(1, at=(0:18)*52, labels=levels(YX$season))
-acf(mod3$resid, lwd=2, lag.max=55)
-```
+### Extra challenge
 
-Now compare the 3 models via BIC. Calculate the relative model probabilities.
-```{r}
-n<-length(YX$sqrty)-1
-bics<-c(mod1=extractAIC(mod1, k=log(n))[2],
-        mod2=extractAIC(mod2, k=log(n))[2],
-        mod3=extractAIC(mod3, k=log(n))[2])
-
-ebics<-exp(-0.5*(bics-min(bics)))
-
-probs<-ebics/sum(ebics)
-
-round(probs, 5)
-```
-
-
-## Extra challenge
-
-For convenience I simply chose a lag of 1 week back when I built the data set. However, we know that the lad time between an infected human and another infected human (because of the various incubation and development times in the human and the mosquito) is likely to be weeks. So we expect there to be longer lags. We can use the ccf (for cross-correlation) function to see how covariates relate to the response at different lags. For instance:
+For convenience I simply chose a lag of 1 week when I built the data set. However, we know that the lag time between an infected human and another infected human is likely to be multiple weeks (because of the various incubation and development times in the human and the mosquito). To see at what lags the covariates are most related to the response we can use the cross-correlation function (ccf). For instance:
 ```{r}
 ccf(sanjuan$tavg, sanjuan$total_cases)
 ```
 
 This indicates that the temperature about 10 weeks back is more correlated with the incidence than the temperature 1 week ago. 
 
-Plot a few other ccfs, choose some alternative lags, and build a new dataset with these lagged variables.
+Plot a few other ccfs, choose some alternative lags, and build a NEW dataset with these lagged variables. Then build a few models (perhaps starting again from the simple versions without environmental covariates), and compare them. Does including the extra information about lags seem to improve fit?
 
-```{r, fig.height=10}
-ws<-c(16, 22, 23, 24)
-ws.l<-c(20)
-par(mfrow=c(3,2))
-for(i in 1:4){
-  ccf(sanjuan[,ws[i]], sanjuan$total_cases)
-}
-ccf(log(sanjuan[,ws.l]+1), sanjuan$total_cases)
-names(sanjuan[,c(ws, ws.l)])
-```
-
-So it looks like 
-NDVI.18.50..66.14.: -10
-tavg: -10
-nino12: -5
-nino34: -12
-logprec: -5  
-
-Since the el nino indices are correlated I'll just keep the first, and I'll build a new dataset:
-```{r}
-n<-max(t)
-l<-10
-ts<-(l+1):n
-YX2 <- data.frame(sqrty=sqrt(sanjuan$total_cases)[ts],
-                 sqrty.m1=sqrt(sanjuan$total_cases)[ts-1],
-                 t=ts,
-                 sin1=sin((ts)*2*pi/52),
-                 cos1=cos((ts)*2*pi/52),
-                 season=sanjuan$season[ts],
-                 w=sanjuan$season_week[ts],
-                 lp.m5=log(sanjuan$prec+1)[ts-5],
-                 tavg.m10=sanjuan$tavg[ts-10],
-                 ndvi50.m10=sanjuan$NDVI.18.50..66.14.[ts-10],
-                 nino12.m5=sanjuan$nino12[ts-5])
-```
-
-```{r}
-mod4 <- lm(sqrty ~ . - season -lp.m5 - w - ndvi50.m10 -nino12.m5, data=YX2)
-summary(mod4)
-```
 
 <br>
 <br>
