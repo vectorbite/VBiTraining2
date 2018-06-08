@@ -11,59 +11,64 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Set up workspace
 
-```{r}
+```{r, results="hide", warning=FALSE, message=FALSE}
 # Set working directory
 # setwd('')
 
 # Load libraries
 require(R2jags)
-require(mcmcplots) # for diagnostic plots
+##require(mcmcplots) # for diagnostic plots
+require(coda)
+```
 
+```{r}
 # Load data
-Aaeg.data <- read.csv("~/Documents/GitHub/VBiTraining/data/AeaegyptiTraitData.csv")
+Aaeg.data <- read.csv("../data/AeaegyptiTraitData.csv")
 ```
 
 ## Data exploration and preparation
 
 ### Inspect the data set
-Note that there are several different traits, and some of the traits come in multiple forms (e.g., mu and 1/mu).
+Note that there are several different traits, and some of the traits come in multiple forms (e.g., $\mu$ and 1/$\mu$).
 
 The traits we have data for are:  
 - pEA: proportion surviving from egg to adulthood  
 - MDR: mosquito development rate  
 - PDR: parasite development rate (= 1/EIP the extrinsic incubation period)  
-- mu: death rate (= 1/longevity)
+- $\mu$ (mu): death rate (= 1/longevity)
 
 ```{r}
-# Look at the data (just first 3 columns)
-Aaeg.data[,1:3]
+# Look at the data (just first 3 columns, first 15 rows)
+Aaeg.data[1:15,1:3]
 ```
 
-### Subset and plot the mu and lifespan data
+### Subset and plot the $\mu$ and lifespan data
 
-Note that the mu data is u-shaped and the lifespan data is unimodal (hump-shaped).  
-Since thermal biology theory is based on unimodal thermal responses, we'll need to convert the mu data to lifespan by taking the inverse. 
+Note that the $\mu$ data is u-shaped and the lifespan data is unimodal (hump-shaped).  
+Since thermal biology theory is based on unimodal thermal responses, we'll need to convert the $\mu$ data to lifespan by taking the inverse. 
 
-```{r}
+```{r, fig.align='center', fig.height=4, fig.width=7}
 mu.data <- subset(Aaeg.data, trait.name == "mu")
 lf.data <- subset(Aaeg.data, trait.name == "1/mu")
-  
-plot(trait ~ T, data = mu.data)
-plot(trait ~ T, data = lf.data)
+
+par(mfrow=c(1,2), bty="l") 
+plot(trait ~ T, data = mu.data, ylab="mu")
+plot(trait ~ T, data = lf.data, ylab="1/mu")
 ```
 
-### Combine mu and lifespan data and replot them together
+### Combine $\mu$ and lifespan data and replot them together
 Now the data have a nice unimodal shape that we can fit a function to.
 
-```{r}
+```{r, fig.align='center', fig.height=4, fig.width=5}
 mu.data.inv <- mu.data # make a copy of the mu data
 mu.data.inv$trait <- 1/mu.data$trait # take the inverse of the trait values to convert mu to lifespan
 lf.data.comb <- rbind(mu.data.inv, lf.data) # combine both lifespan data sets together 
   
-plot(trait ~ T, data = lf.data.comb)
+plot(trait ~ T, data = lf.data.comb, ylab="1/mu")
 ```
 
 ## Fitting a trait thermal response curve using JAGS
+
 ### The two thermal responses
 Most thermal response curves can be reasonably fit using one of two thermal reponses: traits that respond symmetrically to temperature are fit with a quadratic function and traits that respond assymetrically to temperature are fit with a Briere function. In both functions, T0 is the lower thermal limit and Tm is the upper thermal limit (i.e., where the trait value goes to zero on either end) and q scales the value at the optimum.   
 
@@ -73,7 +78,9 @@ Briere function: q T (T-T0) sqrt(Tm-T)
 ### The thermal response model file
 JAGS needs the model written as a .txt file inside your the working directory. You can either make the text file directly, or create it using the sink() function via your R script (see below).  
 The model file has two mandatory sections (the priors and the likelihood) and one optional section (derived quantiaties calculated from your fitted parameters).  
-In the example below for a quadratic function, most of the priors are specified via uniform distributions (the two arguments specific the lower and upper bounds, respectively). Note that unlike in R and most other programs, in JAGS the normal distribution uses tau instead of sigma (tau = 1/(sigma^2)).  
+
+In the example below for a quadratic function, most of the priors are specified via uniform distributions (the two arguments specific the lower and upper bounds, respectively). Note that unlike in R and most other programs, in JAGS the normal distribution uses $\tau$ instead of $\sigma$ in the parameterization for the variance of the normal distribution ($\tau = 1/(\sigma^2)$).  
+
 The likelihood for can be interpreted as follows: the observed data are normally distributed where the mean at a given temperature follows the quadratic equation 
 ```{r eval = FALSE}
   
@@ -123,12 +130,12 @@ nt <- 8 # thinning rate - jags saves every nt iterations in each chain
 nc <- 3 # number of chains
 
 # Temperature sequence for derived quantity calculations
-Temp.xs <- seq(5, 45, 0.2)
+Temp.xs <- seq(0, 45, 0.2)
 N.Temp.xs <-length(Temp.xs)
 ```
 
 ### Fitting the trait thermal response
-```{r}
+```{r, results="hide"}
 # Pull out data columns as vectors
 data <- lf.data.comb # this lets us reuse the same generic code: we only change this first line
 trait <- data$trait
@@ -139,24 +146,37 @@ temp <- data$T
 jag.data<-list(trait = trait, N.obs = N.obs, temp = temp, Temp.xs = Temp.xs, N.Temp.xs = N.Temp.xs)
 
 # Run JAGS
-lf.fit <- jags(data=jag.data, inits=inits, parameters.to.save=parameters, model.file="quad.txt",
-                       n.thin=nt, n.chains=nc, n.burnin=nb, n.iter=ni, DIC=T, working.directory=getwd())
+lf.fit <- jags(data=jag.data, inits=inits, parameters.to.save=parameters, 
+               model.file="quad.txt", n.thin=nt, n.chains=nc, n.burnin=nb, 
+               n.iter=ni, DIC=T, working.directory=getwd())
+
+## change into "mcmc" type samples for visualization with CODA
+lf.fit.mcmc<-as.mcmc(lf.fit)
+
 ```
 
 ### Running diagnostics
 
 ```{r}
-# View the parameters - only the first 5 lines (otherwise it will also show you all of your derived quantities)
+## View the parameters
+## only the first 5 lines (otherwise it will also show you all of your derived quantities)
 lf.fit$BUGSoutput$summary[1:5,]
+```
 
+```{r, fig.align='center', fig.height=8}
+## plot the chains using the coda package
+plot(lf.fit.mcmc[,c(1,3,4)])
+```
+
+```{r}
 # mcmcplot will open an html file in your default browse and allow you to look at the chains for convergence and autocorrelation
 # mcmcplot(lf.fit)
 ```
 
 ### Plot thermal response
 
-```{r}
-plot(trait ~ T, xlim = c(5, 45), ylim = c(0,42), data = lf.data.comb, ylab = "Lifespan for Ae. aegypti", xlab = "Temperature")
+```{r, fig.align='center', fig.height=4.5, fig.width=6}
+plot(trait ~ T, xlim = c(0, 45), ylim = c(0,42), data = lf.data.comb, ylab = "Lifespan for Ae. aegypti", xlab = "Temperature")
 lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "2.5%"] ~ Temp.xs, lty = 2)
 lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "97.5%"] ~ Temp.xs, lty = 2)
 lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "mean"] ~ Temp.xs)
