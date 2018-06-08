@@ -1,0 +1,87 @@
+---
+title: 'VectorBiTE Training Workshop: <br>Traits + MLE Challenge Problem'
+author: ''
+date: "June 2018"
+output:
+  html_document: default
+  pdf_document:
+    keep_tex: yes
+    latex_engine: xelatex
+graphics: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(1234)
+```
+
+## Mosquito Thermal Trait Data
+
+The data for this question consist thermal traits for _Aedes agypti_ mosquitos found in the data file ${\tt AeaegyptiTraitData.csv}$. There are four possible traits (as well as some data that are recorded as the inverse trait, which we ignore for now):
+
+- pEA: proportion surviving from egg to adulthood  
+- MDR: mosquito development rate  
+- PDR: parasite development rate (= 1/EIP the extrinsic incubation period)  
+- $\mu$ (mu): death rate (= 1/longevity)
+
+You will choose one of these four traits and fit a curve to the data by maximum likelihood. (You can also fit a curve to the data of your choosing.) You will base your code on that provided in the lecture/practical portion of the class. We provide a specific set of tasks to accomplish starting with easy tasks through to more challenging aspects. We'll compare results and models during the group discussion.
+
+First we'll read in the data and look at the summary
+
+```{r sjdat}
+### load in the data
+dat<-read.csv(file="../data/AeaegyptiTraitData.csv")
+summary(dat)
+```
+
+Next let's plot the response output, ${\tt total\_cases}$ across time:
+
+```{r sj1, fig.width=6, fig.height=6}
+traits<-c("pEA", "MDR", "PDR", "mu")
+par(mfrow=c(2,2), bty="o", mai=c(0.8,0.7,0.1,0.1))
+for(i in 1:4){
+  d.temp<-subset(dat, trait.name==traits[i])
+  plot(trait ~ T, data=d.temp, xlab="Temperature (C)", ylab=traits[i], xlim=c(5, 45))
+}
+
+```
+
+
+
+### Task 1: Fitting a line, revisited
+
+1. Using the _nll.slr_ function and the code from the lecture, find the MLEs of the slope and intercept (i.e., find the best fitting line for your chosen trait). 
+2. Plot the likelihood surface for $b_0$ and $b_1$ and indicate the MLEs your likelihood surface. 
+3. Obtain confidence intervals for your estimates. 
+4. Finally plot your data with the fitted line.
+
+
+### Task 2: Fitting a non-linear trait model
+
+1. Choose a non-linear model to fit to your trait (e.g., quadratic, Briere...). We provide implemented functions in the code file ${\tt temp\_functions.R}$. 
+2. Using the _nll.slr_ function as an example, write your own function that calculates the negative log likelihood as a function of the parameters describing your trait and any additional parameters you need for an appropriate noise distribution (e.g., $\sigma$ if you have normal noise).
+2. For at least one of your parameters plot a likelihood profile given your data, with the other parameters fixed.
+3. Use the _optim_ function to find the MLE of the same parameter and indicate this on your likelihood profile.
+4. Obtain a confidence interval for your estimate.
+5. Use the _optim_ function to find the MLEs of all of your parameters.
+6. Plot the fitted function with the data and your fittend line from Task 1.
+
+
+### Task 2b: Fitting a second non-linear trait (optional)
+
+Choose a second non-linear function to fit to your trait data. Find the MLEs and fit this curve to your data. Plot the fit together with your previous fits and the data
+
+
+
+### Task 3: Compare models
+
+Now compare your 2-3 models via AIC or BIC (optional: calculate the relative model probabilities). Which comes out on top? Is this what you expected?
+
+
+### Extra challenge
+
+If you have the time and the interest you may try to fit curves to all of the 4 traits!
+
+<br>
+<br>
+<br>
