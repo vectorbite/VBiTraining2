@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 # Set working directory
-setwd('')
+# setwd('')
 
 # Load libraries
 require(R2jags)
@@ -65,16 +65,16 @@ plot(trait ~ T, data = lf.data.comb)
 
 ## Fitting a trait thermal response curve using JAGS
 ### The two thermal responses
-Most thermal response curves can be reasonably fit using one of two thermal reponses: traits that respond symmetrically to temperature are fit with a quadratic function and traits that respond assymetrically to temperature are fit with a Briere function. In both functions, T0 is the lower thermal limit and Tm is the upper thermal limit (i.e., where the trait value goes to zero) and q scales the value at the optimum.   
+Most thermal response curves can be reasonably fit using one of two thermal reponses: traits that respond symmetrically to temperature are fit with a quadratic function and traits that respond assymetrically to temperature are fit with a Briere function. In both functions, T0 is the lower thermal limit and Tm is the upper thermal limit (i.e., where the trait value goes to zero on either end) and q scales the value at the optimum.   
 
-Quadratic function: -1*q*(T-T0)*(T-Tm)  
-Briere function: q*T*(T-T0)*sqrt(Tm-T)
+Quadratic function: -1 q (T-T0) (T-Tm)  
+Briere function: q T (T-T0) sqrt(Tm-T)
 
 ### The thermal response model file
 JAGS needs the model written as a .txt file inside your the working directory. You can either make the text file directly, or create it using the sink() function via your R script (see below).  
 The model file has two mandatory sections (the priors and the likelihood) and one optional section (derived quantiaties calculated from your fitted parameters).  
 In the example below for a quadratic function, most of the priors are specified via uniform distributions (the two arguments specific the lower and upper bounds, respectively). Note that unlike in R and most other programs, in JAGS the normal distribution uses tau instead of sigma (tau = 1/(sigma^2)).  
-The likelihood for can be interpreted as follows: the observed data are normally distributed where the mean at a given temperatuer follows the quadratic equation 
+The likelihood for can be interpreted as follows: the observed data are normally distributed where the mean at a given temperature follows the quadratic equation 
 ```{r eval = FALSE}
   
 sink("quad.txt")
@@ -150,7 +150,7 @@ lf.fit <- jags(data=jag.data, inits=inits, parameters.to.save=parameters, model.
 lf.fit$BUGSoutput$summary[1:5,]
 
 # mcmcplot will open an html file in your default browse and allow you to look at the chains for convergence and autocorrelation
-mcmcplot(pLA.Cann.out)
+# mcmcplot(lf.fit)
 ```
 
 ### Plot thermal response
