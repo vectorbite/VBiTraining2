@@ -1,5 +1,5 @@
 ---
-title: 'VectorBiTE Training Workshop: <br>Dengue Challenge Solution'
+title: 'VectorBiTE Training Workshop: <br>Dengue Time Series Challenge Problem'
 author: ''
 date: "June 2018"
 output:
@@ -18,11 +18,13 @@ set.seed(1234)
 ## Dengue Incidence Data
 
 
-The data for this question consist of time series of dengue case data from San Juan, Puerto Rico together with environmental data for each location across a number of transmission seasons. The data files are in the file  ${ {\tt combined\_sanjuan\_new.csv}$. Detailed descriptions of the data are available at ${\tt http://dengueforecasting.noaa.gov/}$. 
+The data for this question consist of time series of dengue case data from San Juan, Puerto Rico together with environmental data for each location across a number of transmission seasons. The data files are in the file  ${\tt combined\_sanjuan\_new.csv}$. Detailed descriptions of the data are available at ${\tt http://dengueforecasting.noaa.gov/}$. 
 
-To operate effectively, health departments must be able to predict weekly cases, as this will correspond to hospital demand and resources.  Your task is to provide a fitted model for forecasting weekly total dengue cases in San Juan. You can use autoregressive components, sine/cosine, trends to build your model. You can also use the environmental covariates. Remember that you want to be able to predict into the future so you will only include lagged predictors into your prediction model. Below we suggest a series of steps for the analysis and then you'll have the opportunity to develop your own model(s) and choose which components that you want to keep. We'll compare models during the group discussion.  
+To operate effectively, health departments must be able to predict weekly cases, as this will correspond to hospital demand and resources.  Your task is to provide a fitted model for forecasting weekly total dengue cases in San Juan. You can use autoregressive components, sine/cosine, trends to build your model. You can also use the environmental covariates. Remember that you want to be able to predict into the future so you will only include lagged predictors into your prediction model. Below we suggest a series of steps for the analysis and then you'll have the opportunity to develop your own model(s) and choose which components that you want to keep. We'll compare models during the group discussion. 
 
-First you should read in the data
+We provide some code to get you started.
+
+First we read in the data and look at the summary
 
 ```{r sjdat}
 ### load in the data
@@ -31,7 +33,7 @@ names(sanjuan)
 summary(sanjuan)
 ```
 
-Next let's plot the target output, ${\tt total_cases}$ across time:
+Next let's plot the response output, ${\tt total\_cases}$ across time:
 
 ```{r sj1, fig.width=6, fig.height=4}
 t<-seq(1, length(sanjuan$total_cases))
@@ -41,44 +43,77 @@ plot(t, sanjuan$total_cases, type="l")
 
 It may be a little hard to tell, but the variance when you have a lot of cases the variance is higher, too. As in the airline example we want to do a transformation. However, we have zeros in the total cases, so instead of a log we'll use a square-root.
 
-```{r sj1, fig.width=6, fig.height=4}
+```{r, fig.width=6, fig.height=4}
 t<-seq(1, length(sanjuan$total_cases))
 
 plot(t, sqrt(sanjuan$total_cases), type="l")
 ```
 
-Next, look at the ACF plot for the square-root of total cases
+
 ```{r}
-acf(sanjuan$total_cases, lag.max=52)
+## ACF plot here
+acf(sqrt(sanjuan$total_cases))
 ```
 
-So we'll definitely want to include autocorrelation. 
+___Q1: What do you notice about the ACF? What does this tell you about terms you might want to include in your regression?___
 
-If you were to look at your covariates, you'd notice that there's a lot of correlation between things like average and max or min temperature and population and the adjusted population. So we don't want to include absolutely everything here, so we're going to select things down a bit. 
+<br>
+<br>
 
-First, build a new data frame with sqrt of cases as your response, AR1 of the sqrt response, a trend, and sine/cosine with a 52 week period. 
+If you were to look at your covariates, you'd notice that there's a lot of correlation between things like average and max or min temperature and population and the adjusted population. Thus, we don't want to include absolutely everything here. Instead, we're going to select a subset of covariates here. As always, it's a good idea to build a new data frame with the subset of covariates that you want to explore. We start with the sqrt of cases as your response, AR1 of the sqrt response, a trend, and sine/cosine with a 52 week period together with a subset of the environmental covariates at 1 week lags. (As an aside, temperature, precipitation, etc, will be correlated with the sine/cosine terms.)
 ```{r}
 n<-max(t)
-Xy.raw <- data.frame(sqrty=sqrt(sanjuan$total_cases[2:n]),
-                     sqrty.m1=sqrt(sanjuan$total_cases[1:n-1]),
-                     t=t[2:n],
-                     sin1=sin((2:n)*2*pi/52),
-                     cos1=cos((2:n)*2*pi/52),
-                     
-                         lgm=data$lgm, 
-                         season=data$season,
-                         w=data$season_week,
-                         ##epi=as.factor(data$epi),
-                         lpop=log(data$pop+1),
-                         lp=log(data$prec+1),
-                         tavg=data$tavg,
-                         ndvi45=data$NDVI.18.45.66.14.,
-                         ndvi50=data$NDVI.18.50..66.14.,
-                         R0=R0,
-                         nino12=data$nino12,
-                         ##nino34=data$nino34,
-                         soi=data$soi)
+YX <- data.frame(sqrty=sqrt(sanjuan$total_cases)[2:n],
+                 sqrty.m1=sqrt(sanjuan$total_cases)[1:(n-1)],
+                 t=t[2:n],
+                 sin1=sin((2:n)*2*pi/52),
+                 cos1=cos((2:n)*2*pi/52),
+                 season=sanjuan$season[2:n],
+                 w=sanjuan$season_week[2:n],
+                 lpop.m1=log(sanjuan$adjpop+1)[1:(n-1)],
+                 lp.m1=log(sanjuan$prec+1)[1:(n-1)],
+                 tavg.m1=sanjuan$tavg[1:(n-1)],
+                 ndvi45.m1=sanjuan$NDVI.18.45.66.14.[1:(n-1)],
+                 ndvi50.m1=sanjuan$NDVI.18.50..66.14.[1:(n-1)],
+                 nino12.m1=sanjuan$nino12[1:(n-1)],
+                 soi.m1=sanjuan$soi[1:(n-1)])
 ```
+
+### Task 1: Hypotheses
+
+Before you start, think about which things you expect to be good predictors of dengue transmission. Think of 2 or 3 hypotheses and write down a (linear) model to represent the mathematical form of the hypothesis.
+
+
+### Task 2: Fitting and analyzing a first model
+
+Fit a linear model to the square-root response with the trend, and sine/cosine components, ONLY. Then you'll evaluate the model. Following the examples in the lecture, plot the residuals over time and the ACF of the residuals. Also plot the data together with the predicted values (e.g., the _fitted_ values from your model). Examine your summary -- are all of the coefficiants significantly different from zero; what is your $R^2$ value? Based on the combination of residual diagnositcs and summaries, are you satisfied with this model?
+
+
+### Task 3: Building a comparison model
+
+Build a second model by adding in the AR-1 component. Again examine your summaries, residual diagnostics, and predictions. How do you think this model compares to the first one? You may also want to try building boxplots of residuals by week in the season and see if there are any patterns, similarly to the airline example.
+
+
+### Task 4: Including environmental components
+
+By trial and error (or if you know another way, such as the step function) try to build a better model that includes at least one environmental covariate while staying parsimonious. Again check your diagnostics, etc.
+
+
+### Task 5: Comparing models
+
+Now compare your 3 models via BIC (optional: calculate the relative model probabilities). Which comes out on top? Is this what you expected?
+
+
+### Extra challenge
+
+For convenience I simply chose a lag of 1 week when I built the data set. However, we know that the lag time between an infected human and another infected human is likely to be multiple weeks (because of the various incubation and development times in the human and the mosquito). To see at what lags the covariates are most related to the response we can use the cross-correlation function (ccf). For instance:
+```{r}
+ccf(sanjuan$tavg, sanjuan$total_cases)
+```
+
+This indicates that the temperature about 10 weeks back is more correlated with the incidence than the temperature 1 week ago. 
+
+Plot a few other ccfs, choose some alternative lags, and build a NEW dataset with these lagged variables. Then build a few models (perhaps starting again from the simple versions without environmental covariates), and compare them. Does including the extra information about lags seem to improve fit?
 
 
 <br>
