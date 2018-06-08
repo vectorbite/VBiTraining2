@@ -1,0 +1,163 @@
+---
+title: "Example: Fitting Traits with JAGS (Bayesian Inference)"
+author: "Marta Shocket, Mordecai Lab at Stanford University"
+date: "6/7/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Set up workspace
+
+```{r}
+# Set working directory
+setwd('')
+
+# Load libraries
+require(R2jags)
+require(mcmcplots) # for diagnostic plots
+
+# Load data
+Aaeg.data <- read.csv("~/Documents/GitHub/VBiTraining/data/AeaegyptiTraitData.csv")
+```
+
+## Data exploration and preparation
+
+### Inspect the data set
+Note that there are several different traits, and some of the traits come in multiple forms (e.g., mu and 1/mu).
+
+The traits we have data for are:  
+- pEA: proportion surviving from egg to adulthood  
+- MDR: mosquito development rate  
+- PDR: parasite development rate (= 1/EIP the extrinsic incubation period)  
+- mu: death rate (= 1/longevity)
+
+```{r}
+# Look at the data (just first 3 columns)
+Aaeg.data[,1:3]
+```
+
+### Subset and plot the mu and lifespan data
+
+Note that the mu data is u-shaped and the lifespan data is unimodal (hump-shaped).  
+Since thermal biology theory is based on unimodal thermal responses, we'll need to convert the mu data to lifespan by taking the inverse. 
+
+```{r}
+mu.data <- subset(Aaeg.data, trait.name == "mu")
+lf.data <- subset(Aaeg.data, trait.name == "1/mu")
+  
+plot(trait ~ T, data = mu.data)
+plot(trait ~ T, data = lf.data)
+```
+
+### Combine mu and lifespan data and replot them together
+Now the data have a nice unimodal shape that we can fit a function to.
+
+```{r}
+mu.data.inv <- mu.data # make a copy of the mu data
+mu.data.inv$trait <- 1/mu.data$trait # take the inverse of the trait values to convert mu to lifespan
+lf.data.comb <- rbind(mu.data.inv, lf.data) # combine both lifespan data sets together 
+  
+plot(trait ~ T, data = lf.data.comb)
+```
+
+## Fitting a trait thermal response curve using JAGS
+### The two thermal responses
+Most thermal response curves can be reasonably fit using one of two thermal reponses: traits that respond symmetrically to temperature are fit with a quadratic function and traits that respond assymetrically to temperature are fit with a Briere function. In both functions, T0 is the lower thermal limit and Tm is the upper thermal limit (i.e., where the trait value goes to zero) and q scales the value at the optimum.   
+
+Quadratic function: -1*q*(T-T0)*(T-Tm)  
+Briere function: q*T*(T-T0)*sqrt(Tm-T)
+
+### The thermal response model file
+JAGS needs the model written as a .txt file inside your the working directory. You can either make the text file directly, or create it using the sink() function via your R script (see below).  
+The model file has two mandatory sections (the priors and the likelihood) and one optional section (derived quantiaties calculated from your fitted parameters).  
+In the example below for a quadratic function, most of the priors are specified via uniform distributions (the two arguments specific the lower and upper bounds, respectively). Note that unlike in R and most other programs, in JAGS the normal distribution uses tau instead of sigma (tau = 1/(sigma^2)).  
+The likelihood for can be interpreted as follows: the observed data are normally distributed where the mean at a given temperatuer follows the quadratic equation 
+```{r eval = FALSE}
+  
+sink("quad.txt")
+cat("
+    model{
+    
+    ## Priors
+    cf.q ~ dunif(0, 1)
+    cf.T0 ~ dunif(0, 24)
+    cf.Tm ~ dunif(25, 45)
+    cf.sigma ~ dunif(0, 1000)
+    cf.tau <- 1 / (cf.sigma * cf.sigma)
+    
+    ## Likelihood
+    for(i in 1:N.obs){
+    trait.mu[i] <- -1 * cf.q * (temp[i] - cf.T0) * (temp[i] - cf.Tm) * (cf.Tm > temp[i]) * (cf.T0 < temp[i])
+    trait[i] ~ dnorm(trait.mu[i], cf.tau)
+    }
+    
+    ## Derived Quantities and Predictions
+    for(i in 1:N.Temp.xs){
+    z.trait.mu.pred[i] <- -1 * cf.q * (Temp.xs[i] - cf.T0) * (Temp.xs[i] - cf.Tm) * (cf.Tm > Temp.xs[i]) * (cf.T0 < Temp.xs[i])
+    }
+    
+    } # close model
+    ",fill=T)
+sink()
+```
+
+### Additional settings for JAGS 
+```{r}
+# Parameters to Estimate
+parameters <- c("cf.q", "cf.T0", "cf.Tm","cf.sigma", "z.trait.mu.pred")
+
+# Initial values for the parameters
+inits<-function(){list(
+  cf.q = 0.01,
+  cf.Tm = 35,
+  cf.T0 = 5,
+  cf.sigma = rlnorm(1))}
+
+# MCMC Settings: number of posterior dist elements = [(ni - nb) / nt ] * nc
+ni <- 25000 # number of iterations in each chain
+nb <- 5000 # number of 'burn in' iterations to discard
+nt <- 8 # thinning rate - jags saves every nt iterations in each chain
+nc <- 3 # number of chains
+
+# Temperature sequence for derived quantity calculations
+Temp.xs <- seq(5, 45, 0.2)
+N.Temp.xs <-length(Temp.xs)
+```
+
+### Fitting the trait thermal response
+```{r}
+# Pull out data columns as vectors
+data <- lf.data.comb # this lets us reuse the same generic code: we only change this first line
+trait <- data$trait
+N.obs <- length(trait)
+temp <- data$T
+
+# Bundle all data in a list for JAGS
+jag.data<-list(trait = trait, N.obs = N.obs, temp = temp, Temp.xs = Temp.xs, N.Temp.xs = N.Temp.xs)
+
+# Run JAGS
+lf.fit <- jags(data=jag.data, inits=inits, parameters.to.save=parameters, model.file="quad.txt",
+                       n.thin=nt, n.chains=nc, n.burnin=nb, n.iter=ni, DIC=T, working.directory=getwd())
+```
+
+### Running diagnostics
+
+```{r}
+# View the parameters - only the first 5 lines (otherwise it will also show you all of your derived quantities)
+lf.fit$BUGSoutput$summary[1:5,]
+
+# mcmcplot will open an html file in your default browse and allow you to look at the chains for convergence and autocorrelation
+mcmcplot(pLA.Cann.out)
+```
+
+### Plot thermal response
+
+```{r}
+plot(trait ~ T, xlim = c(5, 45), ylim = c(0,42), data = lf.data.comb, ylab = "Lifespan for Ae. aegypti", xlab = "Temperature")
+lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "2.5%"] ~ Temp.xs, lty = 2)
+lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "97.5%"] ~ Temp.xs, lty = 2)
+lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "mean"] ~ Temp.xs)
+```
