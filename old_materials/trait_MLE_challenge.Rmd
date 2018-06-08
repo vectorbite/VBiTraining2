@@ -51,20 +51,18 @@ for(i in 1:4){
 ### Task 1: Fitting a line, revisited
 
 1. Using the _nll.slr_ function and the code from the lecture, find the MLEs of the slope and intercept (i.e., find the best fitting line for your chosen trait). 
-2. Plot the likelihood surface for $b_0$ and $b_1$ and indicate the MLEs your likelihood surface. 
-3. Obtain confidence intervals for your estimates. 
-4. Finally plot your data with the fitted line.
+2. Plot your data with the fitted line.
+3. Plot the likelihood surface for $b_0$ and $b_1$ and indicate the MLEs your likelihood surface. 
+4. Obtain confidence intervals for your estimates. 
 
 
 ### Task 2: Fitting a non-linear trait model
 
 1. Choose a non-linear model to fit to your trait (e.g., quadratic, Briere...). We provide implemented functions in the code file ${\tt temp\_functions.R}$. 
 2. Using the _nll.slr_ function as an example, write your own function that calculates the negative log likelihood as a function of the parameters describing your trait and any additional parameters you need for an appropriate noise distribution (e.g., $\sigma$ if you have normal noise).
-2. For at least one of your parameters plot a likelihood profile given your data, with the other parameters fixed.
-3. Use the _optim_ function to find the MLE of the same parameter and indicate this on your likelihood profile.
+3. Use the _optim_ function to find the MLEs of all of your parameters.
 4. Obtain a confidence interval for your estimate.
-5. Use the _optim_ function to find the MLEs of all of your parameters.
-6. Plot the fitted function with the data and your fittend line from Task 1.
+5. Plot the fitted function with the data and your fittend line from Task 1.
 
 
 ### Task 2b: Fitting a second non-linear trait (optional)
