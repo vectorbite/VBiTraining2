@@ -34,7 +34,7 @@ dat<-read.csv(file="../data/AeaegyptiTraitData.csv")
 summary(dat)
 ```
 
-Next let's plot the response output, ${\tt total\_cases}$ across time:
+Next let's plot the response output, ${\tt trait}$ across temperature, ${\tt T}$:
 
 ```{r sj1, fig.width=6, fig.height=6}
 traits<-c("pEA", "MDR", "PDR", "mu")
