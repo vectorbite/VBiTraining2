@@ -1,0 +1,182 @@
+---
+title: "Example: Fitting Abundance with JAGS (Bayesian Inference)"
+author: "VectorBiTE Training Workshop 2018"
+date: "June 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Set up workspace
+
+```{r, results="hide", warning=FALSE, message=FALSE}
+# Set working directory
+# setwd('')
+
+# Load libraries
+require(R2jags)
+##require(mcmcplots) # for diagnostic plots
+require(coda)
+
+## makes nice colored pairs plots to look at joint posteriors
+library(IDPmisc)
+```
+
+```{r}
+# Load data
+dat <- read.csv("../data/lb_ab_temps.csv")
+```
+
+## Data exploration and preparation
+
+These data are observations of the amphibian fungal pathogen  _Batrachochytrium dendrobatidis_ being grown in liquid culture at multiple different temperatures.  The experiment is conducted in 96 well plates with a fixed initial innoculation of fungal spores in each well, and the plate placed in a constant temperature incubator. Each day, 8 wells per plate are observed and the optical density (OD) is measured. We will focus on a single temperature trial across mulitple plates with OD as the response. As with the NLS/MLE exercises, earlier, we can fit a logistic model to these growth data. 
+
+### Inspect the data set and subset the data
+
+```{r}
+# Look at the first 5 rows of the data
+head(dat)
+```
+
+We are only interested in a subset of these data, so we will subset out only those from experiment 2, and a temperature of 12C.
+
+```{r}
+d2<-dat[which(dat$EXP==2),2:8]
+d2<-d2[which(d2$TEMP==12),]
+summary(d2)
+```
+
+
+```{r, fig.align='center', fig.height=4, fig.width=6}
+Temps<-seq(0,max(d2$DAY)-1, by=0.05)
+mycol<-1   
+my.ylim<-c(0, 0.5)
+my.title<-"LB-AB isolate, T=12C"
+
+plot(d2$DAY-1, d2$OD, xlim=c(0,max(Temps)), ylim=my.ylim,
+    pch=(mycol+20),
+    xlab="time (days)", ylab="",
+    main=my.title,
+    col=mycol+1, cex=1.5)
+
+```
+
+## Fitting a logistic growth curve using JAGS
+
+### Specification of the growth curve
+
+Although logistic growth is often written as a differential equation, here we will work with the analytic solution of the model:
+
+$$
+\mu(t) = \frac{KY_0}{Y_0+(K-Y_0)\exp{(-rt)}}
+$$
+This gives the mean function that we want to fit. We will assume log-normal noise around this response, as the optical density is bounded to be greater than 0 and since we also have increasing variance over time (as the OD increases).
+
+
+### The thermal response model file
+JAGS needs the model written as a .txt/.bug file inside your the working directory. You can either make the text file directly, or create it using the sink() function via your R script (see below).  
+The model file has two mandatory sections (the priors and the likelihood) and one optional section (derived quantiaties calculated from your fitted parameters).  
+
+In the example below we show how to build the model function with the log-normal likelihood for the logistic growth function. Priors are a combination of uniforms and exponential. As with the normal distribution, the log-normal distribution uses $\tau$ instead of $\sigma$ in the parameterization for the variance of the normal distribution ($\tau = 1/(\sigma^2)$). However it can be easier to specify the prior on sigma directly. In this example we will show how to generate posterior samples of derived quantities outside of JAGS (so you can see what kind of thing this is actually doing).
+
+
+```{r eval = FALSE}
+  
+sink("jags-logistic.bug")
+cat("
+  model {
+    
+    ## Likelihood
+    for (i in 1:N) {
+        Y[i] ~ dlnorm(log(mu[i]), tau)
+        mu[i] <- K*Y0/(Y0+(K-Y0)*exp(-r*t[i]))
+    }
+
+    ## Priors
+    r~dexp(1000)
+    K ~ dunif(0.01, 0.6)
+    Y0 ~ dunif(0.09, 0.15)
+    tau<-1/sigma^2
+    sigma ~ dexp(0.1)
+
+  } # close model
+    ",fill=T)
+sink()
+```
+
+### Additional settings for JAGS 
+```{r}
+# Parameters to Estimate
+parameters <- c('Y0', 'K', 'r', 'sigma')
+
+# Initial values for the parameters
+inits<-function(){list(
+  Y0 = 0.1,
+  K = 0.4,
+  r = 0.1,
+  sigma = rlnorm(1))}
+
+# MCMC Settings: number of posterior dist elements = [(ni - nb) / nt ] * nc
+ni <- 6000 # number of iterations in each chain
+nb <- 1000 # number of 'burn in' iterations to discard
+nt <- 1 # thinning rate - jags saves every nt iterations in each chain
+nc <- 5 # number of chains
+
+```
+
+### Fitting the trait thermal response
+```{r, results="hide"}
+# Pull out data columns as vectors
+data <- d2 # this lets us reuse the same generic code: we only change this first line
+Y <- data$OD
+N <- length(Y)
+t <- data$DAY
+
+# Bundle all data in a list for JAGS
+jag.data<-list(Y = Y, N = N, t = t)
+
+# Run JAGS
+OD.12C <- jags(data=jag.data, inits=inits, parameters.to.save=parameters, 
+               model.file="jags-logistic.bug", n.thin=nt, n.chains=nc, n.burnin=nb, 
+               n.iter=ni, DIC=T, working.directory=getwd())
+
+## change into "mcmc" type samples for visualization with CODA
+OD.12C.mcmc<-as.mcmc(OD.12C)
+
+```
+
+### Running diagnostics
+
+```{r}
+## View the parameters
+OD.12C$BUGSoutput$summary
+```
+
+
+
+
+```{r, fig.align='center', fig.height=8}
+## plot the chains using the coda package
+plot(OD.12C.mcmc[,c(1,2,4)])
+```
+
+```{r}
+s1<-as.data.frame(OD.12C.mcmc[[1]])
+ipairs(s1[,2:5], ztransf = function(x){x[x<1] <- 1; log2(x)})
+```
+
+```{r}
+# mcmcplot will open an html file in your default browse and allow you to look at the chains for convergence and autocorrelation
+# mcmcplot(lf.fit)
+```
+
+### Plot thermal response
+
+```{r, fig.align='center', fig.height=4.5, fig.width=6}
+#plot(trait ~ T, xlim = c(0, 45), ylim = c(0,42), data = lf.data.comb, ylab = "Lifespan for Ae. aegypti", xlab = "Temperature")
+#lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "2.5%"] ~ Temp.xs, lty = 2)
+#lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "97.5%"] ~ Temp.xs, lty = 2)
+#lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "mean"] ~ Temp.xs)
+```
