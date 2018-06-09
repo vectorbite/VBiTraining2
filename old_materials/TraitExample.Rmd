@@ -1,12 +1,18 @@
 ---
-title: "Example: Fitting Traits with JAGS (Bayesian Inference)"
-author: "Marta Shocket, Mordecai Lab at Stanford University"
-date: "6/7/2018"
-output: html_document
+title: 'VectorBiTE Training Workshop: Fitting Traits with JAGS (Bayesian Inference)'
+author: ''
+date: 'June 2018'
+output:
+  html_document: default
+  pdf_document:
+    keep_tex: yes
+    latex_engine: xelatex
+graphics: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+set.seed(1234)
 ```
 
 ## Set up workspace
@@ -16,9 +22,9 @@ knitr::opts_chunk$set(echo = TRUE)
 # setwd('')
 
 # Load libraries
-require(R2jags)
-##require(mcmcplots) # for diagnostic plots
-require(coda)
+require(R2jags) # does the fitting
+require(coda) # makes diagnostic plots
+##require(mcmcplots) # another option for diagnostic plots
 ```
 
 ```{r}
@@ -28,15 +34,14 @@ Aaeg.data <- read.csv("../data/AeaegyptiTraitData.csv")
 
 ## Data exploration and preparation
 
-### Inspect the data set
-Note that there are several different traits, and some of the traits come in multiple forms (e.g., $\mu$ and 1/$\mu$).
-
-The traits we have data for are:  
+These data are traits from _Ae. aegypti_ mosquitoes measured across temperature in lab experiments. The traits we have data for are:  
 - pEA: proportion surviving from egg to adulthood  
 - MDR: mosquito development rate  
 - PDR: parasite development rate (= 1/EIP the extrinsic incubation period)  
-- $\mu$ (mu): death rate (= 1/longevity)
+- $\mu$ (mu): death rate (= 1/longevity)  
+Note that some of the traits come in multiple forms (e.g., $\mu$ and 1/$\mu$, PDR and EIP).
 
+### Inspect the data set
 ```{r}
 # Look at the data (just first 3 columns, first 15 rows)
 Aaeg.data[1:15,1:3]
@@ -45,7 +50,6 @@ Aaeg.data[1:15,1:3]
 ### Subset and plot the $\mu$ and lifespan data
 
 Note that the $\mu$ data is u-shaped and the lifespan data is unimodal (hump-shaped).  
-Since thermal biology theory is based on unimodal thermal responses, we'll need to convert the $\mu$ data to lifespan by taking the inverse. 
 
 ```{r, fig.align='center', fig.height=4, fig.width=7}
 mu.data <- subset(Aaeg.data, trait.name == "mu")
@@ -57,7 +61,7 @@ plot(trait ~ T, data = lf.data, ylab="1/mu")
 ```
 
 ### Combine $\mu$ and lifespan data and replot them together
-Now the data have a nice unimodal shape that we can fit a function to.
+Since thermal biology theory is based on unimodal thermal responses, we want to fit the trait as lifespan instead of $\mu$. Thus, we'll need to convert the $\mu$ data to lifespan by taking the inverse. The combined data should have a nice unimodal shape that we can fit a function to.
 
 ```{r, fig.align='center', fig.height=4, fig.width=5}
 mu.data.inv <- mu.data # make a copy of the mu data

@@ -16,12 +16,10 @@ knitr::opts_chunk$set(echo = TRUE)
 # setwd('')
 
 # Load libraries
-require(R2jags)
-##require(mcmcplots) # for diagnostic plots
-require(coda)
-
-## makes nice colored pairs plots to look at joint posteriors
-library(IDPmisc)
+require(R2jags) # does the fitting
+require(coda) # makes diagnostic plots
+##require(mcmcplots) # another option for diagnostic plots
+library(IDPmisc) # makes nice colored pairs plots to look at joint posteriors
 ```
 
 ```{r}
