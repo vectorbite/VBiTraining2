@@ -1,0 +1,18 @@
+model{
+
+  # Likelihood
+  for(i in 1:n){
+    Y[i] ~ dnorm(mu,inv.var)
+  }
+
+  # Prior for mu
+  mu        ~ dnorm(mu0,inv.var0)
+  inv.var0 <- 1/s20
+
+  # Prior for the inverse variance
+  inv.var   ~ dgamma(a, b)
+
+  # Compute the variance
+  s2       <- 1/inv.var
+}# close model
+

@@ -1,0 +1,196 @@
+---
+title: "Example: Bayesian Numerical Analysis"
+author: "Fadoua El Moustaid"
+date: "6/8/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Set up workspace
+
+```{r, results="hide", warning=FALSE, message=FALSE}
+# Set working directory
+# setwd('')
+
+# Load libraries
+require(R2jags)
+##require(mcmcplots) # for diagnostic plots
+require(coda)
+```
+
+## Numerical Analysis for Bayesian Statistics
+
+Recall the steps to making inference:
+
+- (1) Research question
+- (2) Data collection
+- (3) Model $Y_i \approx f(X_i)$ 
+- (4) Estimate the parameter in the model with uncertainty
+- (5) Make inference
+
+To do step 5  we need the following
+
+### (a) Assess MCMC convergence
+
+MCMC is a convergence algorithm, we reach convergence once we have random draws from the posterior distribution. This does not mean that the draws flat-rise to a single value, but it means that my draws are seemingly unrelated and random. To assess convergence we look at trace plots, the goal is to get "fuzzy caterpillars" looking curves. 
+
+
+### (b) Summarize draws from MCMC
+
+To summarize draws we create histogram for all draws for each parameter and calculate expectation, variance, credible interval, and so on.
+
+### (c) Prior Sensitivity
+
+We assess prior sensitivity by changing prior values and check whether it affects our results or not. If it does, that means that we are too sensitive to that prior and that is not good for our analysis.
+
+### (d) Make inference
+
+Here, we use the values from part (b) to make inference and answer the research question.
+
+## Example: Midge Wing Length
+
+We will use this simple example to go through the steps of assessing a Bayesian model.
+
+Grogan and Wirth (1981) provide data on the wing length in millimeters of nine members of a species of midge (small, two-winged flies). 
+
+From these measurements we wish to make inference about the population mean $\mu$
+
+
+## Prior Information
+
+Studies from other populations suggest that wing lengths are usually around 1.9mm, so we set $\mu_0 = 1.9$
+
+We also know that lengths must be positive ($\mu >0$)
+
+We can approximate this restriction with a normal prior distribution for $\mu$ as follows:
+
+Since most of the normal density is within two standard deviations of the mean we choose $\tau^2_0$ so that
+
+$$ \mu_0 - 2\tau_0 >0 \Rightarrow \tau_0 <1.2/2 = 0.95 $$
+
+
+To keep it simple we chose for the variance $\sigma^2$ to follow inverse gamma distribution, meaning that $1/\sigma^2$ follows a gamma distribution with $a=b=0.01.$ As a result, our prior is a conjugate prior and the posterior is a normal distribution as well.
+
+## Load data
+
+```{r}
+# Load data
+WL.data<-read.csv("../data/MidgeWingLength.csv")
+Y <- WL.data$WingLength
+n <- length(Y)
+
+hist(Y,breaks=20,xlab="Pct change") 
+
+
+mu0 <- 1.9
+s20 <- 0.8
+a   <- 0.01
+b   <- 0.01
+```
+
+```{r}
+library(rjags)  
+
+model1 <- "model{
+
+  # Likelihood
+  for(i in 1:n){
+    Y[i] ~ dnorm(mu,inv.var)
+  }
+
+  # Prior for mu
+  mu        ~ dnorm(mu0,inv.var0)
+  inv.var0 <- 1/s20
+
+  # Prior for the inverse variance
+  inv.var   ~ dgamma(a, b)
+
+  # Compute the variance
+  s2       <- 1/inv.var
+}# close model
+"
+
+model <- jags.model(textConnection(model1), 
+                    n.chains = 3,
+                    data = list(Y=Y,n=n,mu0=mu0,s20=s20,a=a,b=b))
+
+update(model, 10000, progress.bar="none"); # Burnin for 10000 samples
+
+samp <- coda.samples(model, 
+        variable.names=c("mu","s2"), 
+        n.iter=20000, progress.bar="none")
+
+
+```
+
+## Assessing Convergence by looking at trace plots
+
+```{r}
+plot(samp)
+```
+
+## Summarize draws from MCMC
+```{r}
+summary(samp)
+```
+
+## Prior Sensitivity
+Here you can try different prior parameter and check your results. 
+
+```{r}
+mu0 <- 0
+s20 <- 10
+a   <- 1
+b   <- 1
+```
+
+```{r}
+library(rjags)  
+model2 <- "model{
+
+  # Likelihood
+  for(i in 1:n){
+    Y[i] ~ dnorm(mu,inv.var)
+  }
+
+  # Prior for mu
+  mu        ~ dnorm(mu0,inv.var0)
+  inv.var0 <- 1/s20
+
+  # Prior for the inverse variance
+  inv.var   ~ dgamma(a, b)
+
+  # Compute the variance
+  s2       <- 1/inv.var
+}"
+```
+
+```{r}
+model <- jags.model(textConnection(model2), 
+                    n.chains = 3,
+                    data = list(Y=Y,n=n,mu0=mu0,s20=s20,a=a,b=b))
+```
+```{r}
+update(model, 10000, progress.bar="none"); # Burnin for 10000 samples
+
+samp <- coda.samples(model, 
+        variable.names=c("mu","s2"), 
+        n.iter=20000, progress.bar="none")
+
+
+```
+
+```{r}
+plot(samp)
+```
+
+```{r}
+summary(samp)
+```
+
+## Make Inference
+
+Here we use values from our summary to answer our research question. eg: Given the data, we predict that midge wing length is $E(\mu|\tilde{Y}) =1.8mm$ with variance $V(\mu|\tilde{Y}) =0.05^2.$
