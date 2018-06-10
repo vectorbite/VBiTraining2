@@ -1,4 +1,4 @@
-\documentclass[xcolor=x11names,handout,compress]{beamer}
+\documentclass[xcolor=x11names,compress]{beamer}
 
 %% General document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{graphicx}
@@ -53,7 +53,7 @@
   \end{beamercolorbox}
 }
 
-\title[NLLS]{\bf Fitting mathematical models to data using Non-linear Least-Squares}
+\title[VectorBiTE Training: NLLS]{\bf Fitting mathematical models to data using Non-linear Least-Squares}
 % \subtitle{Silwood Masters Course Lecture}
 \author[Samraat]{Samraat Pawar}
 \institute{\it
@@ -65,7 +65,9 @@
 	}
 	\vspace{20pt}
   \centering
-  \includegraphics[height = .3in]{graphics/Imperial_Color1.pdf}
+%   \includegraphics[height = .3in]{graphics/Imperial_Color1.pdf}
+  \includegraphics[height = .5in]{../../notebooks/graphics/VB_logo.jpg}
+
 }
 
 \usefonttheme{serif}
@@ -215,118 +217,6 @@
 \end{columns}		
 
 \end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{So what --- why is intrinsic non-linearity a problem?}
-
-% {\bf That's all well and good, but we can use maths instead of 
-% brute-force computation!}
-
-% 	\begin{itemize}[<+->] \itemsep10pt
-
-% 		\item Our model is $f(x_i,\boldsymbol\beta) + \varepsilon_i$ \\ 
-			
-% 		\item We want to find estimates of values of the parameters 
-% 		($\hat{\beta_j}$) that {\it minimize} the sum ($S$) of squared residuals 
-% 		($r_i$) (AKA ``RSS'') $S = \sum\nolimits_{i=1}^n{\left[ y_i - 
-% 		f(x_i,\boldsymbol\beta) \right]^2} = \sum\nolimits_{i=1}^n{r_i^2}$
-
-% 		\item For this we can solve $\frac{\partial S}{\partial 
-% 		\beta_j} = 0, j = 0,1,2,\ldots,k$ to find the {\it minimum}
-	
-% 		\item That is, we need to solve	
-% 		$\frac{\partial \sum\nolimits_{i=1}^n{r_i^2}}{\partial \beta_j} = 
-% 		0$
-		
-% 		\item Or, $2 \sum\nolimits_{i=1}^n r_i \frac{\partial r_i}{\partial \beta_j} = 0$
-	
-% 	\end{itemize}
-
-% \end{frame}
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{So what --- why is intrinsic non-linearity a problem?}
-
-	% \begin{itemize}[<+->] \itemsep10pt
-
-		% \item Thus, solving $ 2 \sum\nolimits_{i=1}^n r_i \frac{\partial r_i}{\partial \beta_j} 
-		% = 0$ \\
-		
-		% boils down to finding the ``gradient'' $ \frac{\partial r_i}{\partial \beta_j} $
-	
-		% \item This is not a problem in linear models, because this gradient 
-		% is fully solvable as the equation is {\it intrinsically linear}
-		
-		% \item That is, the solution of $ \frac{\partial r_i}{\partial 
-		% \beta_j} $ is simple (enough)  
-				
-	% \end{itemize}
-
-% \end{frame}
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{So what --- why is intrinsic non-linearity a problem?}
-
-	% \begin{itemize}[<+->] \itemsep15pt
-		
-		% \item For example, if $f(x_i,\boldsymbol\beta) + \varepsilon_i = \beta_0 + \beta_1 x_i + 
-		% \varepsilon_i$ \\
-		
-		% \item That is, our model is $y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$ 
-		% (Linear Regression)
-		
-	% \item Then we want to solve 
-		
-		% $\frac{\partial S}{\partial {\beta_0}} = 
-		% \sum\nolimits_{i=1}^{n}{\frac{\partial {{\left[ 
-		% y_i-(\beta_0+\beta_1 x_i) \right]}^{2}}}{\partial {{\beta 
-		% }_{0}}}}=0 $ \\
-		 
-		% $ \frac{\partial S}{\partial {{\beta 
-		% }_{1}}}=\sum\nolimits_{i=1}^{n}{\frac{\partial {{\left[ 
-		% {{y}_{i}}-({{\beta }_{0}}+{{\beta }_{1}}{{x}_{i}}) 
-		% \right]}^{2}}}{\partial {{\beta }_{1}}}} = 0$
-		
-	% \end{itemize}
-
-% \end{frame}
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{So what --- why is intrinsic non-linearity a problem?}
-
-	% \begin{itemize}[<+->] \itemsep12pt
-
-		% \item And, solving\\ 		
-		% $\frac{\partial S}{\partial {\beta_0}} = 
-		% \sum\nolimits_{i=1}^{n}{\frac{\partial {{\left[ 
-		% y_i-(\beta_0+\beta_1 x_i) \right]}^{2}}}{\partial {{\beta 
-		% }_{0}}}}=0 $\\ 
-		 
-		% $ \frac{\partial S}{\partial {{\beta }_{1}}}=\sum\nolimits_{i=1}^{n}{\frac{\partial 
-		% {{\left[ {{y}_{i}}-({{\beta }_{0}}+{{\beta }_{1}}{{x}_{i}}) 
-		% \right]}^{2}}}{\partial {{\beta }_{1}}}} = 0$ \\
-		
-		% \vspace{6pt}
-		% just boils down to solving two simultaneous equations because $ 
-		% \frac{\partial r_i}{\partial \beta_j} $ is simple {\it because} the model 
-		% is intrinsically linear:\\
-		
-		% \vspace{6pt}
-		% $-n{{\beta }_{0}}+\sum\nolimits_{i=1}^{n}{{{y}_{i}}}+{{\beta 
-		% }_{1}}\sum\nolimits_{i=1}^{n}{{{x}_{i}}}=0 $\\ 
-		
-		% $ \sum\nolimits_{i=1}^{n}{{{x}_{i}}{{y}_{i}}}-{{\beta 
-		% }_{0}}\sum\nolimits_{i=1}^{n}{{{x}_{i}}}+{{\beta 
-		% }_{1}}\sum\nolimits_{i=1}^{n}{x_{i}^{2}}=0$
-
-		% \item That is, we need to solve $\mathbf{Y} = \mathbf{X 
-		% \boldsymbol\beta  +  \boldsymbol\varepsilon}$ ({\it this is what R 
-		% solves when you use {\tt lm()}})
-
-	% \end{itemize}
-
-% \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Intrinsic non-linearity does not allow a algebraic solution}
@@ -511,7 +401,7 @@ So the general procedure is:
 \begin{frame}{NLLS fitting}
 
 The {\it tricky part --- adjust parameters to make curve come closer to 
-the data points} (step 4) has at least two algorithms:
+the data points} (step 4) has two main algorithms that you can choose between:
 
 \begin{itemize}[<+->]\itemsep10pt
 
@@ -562,7 +452,7 @@ how well it usually works), you need to get the goodness of fit measures
 \item Remember, the precise parameter values you obtain will depend in part on 
 the initial values chosen and the convergence criteria 
 
-\item You may also want to compare multiple models...  
+\item You may also want to compare multiple models.  
 
 \end{itemize}
 
@@ -585,147 +475,11 @@ NLLS-regression has all the assumptions of OLS-regression:
 		non-linear model be: $y_i = \beta_0 e^{\beta_2 x_i} + 
 		\varepsilon_i$ 
 		
-		\item What if the errors are not normal? --- use maximum likelihood 
-		instead! 
-		(e.g., using {\tt nlm} for optimizing/fitting) 
+		\item What if the errors are not normal? --- use Maximum Likelihood 
+		or Bayesian methods instead.
 	
 	\end{itemize}
 \end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Comparing models}
-
-\begin{itemize}
-	\item It's all about the ``Likelihood'' of a model: 
-	
-	\item That is, the likelihood of a set of parameter values (of a 
-	model), $\theta$, given outcomes $x$, equals the probability of those 
-	observed outcomes given those parameter values, that is,
-
-	$$ \mathcal{L}(\theta |x) = P(x | \theta)$$
-
-\end{itemize}
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Comparing models}
-
-The easiest thing to do for you is to use information theory (including AIC and BIC) to compare 
-models. \\
-
-{\it Both use estimated likelihood of a model}\\
-
-\pause This is how you can calculate these (using {\tt R} syntax): 
-
-\pause
-\begin{itemize}
-\small
-	\item residuals = Observations - Predictions
-	\item {\tt rss = sum(residuals \^{} 2)} 
-	
-	\item Then, AIC is {\tt n * log((2 * pi) / n) + n + 2 + n * log(rss) + 
-	2 * k} \\
-		({\it what is {\tt n} and {\tt k}?})
-	
-	\item And BIC is {\tt n + n * log(2 * pi) + n * log(rss / n) + 
-	(log(n)) * (k + 1)}
-	
-	\item For both AIC and BIC, If model {\bf A} has AIC lower by 2-3 or 
-	more than model {\bf B}, it’s better --- Differences of less than 2-3 
-	don't really matter
-
-\end{itemize}
-
-    \pause
-Also note that:
-\begin{itemize}
-\small
-	\item R$^{2}$ = 1 - (rss$/$tss), where tss is total sum of squares: \\
-{\tt tss = sum((Observations - mean(Predictions)) \^{} 2)}
-\end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Practicals: Instructions}
-
-\begin{itemize}\itemsep12pt
-	
-	\item All materials are at: \url{https://goo.gl/8b9vMh}
-
-	\item You will work with multiple examples and on some Exercises.
-	
-	\item Keep workflow organized in {\tt Code}, {\tt Results}, {\tt Data} as you learnt in the R week! 
-	
-	\item Your will have demonstrators and me to help you -- You may also talk to us about using NLLS for your own project
-	
-\end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{Practicals: Basic examples}
-
-% \begin{itemize}\itemsep12pt
-	
-% 	\item Go to \url{mhasoba.bitbucket.org} and click on the sailfin. (This takes you to \url{https://bitbucket.org/mhasoba/silbiocompmasterepo/src/92f5d9b6910f?at=master})
-	
-% 	\item Create {\tt Code}, {\tt Results}, {\tt Data} directories on your own computer 
-
-% 	\item Download {\tt NLSFitEx1.R} and {\tt NLSFitEx2.R} from the {\tt Code} directory, and the associated data from the {\tt Data} directory.
-
-% 	\item Run the both scripts and examine them line by line  
-
-% 	\item Next you can try Practical 1 or 2 (Next two slides)
-
-% \end{itemize}
-
-% \end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{Practical 1: Fitting thermal responses}
-
-% \begin{itemize}
-	
-	% \item Use {\tt nls} (or {\tt nlsLM}) to fit the {\tt ThermRespData.csv} 
-	% dataset to the model: $B = B_0 \boxed {e^{-\frac{E}{kT}}}f(T,T_{pk},E_D)$\\
-
-  % \item Plot the data and output coefficient estimates and fit stats to 
-  % a file 
-  
-  % \item Here's an example of how a fitted curve looks (only two 
-  % fitted parameters are shown): \\
-
-	% \centering 
-	% \includegraphics[width=.45\textwidth]{164.pdf}
- 
-% \end{itemize}
-
-% \end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{Practical: Fitting Functional responses}
-
-% \begin{itemize}
-	
-% 	\item Use {\tt nls} (or {\tt nlsLM}) to fit {\tt CRat.csv} 
-% 	dataset to the model: $f(x_R) = c = \frac{{a x_R^{q + 1}}}{{1 + h a x_R^{q + 1}}}$\\
-% 	($c$ is consumption rate)
-%   \item Plot the data and output coefficient estimates and fit stats to 
-%   a file 
-  
-%   \item Here's an example of how a fitted curve looks : \\
- 
-% \end{itemize}
-
-% 	\centering 
-% 	\includegraphics[width=.4\textwidth]{FR_eg.pdf}
-
-% \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -760,6 +514,118 @@ and evolution. Trends Ecol. Evol. 19, 101--108.
 \end{itemize}   
 
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{So what --- why is intrinsic non-linearity a problem?}
+
+{\bf That's all well and good, but we can use maths instead of 
+brute-force computation!}
+
+	\begin{itemize}[<+->] \itemsep10pt
+
+		\item Our model is $f(x_i,\boldsymbol\beta) + \varepsilon_i$ \\ 
+			
+		\item We want to find estimates of values of the parameters 
+		($\hat{\beta_j}$) that {\it minimize} the sum ($S$) of squared residuals 
+		($r_i$) (AKA ``RSS'') $S = \sum\nolimits_{i=1}^n{\left[ y_i - 
+		f(x_i,\boldsymbol\beta) \right]^2} = \sum\nolimits_{i=1}^n{r_i^2}$
+
+		\item For this we can solve $\frac{\partial S}{\partial 
+		\beta_j} = 0, j = 0,1,2,\ldots,k$ to find the {\it minimum}
+	
+		\item That is, we need to solve	
+		$\frac{\partial \sum\nolimits_{i=1}^n{r_i^2}}{\partial \beta_j} = 
+		0$
+		
+		\item Or, $2 \sum\nolimits_{i=1}^n r_i \frac{\partial r_i}{\partial \beta_j} = 0$
+	
+	\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{So what --- why is intrinsic non-linearity a problem?}
+
+	\begin{itemize}[<+->] \itemsep10pt
+
+		\item Thus, solving $ 2 \sum\nolimits_{i=1}^n r_i \frac{\partial r_i}{\partial \beta_j} 
+		= 0$ \\
+		
+		boils down to finding the ``gradient'' $ \frac{\partial r_i}{\partial \beta_j} $
+	
+		\item This is not a problem in linear models, because this gradient 
+		is fully solvable as the equation is {\it intrinsically linear}
+		
+		\item That is, the solution of $ \frac{\partial r_i}{\partial 
+		\beta_j} $ is simple (enough)  
+				
+	\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{So what --- why is intrinsic non-linearity a problem?}
+
+	\begin{itemize}[<+->] \itemsep15pt
+		
+		\item For example, if $f(x_i,\boldsymbol\beta) + \varepsilon_i = \beta_0 + \beta_1 x_i + 
+		\varepsilon_i$ \\
+		
+		\item That is, our model is $y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$ 
+		(Linear Regression)
+		
+	\item Then we want to solve 
+		
+		$\frac{\partial S}{\partial {\beta_0}} = 
+		\sum\nolimits_{i=1}^{n}{\frac{\partial {{\left[ 
+		y_i-(\beta_0+\beta_1 x_i) \right]}^{2}}}{\partial {{\beta 
+		}_{0}}}}=0 $ \\
+		 
+		$ \frac{\partial S}{\partial {{\beta 
+		}_{1}}}=\sum\nolimits_{i=1}^{n}{\frac{\partial {{\left[ 
+		{{y}_{i}}-({{\beta }_{0}}+{{\beta }_{1}}{{x}_{i}}) 
+		\right]}^{2}}}{\partial {{\beta }_{1}}}} = 0$
+		
+	\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{So what --- why is intrinsic non-linearity a problem?}
+
+	\begin{itemize}[<+->] \itemsep12pt
+
+		\item And, solving\\ 		
+		$\frac{\partial S}{\partial {\beta_0}} = 
+		\sum\nolimits_{i=1}^{n}{\frac{\partial {{\left[ 
+		y_i-(\beta_0+\beta_1 x_i) \right]}^{2}}}{\partial {{\beta 
+		}_{0}}}}=0 $\\ 
+		 
+		$ \frac{\partial S}{\partial {{\beta }_{1}}}=\sum\nolimits_{i=1}^{n}{\frac{\partial 
+		{{\left[ {{y}_{i}}-({{\beta }_{0}}+{{\beta }_{1}}{{x}_{i}}) 
+		\right]}^{2}}}{\partial {{\beta }_{1}}}} = 0$ \\
+		
+		\vspace{6pt}
+		just boils down to solving two simultaneous equations because $ 
+		\frac{\partial r_i}{\partial \beta_j} $ is simple {\it because} the model 
+		is intrinsically linear:\\
+		
+		\vspace{6pt}
+		$-n{{\beta }_{0}}+\sum\nolimits_{i=1}^{n}{{{y}_{i}}}+{{\beta 
+		}_{1}}\sum\nolimits_{i=1}^{n}{{{x}_{i}}}=0 $\\ 
+		
+		$ \sum\nolimits_{i=1}^{n}{{{x}_{i}}{{y}_{i}}}-{{\beta 
+		}_{0}}\sum\nolimits_{i=1}^{n}{{{x}_{i}}}+{{\beta 
+		}_{1}}\sum\nolimits_{i=1}^{n}{x_{i}^{2}}=0$
+
+		\item That is, we need to solve $\mathbf{Y} = \mathbf{X 
+		\boldsymbol\beta  +  \boldsymbol\varepsilon}$ ({\it this is what R 
+		solves when you use {\tt lm()}})
+
+	\end{itemize}
+
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}

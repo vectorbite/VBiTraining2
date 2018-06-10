@@ -1,4 +1,4 @@
-\documentclass[xcolor=x11names,handout,compress]{beamer}
+\documentclass[xcolor=x11names,compress]{beamer}
 
 %% General document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{graphicx}
@@ -99,7 +99,8 @@ head/foot}%
   {\savebox\mybox{#1}\begin{quote}}
   {\signed{\usebox\mybox}\end{quote}}
 
-\title{CMEE Masters Week 6: Python week II}
+% \title{CMEE Masters Week 6: Python week II}
+\title{VectorBiTE Training: Model fitting}
 \author{Samraat Pawar}
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,29 +110,19 @@ head/foot}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[plain]
 
-\title{Fitting Models to Data in Ecology and Evolution}
-\vspace{12pt}
-\subtitle{CMEE Masters}
+% \title{Fitting Models to Data in Ecology and Evolution}
+\title{Fitting Models to Data in Vector-Borne Disease Systems}
+% \vspace{12pt}
+% \subtitle{CMEE Masters}
 \author{
     Samraat Pawar\\
     \vspace{20pt}
   \centering
-  \includegraphics[height = .3in]{Imperial_Color1.pdf}
+%   \includegraphics[height = .3in]{Imperial_Color1.pdf}\\
+  \includegraphics[height = .5in]{../../notebooks/graphics/VB_logo.jpg}
 }
  
 \titlepage
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{What is model selection?}
-
-   \begin{itemize}[<+->]\itemsep12pt
-		\item Several competing hypotheses (Mathematical models) are fitted to data and compared statistical theory 
-		\item This is an advance over the traditional ``null hypothesis'' approach in Biology
-		\item Necessary for developing the advancement of Biology from from an observational and axiomatic discipline to one with general theories.
-		\item Necessary for understanding the mechanisms underlying Biological patterns and phenomena   
-	 \end{itemize}
-
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -142,9 +133,7 @@ head/foot}%
 		 observed patterns
 
 		\item Empirical or phenomenological models show relationships 
-		between observed data (e.g. population size as a function of 
-		temperature or rainfall), but provide no insights into why they are 
-		related
+		between observed data (e.g. vector population size or disease incidence as a function of temperature or rainfall), but provide no insights into the processes/mechanisms that inter-link these data.
 	 \end{itemize}
 
 \pause
@@ -156,27 +145,26 @@ head/foot}%
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{What are Mechanisms?}
+\begin{frame}{Mechanisms in vector-borne disease dynamics?}
 
- \begin{center}
-	 \includegraphics[width=.6\textwidth]{Mechanisms.pdf}
- \end{center} 
-   
-   \begin{itemize}[<+->] \itemsep4pt
-			\item Ecological studies often focus on explaining phenomena 
-			using somewhat phenomenological models. 
-      \item For example, insect invasions, outbreaks and spread {\tiny \url{
-      (http://www.sandyliebhold.com/pubs/science_DC1/)}} --- papers in 
-      your {\tt Readings} directory.
-      \begin{itemize}
-				\item Why the cycles?, Why the travelling waves? \pause What 
-				mechanisms operate? (budmoth/parasitoid interaction? 
-				(budmoth/food quality interaction?) Are these truly mechanisms?
-			\end{itemize}
-     \item Another example, disease outbreaks (Papers in 
-      your {\tt Readings} directory)   
-      
-      \end{itemize}
+\begin{center}
+	\includegraphics[width=.8\textwidth]{VecTraitOverview.png}	
+\end{center}
+
+\end{frame}
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Mechanisms in vector-borne disease dynamics?}
+
+\begin{itemize}[<+->] \itemsep4pt
+	\item Ecological studies often focus on explaining phenomena 
+	using somewhat phenomenological models. 
+	
+	\item LINK
+
+	\item For example, disease invasions, outbreaks and spread: Why cycles? Why traveling waves? \pause --- What mechanisms operate?
+	(Vector-parasite interaction? Vector-environment interaction? 
+\end{itemize}
 
 \end{frame}
 
@@ -241,7 +229,7 @@ head/foot}%
  
 \end{frame}
 
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Modelling, and fitting models to data: What's the big idea?}
 
 \begin{itemize} \itemsep8pt
@@ -265,55 +253,36 @@ head/foot}%
 
 \begin{itemize}\itemsep10pt
 
-	\item It's an art, take practice (look at Levins' paper on the 
-	strategy of model building in biology)
+	\item It's an art, takes practice 
+	% (look at Levins' paper on the 
+	% strategy of model building in biology)
 	\item Build models one mechanism at a time --- in biology, it means 
 	start at the right level of organization! 
-	\item Always consider a alternative that is more parsimonous, even if 
-	it is phenomenological (the TPC example: Sharpe-Schoolfield, or Polynomial?)! 
-\end{itemize}
-
-
-	
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Models: How to build them?}
-
-\begin{center}
-	 \includegraphics[width=\textwidth]{Mechanisms.pdf}
-\end{center} 
-
-\begin{itemize}\itemsep10pt
+	\item Always consider an alternative that is more parsimonious, even if 
+	it is phenomenological (the thermal performance curves example: Sharpe-Schoolfield, Briere, or Polynomial?)! 
 
 	\item For example, the Boltzmann-Arrhenius model is a good first try 
-	describe and uncover mechanisms underlying individual level rates  
+	describe and uncover mechanisms underlying individual level rates (e.g., vector fecundity or development rate)  
 
 	\item The next step would be to include species interactions with  
-	temperature dependence of individuals (or go in an evolutionary direction!)
+	temperature dependence of individuals (or go in an evolutionary direction)
 
 \end{itemize}   
 
-
-
 \end{frame}
 
 
-	% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}[plain]{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{What is model selection?}
 
-% \begin{center}
-
-	% {\bf Next: A primer on mechanistic model fitting} \\
-	% \pause 
-	% \vspace{20pt}
-	% But first: A preview of the Miniproject (back to Notes)
-	
-% \end{center}
-
-% \end{frame}
-
+	\begin{itemize}[<+->]\itemsep12pt
+		 \item Ideally, several competing (meaningful, not just null) hypotheses (Mathematical models) should be fitted to data and compared using statistical theory 
+		 \item This is an advance over the traditional ``null hypothesis'' approach in Biology
+		 \item Necessary for developing the advancement of Biology from from an observational and axiomatic discipline to one with general theories.
+		 \item Necessary for understanding the mechanisms underlying Biological (read, VBD) patterns and dynamics   
+	  \end{itemize}
+ 
+ \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Fitting models to data}
@@ -351,68 +320,11 @@ Two main ways to do it:
 	
 \item These include MLE, Bayesian methods, and least squares optimization or fitting. 
 
-\item MLE/Bayesian methods will be taught in Term II
+\item Non-linear least squares (NLLS) fitting is a particularly versatile and powerful approach, because many mechanisms in biology and inherently non-linear.  
 
-\item But you can go far with least squares methods.
-
-\item Non-linear least squares (NLLS) fitting is a particularly versatile and powerful approach, because many mechanisms in biology and inherently non-linear (Read paper by Bo).  
+\item MLE/Bayesian methods are more robust if you are able to calculate the likelihood function.
 
 \end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[plain]
-
- \begin{center}
-	 \Large A quick reminder: Hypothesis testing and linear vs. and nonlinear models   
- \end{center} 
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{NLLS fitting}
-
-Many of you will use NLLS. Basically, this is how it works:
-
-\begin{enumerate}[<+->] \itemsep4pt
-	\item Start with an initial value for each parameter in the model
-	\item Generate the curve defined by the initial values
-	\item Calculate the residual sum-of-squares (rss)
-	\item Adjust the parameters to make the curve come closer to the data 
-	points. 
-	\begin{itemize}
-		
-	\item This the tricky part --- you will use the Levenberg-Marquardt 
-	algorithm in the {\tt lmfit} package in {\tt python} or the equivalent in {\tt R}
-	\end{itemize}
-		
-		\item Adjust the parameters again so that the curve comes even closer 
-	to the points (RSS decreases)
-	\item Repeat 4--5
-	\item Stop simulations when the adjustments make virtually no 
-	difference to the RSS
-\end{enumerate}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{NLLS fitting}
-
-Once the algorithm as converged (hopefully -- but you may be surprised 
-how well it usually works),
-\begin{itemize}[<+->] \itemsep6pt
-\item Report the best-fit results, including sums of deviations of the 
-data from the final model fit
-\item Then compare multiple models (e.g., Schoolfield vs. cubic) 
-\end{itemize}
-
-\pause The precise parameter values you obtain will depend in part on 
-the initial values chosen and the stopping criteria -- \pause so different 
-programs will not always give exactly the same results
-
-% \pause {\tt python} seems to have a better Levenberg-Marqualdt 
-% implementation than {\tt R}
 
 \end{frame}
 
@@ -465,7 +377,6 @@ This is how you calculate AIC and BIC (using python syntax):
 	more than model {\bf B}, it's better --- Differences of less than 2-3 
 	don't really matter
 
-
 \end{itemize}
 
     \pause
@@ -482,11 +393,17 @@ tss = sum((Observations - mean(Predictions)) ** 2)\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Comparing and selecting models}
+\begin{frame}{Comparing and selecting models: More stuff}
 
 \begin{itemize} \itemsep12pt
-	\item Likelihood-Ratio test (LRT) and Adjusted $R^2$ are two other options. 
-	\item There are functions in {\tt R} that allow you to perform model selection/simplification {\it for linear least squares model fitting}.  
+	\item You can also calculate Akaike Weights, which is very useful/important when comparing $
+	> 2$ models. These weights can then be used to perform {\it model averaging}
+
+	\item Model selection using the Likelihood-Ratio test (LRT) is another option when you are comparing 2 models
+	
+	\item Adjusted $R^2$ can be used to get rigorous ``idea'' about how alternative models are performing. 
+	
+	\item Very often, you will end up doing  model simplification, especially in {\it for linear least squares model fitting} --- starting with a complex model and then dropping terms till you have found a the most parsimonious version of the original model. There are functions in {\tt R} to do this (of course!). 
 \end{itemize}
 
 \end{frame}
