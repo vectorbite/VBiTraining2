@@ -1,6 +1,6 @@
 ---
-title: 'VectorBiTE Training Workshop: Fitting Traits with JAGS (Bayesian Inference)'
-author: ''
+title: 'Example: Fitting Traits with JAGS (Bayesian Inference)'
+author: 'VectorBiTE Training Workshop'
 date: 'June 2018'
 output:
   html_document: default
@@ -29,7 +29,7 @@ require(coda) # makes diagnostic plots
 
 ```{r}
 # Load data
-Aaeg.data <- read.csv("../data/AeaegyptiTraitData.csv")
+dat <- read.csv("../data/AeaegyptiTraitData.csv")
 ```
 
 ## Data exploration and preparation
@@ -44,31 +44,30 @@ Note that some of the traits come in multiple forms (e.g., $\mu$ and 1/$\mu$, PD
 ### Inspect the data set
 ```{r}
 # Look at the data (just first 3 columns, first 15 rows)
-Aaeg.data[1:15,1:3]
+dat[1:15,1:3]
 ```
 
 ### Subset and plot the $\mu$ and lifespan data
-
-Note that the $\mu$ data is u-shaped and the lifespan data is unimodal (hump-shaped).  
+For this example we'll fit a thermal response for adult mosquito mortality. Some relevant data was reported as lifespan and some  was reported $\mu$ (= 1/lifespan). In the plots below, note that the $\mu$ data is u-shaped and the lifespan data is unimodal (hump-shaped).  
 
 ```{r, fig.align='center', fig.height=4, fig.width=7}
-mu.data <- subset(Aaeg.data, trait.name == "mu")
-lf.data <- subset(Aaeg.data, trait.name == "1/mu")
+dat.mu <- subset(dat, trait.name == "mu")
+dat.lf <- subset(dat, trait.name == "1/mu")
 
 par(mfrow=c(1,2), bty="l") 
-plot(trait ~ T, data = mu.data, ylab="mu")
-plot(trait ~ T, data = lf.data, ylab="1/mu")
+plot(trait ~ T, data = dat.mu, ylab="mu")
+plot(trait ~ T, data = dat.lf, ylab="1/mu")
 ```
 
 ### Combine $\mu$ and lifespan data and replot them together
-Since thermal biology theory is based on unimodal thermal responses, we want to fit the trait as lifespan instead of $\mu$. Thus, we'll need to convert the $\mu$ data to lifespan by taking the inverse. The combined data should have a nice unimodal shape that we can fit a function to.
+Since thermal biology theory is based on unimodal thermal responses, we want to fit the thermal response to the lifespan data format. Thus, we'll need to convert the $\mu$ data to lifespan by taking the inverse. The combined data should have a nice unimodal shape that we can fit a function to.
 
 ```{r, fig.align='center', fig.height=4, fig.width=5}
-mu.data.inv <- mu.data # make a copy of the mu data
-mu.data.inv$trait <- 1/mu.data$trait # take the inverse of the trait values to convert mu to lifespan
-lf.data.comb <- rbind(mu.data.inv, lf.data) # combine both lifespan data sets together 
+dat.mu.inv <- dat.mu # make a copy of the mu data
+dat.mu.inv$trait <- 1/dat.mu$trait # take the inverse of the trait values to convert mu to lifespan
+dat.lf.comb <- rbind(dat.mu.inv, dat.lf) # combine both lifespan data sets together 
   
-plot(trait ~ T, data = lf.data.comb, ylab="1/mu")
+plot(trait ~ T, data = dat.lf.comb, ylab="Lifespan")
 ```
 
 ## Fitting a trait thermal response curve using JAGS
@@ -76,16 +75,25 @@ plot(trait ~ T, data = lf.data.comb, ylab="1/mu")
 ### The two thermal responses
 Most thermal response curves can be reasonably fit using one of two thermal reponses: traits that respond symmetrically to temperature are fit with a quadratic function and traits that respond assymetrically to temperature are fit with a Briere function. In both functions, T0 is the lower thermal limit and Tm is the upper thermal limit (i.e., where the trait value goes to zero on either end) and q scales the value at the optimum.   
 
-Quadratic function: -1 q (T-T0) (T-Tm)  
-Briere function: q T (T-T0) sqrt(Tm-T)
+Quadratic function (re-arranged from the typical formulation so that parameters are x-intercepts T0 and Tm): 
+$$
+f(T) =-q (T-T0) (T-Tm)
+$$
+Briere function: 
+$$
+f(T) =q T (T-T0)\sqrt{(Tm-T)}
+$$
 
 ### The thermal response model file
-JAGS needs the model written as a .txt file inside your the working directory. You can either make the text file directly, or create it using the sink() function via your R script (see below).  
-The model file has two mandatory sections (the priors and the likelihood) and one optional section (derived quantiaties calculated from your fitted parameters).  
+JAGS needs the model written as a .txt/.bug file inside your the working directory. You can either make the text file directly, or create it using the sink() function via your R script (see below). The model file has two mandatory sections (the priors and the likelihood) and one optional section (derived quantiaties calculated from your fitted parameters).  
 
-In the example below for a quadratic function, most of the priors are specified via uniform distributions (the two arguments specific the lower and upper bounds, respectively). Note that unlike in R and most other programs, in JAGS the normal distribution uses $\tau$ instead of $\sigma$ in the parameterization for the variance of the normal distribution ($\tau = 1/(\sigma^2)$).  
+In the example below for a quadratic function, the priors are specified by uniform distributions (the two arguments specify the lower and upper bounds, respectively). Note that unlike R and most other programs, JAGS uses $\tau$ instead of $\sigma$ to parameterize the variance of the normal distribution ($\tau = 1/(\sigma^2)$). However it can be easier to specify the prior on sigma directly.
 
-The likelihood for can be interpreted as follows: the observed data are normally distributed where the mean at a given temperature follows the quadratic equation 
+The likelihood below can be interpreted as follows: the observed data are normally distributed where the mean across temperature follows the parameterized quadratic function. We use the inequalities so that the trait mean goes to zero when T < T0 and T > Tm, instead of going negative.  
+
+The derived quantity section below is used to calculate the trait value over a temperature gradient at the same time as the parameters are being fitted. You'll notice that it's simply the quadratic function from the likelihood function restated where temperature varies over a gradient instead of according to the data points. The derived trait name starts with 'z' so alphabetically it will beat the bottom of the output, and all our parameters will be at the top. 
+
+Calculating the dervied quanitity here (as opposed to afterward from the parameters) has two benefits: 1) it makes it easier to plot the thermal response and 2) it makes it easier to pull out the traits values for use in downstream analyses (e.g., calculating $R_0$.)
 ```{r eval = FALSE}
   
 sink("quad.txt")
@@ -105,7 +113,7 @@ cat("
     trait[i] ~ dnorm(trait.mu[i], cf.tau)
     }
     
-    ## Derived Quantities and Predictions
+    ## Derived Quantities
     for(i in 1:N.Temp.xs){
     z.trait.mu.pred[i] <- -1 * cf.q * (Temp.xs[i] - cf.T0) * (Temp.xs[i] - cf.Tm) * (cf.Tm > Temp.xs[i]) * (cf.T0 < Temp.xs[i])
     }
@@ -139,9 +147,10 @@ N.Temp.xs <-length(Temp.xs)
 ```
 
 ### Fitting the trait thermal response
+
 ```{r, results="hide"}
 # Pull out data columns as vectors
-data <- lf.data.comb # this lets us reuse the same generic code: we only change this first line
+data <- dat.lf.comb # this lets us reuse the same generic code: we only change this first line
 trait <- data$trait
 N.obs <- length(trait)
 temp <- data$T
@@ -162,8 +171,8 @@ lf.fit.mcmc<-as.mcmc(lf.fit)
 ### Running diagnostics
 
 ```{r}
-## View the parameters
-## only the first 5 lines (otherwise it will also show you all of your derived quantities)
+## View the parameters - only the first 5 lines (4 parameters + the devience) 
+## otherwise it will also show you all of your derived quantities (i.e., the trait value over the entire temperature gradient at 0.2C increments)
 lf.fit$BUGSoutput$summary[1:5,]
 ```
 
@@ -172,16 +181,28 @@ lf.fit$BUGSoutput$summary[1:5,]
 plot(lf.fit.mcmc[,c(1,3,4)])
 ```
 
-```{r}
-# mcmcplot will open an html file in your default browse and allow you to look at the chains for convergence and autocorrelation
-# mcmcplot(lf.fit)
-```
-
 ### Plot thermal response
 
+We can easily plot the mean thermal response and the CIs using the derived quantities that we calculated from the fitted parameters.  
+
 ```{r, fig.align='center', fig.height=4.5, fig.width=6}
-plot(trait ~ T, xlim = c(0, 45), ylim = c(0,42), data = lf.data.comb, ylab = "Lifespan for Ae. aegypti", xlab = "Temperature")
+plot(trait ~ T, xlim = c(0, 45), ylim = c(0,42), data = dat.lf.comb, ylab = "Lifespan for Ae. aegypti", xlab = "Temperature")
 lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "2.5%"] ~ Temp.xs, lty = 2)
 lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "97.5%"] ~ Temp.xs, lty = 2)
 lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "mean"] ~ Temp.xs)
+```
+
+### Additional output
+
+We can use the which.max() function to find the optimal temperature for adult lifespan.
+
+We can pull out the lifespan values for each iteration of the MCMC chain over the temperature gradient to calculate $R_0$ later on. 
+
+```{r}
+# Calculate the optimal temperature for lifespan
+Temp.xs[which.max(as.vector(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "mean"]))]
+
+# Pull out the trait values over the temperature gradient for later use
+lf.grad <- lf.fit$BUGSoutput$sims.list$z.trait.mu.pred
+dim(lf.grad) # A matrix with 7500 iterations of the MCMC chains at 226 temperatures
 ```

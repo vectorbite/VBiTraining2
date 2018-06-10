@@ -1,7 +1,7 @@
 ---
-title: "Example: Bayesian Numerical Analysis"
-author: "Fadoua El Moustaid"
-date: "6/8/2018"
+title: "Example: Assessing Bayesian Numerical Analysis"
+author: "VectorBiTE Training Workshop"
+date: "June 2018"
 output: html_document
 ---
 
@@ -16,9 +16,9 @@ knitr::opts_chunk$set(echo = TRUE)
 # setwd('')
 
 # Load libraries
-require(R2jags)
-##require(mcmcplots) # for diagnostic plots
-require(coda)
+require(R2jags) # does the fitting
+require(coda) # makes diagnostic plots
+##require(mcmcplots) # another option for diagnostic plots
 ```
 
 ## Numerical Analysis for Bayesian Statistics
@@ -31,7 +31,7 @@ Recall the steps to making inference:
 - (4) Estimate the parameter in the model with uncertainty
 - (5) Make inference
 
-To do step 5  we need the following
+To do step 5  we need the following:
 
 ### (a) Assess MCMC convergence
 
@@ -54,14 +54,14 @@ Here, we use the values from part (b) to make inference and answer the research 
 
 We will use this simple example to go through the steps of assessing a Bayesian model.
 
-Grogan and Wirth (1981) provide data on the wing length in millimeters of nine members of a species of midge (small, two-winged flies). 
+Grogan and Wirth (1981) provide data on the wing length (in millimeters) of nine members of a species of midge (small, two-winged flies). 
 
-From these measurements we wish to make inference about the population mean $\mu$
+From these measurements we wish to make inference about the population mean $\mu$.
 
 
 ## Prior Information
 
-Studies from other populations suggest that wing lengths are usually around 1.9mm, so we set $\mu_0 = 1.9$
+Studies from other populations suggest that wing lengths are usually around 1.9 mm, so we set $\mu_0 = 1.9$
 
 We also know that lengths must be positive ($\mu >0$)
 
@@ -78,11 +78,11 @@ To keep it simple we chose for the variance $\sigma^2$ to follow inverse gamma d
 
 ```{r}
 # Load data
-WL.data<-read.csv("../data/MidgeWingLength.csv")
+WL.data <- read.csv("../data/MidgeWingLength.csv")
 Y <- WL.data$WingLength
 n <- length(Y)
 
-hist(Y,breaks=20,xlab="Pct change") 
+hist(Y,breaks=20,xlab="Wing Length (mm)") 
 
 
 mu0 <- 1.9

@@ -1,6 +1,6 @@
 ---
-title: 'VectorBiTE Training Workshop: <br>Traits + MLE Challenge Problem'
-author: ''
+title: '<br>Traits + MLE Challenge Problem'
+author: 'VectorBiTE Training Workshop'
 date: "June 2018"
 output:
   html_document: default
@@ -17,7 +17,7 @@ set.seed(1234)
 
 ## Mosquito Thermal Trait Data
 
-The data for this question consist thermal traits for _Aedes agypti_ mosquitos found in the data file ${\tt AeaegyptiTraitData.csv}$. There are four possible traits (as well as some data that are recorded as the inverse trait, which we ignore for now):
+The data for this question consist of thermal traits for _Aedes agypti_ mosquitos found in the data file ${\tt AeaegyptiTraitData.csv}$. There are four possible traits (as well as some data that are recorded as the inverse trait, which we ignore for now):
 
 - pEA: proportion surviving from egg to adulthood  
 - MDR: mosquito development rate  
@@ -26,7 +26,7 @@ The data for this question consist thermal traits for _Aedes agypti_ mosquitos f
 
 You will choose one of these four traits and fit a curve to the data by maximum likelihood. (You can also fit a curve to the data of your choosing.) You will base your code on that provided in the lecture/practical portion of the class. We provide a specific set of tasks to accomplish starting with easy tasks through to more challenging aspects. We'll compare results and models during the group discussion.
 
-First we'll read in the data and look at the summary
+First we'll read in the data and look at the summary.
 
 ```{r sjdat}
 ### load in the data
