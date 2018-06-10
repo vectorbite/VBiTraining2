@@ -1,6 +1,6 @@
 ---
 title: "Example: Fitting Abundance with JAGS (Bayesian Inference)"
-author: "VectorBiTE Training Workshop 2018"
+author: "VectorBiTE Training Workshop"
 date: "June 2018"
 output: html_document
 ---
@@ -77,7 +77,7 @@ This gives the mean function that we want to fit. We will assume log-normal nois
 JAGS needs the model written as a .txt/.bug file inside your the working directory. You can either make the text file directly, or create it using the sink() function via your R script (see below).  
 The model file has two mandatory sections (the priors and the likelihood) and one optional section (derived quantiaties calculated from your fitted parameters).  
 
-In the example below we show how to build the model function with the log-normal likelihood for the logistic growth function. Priors are a combination of uniforms and exponential. As with the normal distribution, the log-normal distribution uses $\tau$ instead of $\sigma$ in the parameterization for the variance of the normal distribution ($\tau = 1/(\sigma^2)$). However it can be easier to specify the prior on sigma directly. In this example we will show how to generate posterior samples of derived quantities outside of JAGS (so you can see what kind of thing this is actually doing).
+In the example below we show how to build the model function with the log-normal likelihood for the logistic growth function. Priors are a combination of uniforms and exponential. As with the normal distribution, the log-normal distribution uses $\tau$ instead of $\sigma$ to parameterize the variance of the normal distribution ($\tau = 1/(\sigma^2)$). However it can be easier to specify the prior on sigma directly. In this example we will show how to generate posterior samples of derived quantities outside of JAGS (so you can see what kind of thing this is actually doing).
 
 
 ```{r eval = FALSE}
@@ -163,18 +163,4 @@ plot(OD.12C.mcmc[,c(1,2,4)])
 ```{r}
 s1<-as.data.frame(OD.12C.mcmc[[1]])
 ipairs(s1[,2:5], ztransf = function(x){x[x<1] <- 1; log2(x)})
-```
-
-```{r}
-# mcmcplot will open an html file in your default browse and allow you to look at the chains for convergence and autocorrelation
-# mcmcplot(lf.fit)
-```
-
-### Plot thermal response
-
-```{r, fig.align='center', fig.height=4.5, fig.width=6}
-#plot(trait ~ T, xlim = c(0, 45), ylim = c(0,42), data = lf.data.comb, ylab = "Lifespan for Ae. aegypti", xlab = "Temperature")
-#lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "2.5%"] ~ Temp.xs, lty = 2)
-#lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "97.5%"] ~ Temp.xs, lty = 2)
-#lines(lf.fit$BUGSoutput$summary[6:(6 + N.Temp.xs - 1), "mean"] ~ Temp.xs)
 ```
