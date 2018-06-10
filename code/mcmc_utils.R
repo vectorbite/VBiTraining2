@@ -222,11 +222,11 @@ make.pos.quad.samps<-function(coda.samps, nchains=2, samp.lims=c(151, 5000)){
 }
 
 
-plot.hists<-function(samps, my.par=c(2,2), n.hists=4, priors=NA){
-  par(mfrow=my.par, bty="n")
+plot.hists<-function(samps, my.par=c(2,2), n.hists=4, priors=NA, mai=c(0.8, 0.8, 0.2, 0.2)){
+  par(mfrow=my.par, bty="n", mai=mai)
   for(i in 1:n.hists){
     hist(samps[,i], main=names(samps)[i], xlab="", freq=FALSE)
-    if(!is.na(priors)){
+    if(!is.na(priors$names[1])){
       x<-c(seq(0, 1, by=0.00001), seq(1, 4000, by=0.1))
       h<-priors$hyper[,i]
       if(priors$fun[i]=="beta") lines(x, dbeta(x, shape1=as.numeric(h[1]), shape2=as.numeric(h[2])), col=2)

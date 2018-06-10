@@ -74,7 +74,9 @@ This gives the mean function that we want to fit. We will assume log-normal nois
 
 
 ### The thermal response model file
+
 JAGS needs the model written as a .txt/.bug file inside your the working directory. You can either make the text file directly, or create it using the sink() function via your R script (see below).  
+
 The model file has two mandatory sections (the priors and the likelihood) and one optional section (derived quantiaties calculated from your fitted parameters).  
 
 In the example below we show how to build the model function with the log-normal likelihood for the logistic growth function. Priors are a combination of uniforms and exponential. As with the normal distribution, the log-normal distribution uses $\tau$ instead of $\sigma$ to parameterize the variance of the normal distribution ($\tau = 1/(\sigma^2)$). However it can be easier to specify the prior on sigma directly. In this example we will show how to generate posterior samples of derived quantities outside of JAGS (so you can see what kind of thing this is actually doing).
@@ -125,7 +127,7 @@ nc <- 5 # number of chains
 ```
 
 ### Fitting the trait thermal response
-```{r, results="hide"}
+```{r, results="hide", cache=TRUE}
 # Pull out data columns as vectors
 data <- d2 # this lets us reuse the same generic code: we only change this first line
 Y <- data$OD
@@ -147,20 +149,151 @@ OD.12C.mcmc<-as.mcmc(OD.12C)
 
 ### Running diagnostics
 
+
+
 ```{r}
 ## View the parameters
 OD.12C$BUGSoutput$summary
 ```
 
 
-
+As before there are a number of model diagnostics that we need to check. First we want to look at the chains and confirm that they look like "fuzzy caterpillars" -- no linear/non-linear patterns across the chains, low auto-correlation, etc.
 
 ```{r, fig.align='center', fig.height=8}
 ## plot the chains using the coda package
 plot(OD.12C.mcmc[,c(1,2,4)])
 ```
 
+
+We can examine the ACF of the chains as well, similarly to a time series. 
+
+```{r, fig.height=8}
+s1<-as.data.frame(OD.12C.mcmc[[1]])
+par(mfrow=c(2,2))
+for(i in 2:5) acf(s1[,i], lag.max=20)
+```
+
+There is still a bit of autocorrelation, but it isn't too bad. The chain for $\sigma$ is mixing best. We could reduce the autocorrelation even further by thinning the chain (i.e., change the _nt_ parameter to 5 or 10).
+
+The last important diagnostic is to compare the prior and posterior distributions. Various packages in R have bespoke functions to do this. Here we use functions that we provide in the ${\tt mcmc_utils.R}$ file provided on the website.
+
+```{r}
+source("../code/mcmc_utils.R")
+```
+
+
+```{r, fig.align="center", fig.height=7, fig.width=6}
+## function to put the samples into a convenient format 
+## for visualizing, etc
+samps<-NULL
+for(i in 1:nc){
+  samps<-rbind(samps, as.data.frame(OD.12C.mcmc[[i]]))
+}
+
+samps<-samps[,c(5,2,3,4)]
+
+
+## building a structure to hold all the information 
+## about the priors for each parameter
+priors<-list()
+priors$names<-c("Y0", "K", "r","sigma")
+priors$fun<-c("uniform", "uniform", "exp","exp")
+priors$hyper<-matrix(NA, ncol=4, nrow=3)
+priors$hyper[,1]<-c(0.09, 0.15, NA)
+priors$hyper[,2]<-c(0.01,  0.6, NA)
+priors$hyper[,3]<-c(1000, NA, NA) 
+priors$hyper[,4]<-c(0.1, NA, NA)
+
+## function to plot the histograms of the posterior samples 
+## together with the prior distributions
+plot.hists(samps, my.par=c(2,2), n.hists=4, priors=priors, mai=c(0.5, 0.5, 0.25, 0.2))
+
+```
+
+The prior distribution here is very different from the posterior. These data are highly informative for the parameters of interest and are very unlikely to be influenced much by the prior distribution (although you can always change the priors to check this). However, notice that $Y_0$ (the initial condition) is truncated by the prior. This is a fairly strong prior, because we know something about the initial optical density that is typical for the esperimental set up with the density of innoculum used and with a properly calibrated set-up.
+
+
+### Visualizing the joint posterior of parameters 
+
+It's often useful to also look at the joint distbution of all of your parameters together. Of course, if you have a high dimensional posterior, rendering a 2-D representation can be difficult. Instead, the standard is to examine the pair-wise posterior distribution, for instance as follows:
+
+
 ```{r}
 s1<-as.data.frame(OD.12C.mcmc[[1]])
 ipairs(s1[,2:5], ztransf = function(x){x[x<1] <- 1; log2(x)})
 ```
+
+As you can see, estimates of $r$ and $K$ are highly correlated -- not surprising given the interplay between them in the logistic growth function. This correlation is an important aspect of the system and we use the full posterior distribution that includes this correlation when we want to build the corresponding posterior distribution of the behavior of the logistic function.
+
+### The posterior distribution of the mean function
+
+The final step is to check how well we are fitting the data. To do this we usually examine the posterior distribution of the mean function of our system, in this case the distribution of the logistic solution and compare this to the data. To do this, for each of our posterior samples (or a thinned subset), we plug the parameters for the $i^{\mathrm th}$ sample $\theta_i$ into our function of interest, and evaluate the function as a desired set of $x$'s. For instance, for logistic growth, we'll evaluate 
+$$
+\mu(t) = \frac{K_iY_{0,i}}{Y_{0,i}+(K_i-Y_{0,i})\exp{(-r_it)}}
+$$
+for the $i^{\mathrm th}$ set of parameters for a sequence of times, $t$. This we obtain points describing the curve $\mu_i(t)$ for each set of parameters. Here is one way to do this:
+```{r}
+my.logistic<-function(t, Y0, K, r){
+  K*Y0/(Y0+(K-Y0)*exp(-r*t))
+}
+
+
+ts<-seq(0, 40, length=100)
+ss<-seq(1, dim(samps)[1], by=10)
+my.curves<-matrix(NA, nrow=length(ss), ncol=length(ts))
+for(i in 1:length(ss)){
+  my.curves[i,]<-my.logistic(t=ts, Y0=samps$Y0[i], 
+                          K=samps$K[i], r=samps$r[i])
+}
+```
+
+I can plot all of these curves:
+```{r}
+plot(ts, my.curves[1,], col=1, type="l", ylim=c(0.09, 0.36), 
+     ylab="predicted OD", xlab="time (days)")
+for(i in 2:length(ss)) lines(ts, my.curves[i,], col=i)
+```
+
+
+Then I can summarize this posterior using the _apply_ function to find the mean and the (for simplicity) quantile based 95% CI:
+```{r}
+m.log<-apply(my.curves, 2, mean)
+l.log<-apply(my.curves, 2, quantile, probs=0.025)
+u.log<-apply(my.curves, 2, quantile, probs=0.975)
+```
+
+For comparison, here is how to find the 95% HPD Interval across time, using the _HPDinterval_ function from the __coda__ package:
+```{r}
+hpd.log<-NULL
+for(i in 1:length(ts)){
+  hpd.log<-cbind(hpd.log, as.numeric(HPDinterval(mcmc(my.curves[,i]))))
+}
+```
+
+
+and I plot these together with my data (in this case the HPD and quantile based intervals are indistinguishable):
+
+```{r, fig.align='center', fig.height=4.5, fig.width=6}
+
+my.ylim<-c(0.09, 0.45)
+my.title<-"LB-AB isolate, T=12C"
+
+plot(d2$DAY-1, d2$OD, xlim=c(0,max(Temps)), ylim=my.ylim,
+    pch=(mycol+20),
+    xlab="time (days)", ylab="",
+    main=my.title,
+    col="grey", cex=1.5)
+lines(ts, m.log, col=1, lwd=2)
+lines(ts, l.log, col=2, lwd=2, lty=2)
+lines(ts, u.log, col=2, lwd=2, lty=2)
+
+lines(ts, hpd.log[1,], col=3, lwd=2, lty=3)
+lines(ts, hpd.log[2,], col=3, lwd=2, lty=3)
+
+```
+
+Notice that this only shows the uncertainty in the ___mean function___ -- the assumed model with log normal noise says that the observations simply have this mean. The fit is attributing the majority of the observed noise to process error rather than parameter uncertainty. 
+
+<br>
+<br>
+
