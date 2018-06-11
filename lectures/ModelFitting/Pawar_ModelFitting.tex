@@ -126,25 +126,6 @@ head/foot}%
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Mechanistic vs. phenomenological models}
-
-   \begin{itemize}\itemsep4pt
-		 \item Mechanistic models aim to explain the PROCESSES underlying 
-		 observed patterns
-
-		\item Empirical or phenomenological models show relationships 
-		between observed data (e.g. vector population size or disease incidence as a function of temperature or rainfall), but provide no insights into the processes/mechanisms that inter-link these data.
-	 \end{itemize}
-
-\pause
-	
- \begin{center}
-	 \includegraphics[width=\textwidth]{Mechanisms.pdf}
- \end{center} 
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Mechanisms in vector-borne disease dynamics?}
 
 \begin{center}
@@ -154,16 +135,35 @@ head/foot}%
 \end{frame}
 	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Mechanistic vs. phenomenological models}
+
+	\begin{itemize}\itemsep4pt
+		  \item Mechanistic models aim to explain the PROCESSES underlying 
+		  observed patterns
+ 
+		 \item Empirical or phenomenological models show relationships 
+		 between observed data (e.g. vector population size or disease incidence as a function of temperature or rainfall), but provide no insights into the processes/mechanisms that inter-link these data.
+	  \end{itemize}
+ 
+ \pause
+	 
+  \begin{center}
+	  \includegraphics[width=\textwidth]{Mechanisms.pdf}
+  \end{center} 
+ 
+ \end{frame}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Mechanisms in vector-borne disease dynamics?}
 
-\begin{itemize}[<+->] \itemsep4pt
+\begin{itemize}[<+->] \itemsep12pt
 	\item Ecological studies often focus on explaining phenomena 
 	using somewhat phenomenological models. 
 	
-	\item LINK
+	\item For example, disease invasions, outbreaks and spread: Why cycles? Why traveling waves? 
+	
+	\item What mechanisms operate? Vector-parasite interaction? Vector-environment interaction? 
 
-	\item For example, disease invasions, outbreaks and spread: Why cycles? Why traveling waves? \pause --- What mechanisms operate?
-	(Vector-parasite interaction? Vector-environment interaction? 
 \end{itemize}
 
 \end{frame}
@@ -196,7 +196,7 @@ head/foot}%
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{An example of a fundamental mechanism: metabolism}
+\begin{frame}{An example of a fundamental mechanism: metabolism (Trait)}
       
 \begin{columns}[c]
   \column{2.1in}
@@ -241,7 +241,7 @@ head/foot}%
 	\item That's the one that's best for predictions (e.g. population 
 	cycles), estimating rates (e.g. population or individual growth rates), etc
 	\item Don't use models you already know have the wrong mechanisms just because they are popular!
-	\item Phenomenological models often perform better than mechanistic ones
+	\item Phenomenological/statistical models often perform better than mechanistic ones
 
 \end{itemize}
   
@@ -316,7 +316,7 @@ Two main ways to do it:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Ensemble fitting}
 
-\begin{itemize}
+\begin{itemize} \itemsep12pt
 	
 \item These include MLE, Bayesian methods, and least squares optimization or fitting. 
 
@@ -364,7 +364,7 @@ Two main ways to do it:
 This is how you calculate AIC and BIC (using python syntax): 
 
 \pause
-\begin{itemize}
+\begin{itemize}\itemsep10pt
 \small
 	\item residuals = Observations - Predictions
 	\item rss = sum(residuals ** 2) 
@@ -385,7 +385,7 @@ Also note that:
 \small
 	\item R$^{2}$ = 1 - (rss$/$tss), where tss is total sum of squares: \\
 tss = sum((Observations - mean(Predictions)) ** 2)\\
-(a useful measure of goodness of fit -- you should report it)
+(a useful measure of goodness of fit)
 
 \end{itemize}
 
@@ -425,7 +425,7 @@ and evolution. Trends Ecol. Evol. 19, 101--108.
 ecological/evolutionary data 
 \url{https://groups.nceas.ucsb.edu/non-linear-modeling/projects} 
 
-\item Additional readings at the end of Miniproject Chapter of your CMEE Notes 
+\item Additional readings in the git repository 
  
 \end{itemize}
 \end{frame}
