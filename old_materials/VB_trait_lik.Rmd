@@ -266,7 +266,6 @@ There are lots of options implemented in the _optim_ function in R. We won't go 
  - L-BFGS-B (limited-memory Broyden–Fletcher–Goldfarb–Shanno algorithm with bounding box constraints): a quasi-Newton method, used for higher dimensions, when you want to be able to put simple limits on your search area.  
  
  
-
 ## Maximum likelihood using _optim_
 
 The first argument is the function that you want to minimize, and the second is a vector of starting values for your parameters. After the main arguments, you can add what you need to evaluate your function (e.g. _sigma_ ).
