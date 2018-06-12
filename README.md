@@ -25,25 +25,25 @@
 |                     | 10:30 - 11:00| *Break*                               | --
 |                     | 11:00 - 12:00| Intro to Model Fitting Lecture        | SP
 |                     | 12:00 - 13:00| *Lunch*                               | --
-|                     | 13:00 --14:00| Principles: Probability, Likelihood   | LJ
-|                     | 14:00 --15:00| Intro to Bayesian Methods             | LJ
-|                     | 15:00 --15:30| *Break*                               | --
-|                     | 15:30 --17:00| Traits: Linear Models + NLLS + MLE    | SP
-|                     | 17:00 --17:30| Intro to challenge/exercise           | SP
+|                     | 13:00 -14:00| Principles: Probability, Likelihood   | LJ
+|                     | 14:00 - 15:00| Intro to Bayesian Methods             | LJ
+|                     | 15:00 - 15:30| *Break*                               | --
+|                     | 15:30 - 17:00| Traits: Linear Models + NLLS + MLE    | SP
+|                     | 17:00 - 17:30| Intro to challenge/exercise           | SP
 |Tuesday, 12th June   | 08:30 - 09:00| Q & A                                 | All
 |                     | 09:00 - 10:30| Traits: (Group) challenge/exercise*   | MS-FE-MW
 |                     | 10:30 - 11:00| *Break*                               | --
-|                     | 11:00 - 12:00| Traits: (Group) challenge discussion  | All
+|                     | 11:00 - 12:00| Traits: (Group) challenge/exercise*   | MS-FE-MW | All
 |                     | 12:00 - 13:00| *Lunch*                               | --
 |                     | 13:00 - 14:00| Abundance/Incidence: Time series      | LJ
-|                     | 14:00 --15:00| A/I:  Linear Models + NLLS + MLE      | SP
+|                     | 14:00 - 15:00| A/I:  Linear Models + NLLS + MLE      | SP
 |                     | 15:00 --15:30| *Break*                               | --
 |                     | 15:30 --17:00| Basics of Bayesian Analyses with JAGS | LJ
 |                     | 17:00 --17:30| Intro to challenge/exercise           | LJ
 |Wednesday, 13th June | 08:30 - 09:00| Q & A                                 | All
 |                     | 09:00 - 10:30| A/I: (Group) challenge/exercise*      | MS-FE-MW
 |                     | 10:30 - 11:00| *Break*                               | --
-|                     | 11:00 - 12:00| A/I: (Group) challenge discussion     | All
+|                     | 11:00 - 12:00| (Group) challenges discussion     | All
 |                     | 12:00 - 13:00| *Lunch*                               | --
 |                     | 13:00 --15:00| Working Group Preliminaries           | 
 |                     | 15:00 --15:30| *Break*                               | 
