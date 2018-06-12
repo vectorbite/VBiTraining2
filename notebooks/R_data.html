@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8" />
+<head><meta charset="utf-8"/>
+
+<!-- javascript from CDN for conversion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.js"></script>
+
+    
+
+
+<script type="text/x-mathjax-config">
+// make sure that equations numbers are enabled
+MathJax.Hub.Config({ TeX: { equationNumbers: {
+    autoNumber: "AMS", // All AMS equations are numbered
+    useLabelIds: true, // labels as ids
+    // format the equation number - uses an offset eqNumInitial (default 0)
+    formatNumber: function (n) {return String(Number(n)+Number(1)-1)} 
+    } } 
+});
+</script>
+
+
+
+<meta charset="utf-8" />
 <title>R_data</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
@@ -11766,7 +11787,90 @@ div#notebook {
         }
     });
     </script>
-    <!-- End of mathjax configuration --></head>
+    <!-- End of mathjax configuration -->
+
+
+ <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+<!-- stylesheet from CDN -->
+<link rel="stylesheet" type="text/css" href="https://rawgit.com/jfbercher/jupyter_latex_envs/master/src/latex_envs/static/latex_envs.css">
+
+<!-- Custom stylesheet, it must be in the same directory as the html file -->
+<link rel="stylesheet" href="custom.css"> 
+
+<!-- Load mathjax 
+<script src="https://rawgit.com/ipython-contrib/jupyter_contrib_nbextensions/master/src/jupyter_contrib_nbextensions/nbextensions/latex_envs/thmsInNb4.js"></script>
+-->
+<script type="text/javascript"  src="https://rawgit.com/jfbercher/jupyter_latex_envs/master/src/latex_envs/static/thmsInNb4.js"> </script>
+
+<link rel="stylesheet" type="text/css" href="https://rawgit.com/ipython-contrib/Jupyter-notebook-extensions/master/src/jupyter_contrib_nbextensions/nbextensions/toc2/main.css">
+
+<script src="https://rawgit.com/ipython-contrib/Jupyter-notebook-extensions/master/src/jupyter_contrib_nbextensions/nbextensions/toc2/toc2.js"></script>
+
+<script>
+$( document ).ready(function(){
+
+        //Value of configuration variables, some taken from the notebook's metada. 
+        eqNum = 0; // begins equation numbering at eqNum+1
+        eqLabelWithNumbers = "True"=="True" ? true : false; //if true, label equations with equation numbers; 
+                                       //otherwise using the tag specified by \label
+        conversion_to_html = false;
+        current_cit=1;
+        cite_by='key';  //only number and key are supported
+        //var document={}
+        document.bibliography={};
+
+        // Read environment map config
+        initmap();
+        // Read user envs config, if specified
+        
+                environmentMap = $.extend(true,{}, environmentInitialMap)        
+        
+
+        // fire the main function with these parameters
+        var html_to_analyse = $('body').html()
+        var html_converted = thmsInNbConv(marked,html_to_analyse);
+        html_converted = html_converted.replace(/%[\S\t ]*<\/p>/gm,"</p>")
+        $('body').html(html_converted)
+        // Show/hide anchors
+        var labels_anchors = "False"=="True" ? true : false;
+        $('.latex_label_anchor').toggle(labels_anchors)
+        // Number all environments
+        report_style_numbering = "False"=="True" ? true : false;
+        reset_counters();
+        renumberAllEnvs();
+
+            var cfg={'threshold':6,     // depth of toc (number of levels)
+             'number_sections':true,    // sections numbering
+             'toc_cell':false,          // useless here
+             'toc_window_display':true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,             // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+
+            // fire the main function with these parameters
+            table_of_contents(cfg,st);
+    });
+
+</script></head>
+
+
+
+
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -12247,7 +12351,7 @@ also available in the <a href="">Readings directory</a> under <code>DataDataData
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Exercises">Exercises<a class="anchor-link" href="#Exercises">&#182;</a></h3><p>(a) We used <code>reshape2</code> in <code>DataWrang.R</code> for wrangling that dataset. Write a new script called <code>DataWrangTidy.R</code> that uses <code>dplyr</code> and <code>tidyr</code> for the same data wrangling steps. The best way to do this is to <code>cp</code> <code>DataWrang.R</code> and rename it <code>DataWrangTidy.R</code>. Then systematically redo the script from start to end, looking for a function in <code>dplyr</code> and <code>tidyr</code> that does the same thing in each wrangling step.</p>
+<h3 id="Exercises">Exercises<a class="anchor-link" href="#Exercises">&#182;</a></h3><p>(a) We used <code>reshape2</code> in <code>DataWrang.R</code> for wrangling that dataset. Write a new script called <code>DataWrangTidy.R</code> that uses <code>dplyr</code> and <code>tidyr</code> for the same data wrangling steps. The best way to do this is to copy <code>DataWrang.R</code> and rename it <code>DataWrangTidy.R</code>. Then systematically redo the script from start to end, looking for a function in <code>dplyr</code> and <code>tidyr</code> that does the same thing in each wrangling step.</p>
 <p>For example, to convert from wide to long format, instead of using <code>melt()</code> (or <code>dcast()</code>) from the <code>reshape2</code> package, you can use <code>gather()</code> from <code>tidyr</code>.</p>
 <p>Don’t forget the <a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">cheatsheet</a> 
 (also available in the Readings directory under <code>DataDataData!</code> in the course bitbucket repository).</p>
@@ -12319,8 +12423,4 @@ database.</p>
     </div>
   </div>
 </body>
-
- 
-
-
 </html>
