@@ -66,8 +66,8 @@ We are assuming familarity with `R` basics. In addition, we recommend that you d
 
 1. Go to [The Multilingual Quantitative Biologist](https://mhasoba.github.io/TheMulQuaBio/), and read+work through the [Intro R Chapter](https://nbviewer.jupyter.org/github/mhasoba/TheMulQuaBio/blob/master/notebooks/07-R.ipynb) upto the section on [Writing R code](https://nbviewer.jupyter.org/github/mhasoba/TheMulQuaBio/blob/master/notebooks/07-R.ipynb#Writing-R-code). Of course, keep going if you want (there is [another chapter, on data in R](https://nbviewer.jupyter.org/github/mhasoba/TheMulQuaBio/blob/master/notebooks/08-Data_R.ipynb), parts of which we will actually cover in the Workshop on Day 1 (see schedule above)). A good bit of the training will focus on data visualization. In particular, you might want to have a look at [ggplot](http://ggplot.yhathq.com/). There is a section on this in the [data in R chapter](https://nbviewer.jupyter.org/github/mhasoba/TheMulQuaBio/blob/master/notebooks/08-Data_R.ipynb). 
    * In addition / alternatively to pre-work element (1), here are some resources for brushing up on `R` at the end of the [Intro R Chapter](https://nbviewer.jupyter.org/github/mhasoba/TheMulQuaBio/blob/master/notebooks/07-R.ipynb) you can try.
-But there are many more resources online (e.g., [this](https://kingaa.github.io/R_Tutorial/) and [this](https://www.pluralsight.com/search?q=R) ) -- pick something that suits your learning style). 
+But there are many more resources online (e.g., [this](https://kingaa.github.io/R_Tutorial/) and [this](https://www.pluralsight.com/search?q=R) ) -- pick something that suits your learning style).
 
-2. Probabilty and stats review: https://github.com/vectorbite/VBiTraining2/blob/master/old_materials/VB_stats_review.pdf  
+2. [Probabilty and stats review](https://github.com/vectorbite/VBiTraining2/blob/master/old_materials/VB_stats_review.pdf)
 
 3. Inculcate the coding Jedi inside of you - or the Sith - whatever works.
