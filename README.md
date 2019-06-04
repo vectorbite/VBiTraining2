@@ -18,31 +18,33 @@
 | Date                 | Time          | Topic                                      | Lead Instructor |
 |:-------------------- | ------------- |:------------------------------------------ | --------------- |
 | Monday, 17th June    | 08:30 - 09:00 | General Intro and Setting up               | SP              |
-|                      | 09:00 - 10:30 | Workshop: Handling Data and Visualization in R       | SP+FW      |
+|                      | 09:00 - 10:30 | Workshop: Handling Data, and Visualization in R       | SP+FW      |
 |                      | 10:30 - 11:00 | *Break*                                    | --              |
 |                      | 11:00 - 12:00 | Lecture: Intro to Model Fitting            | SP              |
 |                      | 12:00 - 13:00 | *Lunch*                                    | --              |
-|                      | 13:00 - 15:00 | Workshop: Linear and Non-Linear Least Squares (NLLS) Model Fitting (Lecture)| SP+DW+FW  |
+|                      | 13:00 - 15:00 | Workshop: Linear and Non-Linear Least Squares (NLLS) Model Fitting| SP+DW+FW  |
 |                      | 15:00 - 15:30 | *Break*                                    | --              |
-|                      | 15:30 - 17:00 | Traits (VecTraits)) / Abundances (VecDyn) Challenge     | SP+DW+FW  |
-| Tuesday, 18th June   | 08:30 - 09:30 | Q & A + Day 1 Challenge Discussion         | All             |
-|                      | 09:00 - 10:30 | Lecture: Probability and Likelihood        | LJ              |
+|                      | 15:30 - 16:30 | Workshop: Model Selection     | SP+DW+FW  |
+|                      | 16:30 - 17:00 | Intro to Traits (VecTraits)) / Abundances (VecDyn) Challenge     | SP+DW+FW  |
+| Tuesday, 18th June   | 08:30 - 10:00 | Traits (VecTraits)) / Abundances (VecDyn) Challenge       | All             |
+|                      | 10:30 - 11:00 | Traits/Abundances Challenge Discussion           | --              |
 |                      | 10:30 - 11:00 | *Break*                                    | --              |
 |                      | 11:00 - 12:00 | Workshop: Maximum-Likelihood Model Fitting | LJ+MS |
-|                      | 12:00 - 13:00 | *Lunch* (Start forming groups for Day 3 challenge)                                    | --              |
+|                      | 12:00 - 13:00 | *Lunch* (Start forming groups for Day 3 challenge)        | --              |
 |                      | 13:00 - 14:00 | Workshop: Maximum-Likelihood Model Fitting | LJ + MS          |
-|                      | 14:00 - 15:00 | Lecture: Bayesian Model Fitting            | LJ              |
+|                      | 14:00 - 15:00 | Lecture: Bayesian Model Fitting         | LJ              |
 |                      | 15:00 - 15:30 | *Break*                                    | --              |
-|                      | 15:30 - 17:00 | Workshop: Bayesian Model Fitting (with JAGS)      | LJ+MS         |
+|                      | 15:30 - 17:00 | Workshop: Bayesian Model Fitting       | LJ+MS         |
 | Wednesday, 19th June | 08:30 - 09:00 | Q & A                                      | All             |
-|                      | 09:00 - 10:30 | Model Selection                              | LJ+SP      |
+|                      | 09:00 - 10:30 | Workshop: Bayesian Model Fitting            | LJ+MS      |
 |                      | 10:30 - 11:00 | *Break*                                    | --              |
 |                      | 11:00 - 12:00 | Coding Practices (Coding reproducible analyses)      | FW+SP+DW             |
 |                      | 12:00 - 13:00 | *Lunch* (Discuss your group Hackathon project/plan!)  | --              |
-|                      | 13:00 - 15:00 | Package Design / Model Fitting Hackathon | All          |
+|                      | 13:00 - 15:00 | Package Design / Model Fitting Hackathon | FW+DW+MS+MW          |
 |                      | 15:00 - 15:30 | *Break*                                    |    --             |
-|                      | 15:30 - 16:30 | Package Design / Model Fitting Hackathon |  All               |
-|                      | 16:30 - 17:30 | Hackathon presentations + Discussion |  All               |
+|                      | 15:30 - 17:00| Package Design / Model Fitting Hackathon*|  FW+DW+MS+MW          |
+
+*Presentation the next day - see main workshop schedule
 
 All the teaching materials, including the lectures, jupyter notebooks, code, and data are at [this git repository](https://github.com/vectorbite/VBiTraining2).
 
