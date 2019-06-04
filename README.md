@@ -68,6 +68,6 @@ We are assuming familarity with `R` basics. In addition, we recommend that you d
    * In addition / alternatively to pre-work element (1), here are some resources for brushing up on `R` at the end of the [Intro R Chapter](https://nbviewer.jupyter.org/github/mhasoba/TheMulQuaBio/blob/master/notebooks/07-R.ipynb) you can try.
 But there are many more resources online (e.g., [this](https://kingaa.github.io/R_Tutorial/) and [this](https://www.pluralsight.com/search?q=R) ) -- pick something that suits your learning style). 
 
-2. Probabilty and stats pre-work: 
+2. Probabilty and stats review: https://github.com/vectorbite/VBiTraining2/blob/master/old_materials/VB_stats_review.pdf  
 
 3. Inculcate the coding Jedi inside of you - or the Sith - whatever works.
