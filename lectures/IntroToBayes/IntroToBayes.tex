@@ -62,7 +62,7 @@
 %right now it goes prediction, review, OLS params, prediction
 
 \title{\theme \Large \vskip 0.5cm
-{\bf VectorBiTE Training 2018 \\ Methods Workshop}\\
+{\bf VectorBiTE Training 2019 \\ Methods Workshop}\\
 \bigskip
 \bf {\sf \gr Introduction to Bayesian Statistics}}
 
@@ -181,20 +181,26 @@ Bayesian & data ($Y$) & param ($\theta$)\\
 \begin{frame}
 \chap{Why/Why Not Bayesian Statistics?} 
 
-{\footnotesize
 {\bf \bl Pros}
 \begin{enumerate}
 \item If $f(\theta)$ \& $\mathcal{L}(\theta; Y)$ represent a rational person's beliefs, then Bayes' rule is an optimal method of updating these beliefs given new info (Cox 1946, 1961; Savage 1954; 1972).
 \item Provides more intuitive answers in terms of the probability that parameters have particular values. 
 \item In many complicated statistical problems there are no obvious non-Bayesian inference methods.
 \end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}
+\chap{Why/Why Not Bayesian Statistics?} 
+
+
 {\bf \bl Cons}
 \begin{enumerate}
-\item It can be hard to mathematically formulate prior beliefs (choice of $f(\theta)$ often ad hoc or for computational reasons)
+\item It can be hard to mathematically formulate prior beliefs (choice of $f(\theta)$ often ad hoc or for computational reasons).
 \item Posterior distributions can be sensitive to prior choice.
 \item Analyses can be computationally costly.
 \end{enumerate}
-}
 
 \end{frame}
 
@@ -335,31 +341,6 @@ The most popular 95\% confidence interval for a population proportion is the {\b
 \bar{y} \pm 1.96 \sqrt{\bar{y}(1-\bar{y})/n}.
 \end{equation*}
 This has the correct {\it asymptotic} coverage, but {\rd $y=0$ is still problematic}!
-
-\end{frame}
-
-
-\begin{frame}
-\nochap
-{\bf \fb Exercise: is a treatment for cancer effective?}\\
-
-{\footnotesize
-We have data on $n$ cancer patients that have been given a particular treatment. Our outcome variable is whether or not it was ``effective'':
-\begin{center}
- \begin{tabular}{lll}
-Patient & Effectiveness & Numerical Data \\
-1& N& 0\\
-2&N&0\\
-3&Y&1\\
-\vdots &\vdots &\vdots \\
-\end{tabular}
-\end{center}
-The appropriate sampling model for each patient is a Bernoilli:
-$$Y_i|\theta  \stackrel{iid}{\sim} f(Y|\theta) = \text{Bern}(\theta)$$ 
-where $\theta$ is the success rate of the treatment. Based on this, write down the likelihood for the $n$ patients. Then, assuming a $\mr{Beta}(a,b)$ prior for $\theta$ find the posterior distribution for $\theta|Y$. Does this look familiar?
-}
-
-%{\bf ALTERNATIVE}: Midge normal model
 
 \end{frame}
 
@@ -518,6 +499,35 @@ The 95\% HPD region is [0.04, 0.48] which is narrower than the quantile-based CI
 
 
 \begin{frame}
+\nochap
+{\bf \fb Exercise: is a treatment for cancer effective?}\\
+
+{\footnotesize
+We have data on $n$ cancer patients that have been given a particular treatment. Our outcome variable is whether or not it was ``effective'':
+\begin{center}
+ \begin{tabular}{lll}
+Patient & Effectiveness & Numerical Data \\
+1& N& 0\\
+2&N&0\\
+3&Y&1\\
+\vdots &\vdots &\vdots \\
+\end{tabular}
+\end{center}
+The appropriate sampling model for each patient is a Bernoilli:
+$$Y_i|\theta  \stackrel{iid}{\sim} f(Y|\theta) = \text{Bern}(\theta)$$ 
+where $\theta$ is the success rate of the treatment. Based on this, write down the likelihood for the $n$ patients. Then, assuming a $\mr{Beta}(a,b)$ prior for $\theta$ find the posterior distribution for $\theta|Y$. Does this look familiar?
+}
+
+%{\bf ALTERNATIVE}: Midge normal model
+
+\end{frame}
+
+
+
+
+\iffalse
+
+\begin{frame}
 \chap{Numerical Methods}
 
 Most of the time we can't get a nice analytic form for a posterior distribution. If we go back to the full Bayes theorem:
@@ -602,6 +612,7 @@ where:
 {\rd $\rightarrow$ Already implemented in JAGS!}
 \end{frame}
 
+\fi
 
 \end{document}
 
@@ -610,6 +621,8 @@ where:
 \iffalse
 \begin{frame}
 \begin{enumerate}
+
+
 
 
 
