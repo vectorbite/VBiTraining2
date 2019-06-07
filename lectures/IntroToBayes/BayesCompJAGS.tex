@@ -1,0 +1,417 @@
+\documentclass[12pt,xcolor=svgnames]{beamer}
+\usepackage{dsfont,natbib,setspace}
+\usepackage{tabularx}
+\usepackage{accents}
+\mode<presentation>
+
+% replaces beamer foot with simple page number
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{
+  \vspace{-1.5cm}
+  \raisebox{10pt}{\makebox[\paperwidth]{\hfill\makebox[20pt]{\color{gray}\scriptsize\insertpagenumber}}}}
+
+% colors
+\newcommand{\bk}{\color{black}}
+\newcommand{\rd}{\color{red}}
+\newcommand{\fg}{\color{ForestGreen}}
+\newcommand{\mar}{\color{Maroon}}
+\newcommand{\org}{\color{Orange}}
+\newcommand{\bl}{\color{blue}}
+\newcommand{\gr}{\color{gray}}
+\newcommand{\theme}{\color{FireBrick}}
+\newcommand{\fb}{\color{FireBrick}}
+\newcommand{\hlf}{\setstretch{1}}
+
+% common math markups
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mr}[1]{\mathrm{#1}}
+\newcommand{\bm}[1]{\mbox{\boldmath $#1$}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\ds}[1]{\mathds{#1}}
+
+% spacing and style shorthan
+\newcommand{\sk}{\vspace{.4cm}}
+\newcommand{\nochap}{\vspace{0.5cm}}
+\newcommand{\nsk}{\vspace{-.4cm}}
+\newcommand{\chap}[1]{{\theme \Large \bf #1} \sk}
+\newcommand{\R}[1]{{\bl\tt #1}}
+\newcommand{\til}{{\footnotesize$\bs{\stackrel{\sim}{}}$ }}
+
+% specific stats markups for this doc
+\newcommand{\E}{\ds{E}}
+\newcommand{\Reals}{\ds{R}}
+\newcommand{\pr}{\text{Pr}}
+\newcommand{\var}{\text{var}}
+\newcommand{\cov}{\text{cov}}
+\newcommand{\mT}{\mc{T}}
+\newcommand{\GP}{\mc{GP}}
+\newcommand{\iidsim}{\stackrel{\mathrm{iid}}{\sim}}
+\newcommand{\indsim}{\stackrel{\mathrm{ind}}{\sim}}
+\newcommand{\mN}{\mc{N}}
+\newcommand{\mL}{\mc{L}}
+
+
+\begin{document}
+
+{ \usebackgroundtemplate{}%\includegraphics[height=\paperheight]{phoenix}}
+\thispagestyle{empty}
+\setcounter{page}{0}
+
+%first review sampling distributions, then talk about sampling distributions for the OLS parameters, then prediction
+%right now it goes prediction, review, OLS params, prediction
+
+\title{\theme \Large \vskip 0.5cm
+{\bf VectorBiTE Training 2019 \\ Methods Workshop}\\
+\bigskip
+\bf {\sf \gr Introduction to Bayesian Computation and MCMC with JAGS}}
+
+\author{
+\begin{center}
+\includegraphics[scale=0.15,trim=10 10 0 150]{VB_logo}
+\end{center}
+\texttt{\rd\small www.vectorbite.org}
+%Normal distribution, distribution of the sample mean, \\
+%Central Limit Theorem, Confidence Intervals
+%and Method of Moments
+%Review of sampling distributions
+%Parameter estimation, sampling distributions,\\ 
+%coefficient testing, and prediction intervals\\
+%\vskip 1cm {\bf Leah R.~Johnson}\\ 
+%{\org Virginia Tech}, Statistcs\\
+%  \vskip .5cm \texttt{\rd\small leah.johnson-gramacy.com/QED/teaching}
+}
+\date{}
+\maketitle 
+}
+
+% doc spacing
+\setstretch{1.1}
+
+
+\begin{frame}
+\chap{Learning Objectives}
+
+\begin{enumerate}
+\item Understand the basic principles underlying Bayesian modeling methodology
+\item  Introduce how to use Bayesian inference for real-world problems
+\item Introduce computation tools to perform inference for simple models in R (how to turn the Bayesian crank)
+\item Appreciate the need for sensitivity analysis, model checking and comparison, and the potential dangers of Bayesian methods.
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}
+\chap{Numerical Methods}
+
+Most of the time we can't get a nice analytic form for a posterior distribution. If we go back to the full Bayes theorem:
+\begin{align*}
+\text{Pr}(\theta|Y) & = \frac{\mathcal{L}(\theta; Y)f(\theta)}{{\rd \text{Pr}(Y)}}
+\end{align*}
+We are usually specifying the likelihood and the prior but we often don't know the normalizing constant in the denominator. Without this, the probabilities don't properly integrate to 1 and we {\rd can't make probability statements}. We need a way to approximate the distribution. We'll use Monte Carlo methods.\\
+\end{frame}
+
+
+
+\begin{frame}
+\chap{Stochastic Simulation/Computation}
+
+Stochastic simulation is a way to understand variability in a system and for calculating quantities that may be difficult or impossible to obtain directly.\\
+
+\sk
+
+Monte Carlo (MC) methods are ``a broad class of computational algorithms that rely on {\rd repeated random sampling} to obtain numerical results.'' - Wikipedia\\
+
+
+
+\end{frame}
+
+
+\begin{frame}
+\nochap%{Monte Carlo}
+
+{\fb \bf How does it work?}
+
+\sk
+Run a simulation/computer calculation (with some component that is ``random'') many many times in order to obtain the distribution of an unknown probabilistic quantity.
+
+\bigskip
+
+A basic algorithm: 
+\begin{enumerate}
+\item Obtain random deviate(s) from a probability distribution
+\item Make a calculation from your system
+\item Record the result of the calculation to save it for later
+\item Repeat many times
+\end{enumerate}
+
+\vfill
+
+\end{frame}
+
+\begin{frame}
+\nochap%{Monte Carlo}
+
+We typically have three reasons to use MC
+\begin{enumerate}
+\item Explore possible patterns/behaviors that a model can exhibit.
+\item Create synthetic data to use in place of real data to test estimation procedures.
+\item Understand and quantify uncertainty.
+\end{enumerate}
+
+\vfill
+
+\end{frame}
+
+
+\begin{frame}
+\chap{MC for Bayesian Statistics}
+
+We use Monte Carlo (MC) methods to generate random deviates in the right ratios from the target posterior called ``{\bl draws}'' or samples. We then use these draws to approximate our distribution and make inference statements (estimates, CIs, etc). 
+
+\sk
+We can also use the draws to calculate the posterior distribution of {\bf \bl any function of our estimated parameters}. As the number of draws/samples gets large we can approximate these quantities arbitrarily high precision.
+
+\end{frame}
+
+
+\begin{frame}
+\chap{The ``plug-in principle''}
+
+Using MC to perform these calculations (and to propagate the uncertainty) rests on the idea of the plug-in principle:\\
+\begin{center}
+{\bl A summary statistic or other feature of a distribution \\ (e.g. expected value) can be approximated by the same summary/feature of an {\it empirical sample} from that distribution (e.g., sample mean).}\\
+\end{center}
+
+The approximation becomes more accurate if the number of samples is very large.
+\sk
+
+\end{frame}
+
+
+\begin{frame}
+\nochap
+
+{\fb \bf Example:} Numerical 92\% CI of a normal distribution with mean $\mu$ and variance $\sigma^2$. 
+
+\sk
+Imagine we want to find, for some unknown reason, the central 92\% CI for a normal distribution.  How can we calculate this without using a look-up table, or similar function?
+
+\sk
+If we are able to generate samples from the desired distribution (which we'll take as given for now), we can use MC and the plug-in principle as follows
+
+{\scriptsize
+\begin{enumerate}
+\item Generate many samples from the target distribution (say $N=2000$, to get good estimates).  
+\item Find the $\alpha/2$ and $1-\alpha/2$ empirical quantiles (here 4\% and 96\%). For example these can be approximated by the $N \times \left( \frac{\alpha}{2} , 1-\frac{\alpha}{2} \right)$ order statistics.
+\item You're done.
+\end{enumerate}
+}
+
+\end{frame}
+
+
+
+\begin{frame}
+\chap{Markov Chain MC (MCMC)}
+
+The most commonly used numerical algorithm for generating posterior samples is MCMC. \\
+
+\sk
+A {\bl Markov Chain} is a randomly generated sequence of numbers where each draw depends on the one immediately preceding it $\rightarrow$ random walk.
+
+
+\begin{center}
+\hspace{2.75cm} \includegraphics[scale=0.375,trim=30 80 0 70]{MCMC}
+\end{center}
+
+\vfill
+\hfill {\tiny Plot -- Ian Murray (http://mlg.eng.cam.ac.uk/zoubin/tut06/mcmc.pdf)} 
+\end{frame}
+
+\begin{frame}
+\chap{Gibbs Sampling}
+
+One specific algorithm that is commonly used is {\bl Gibbs Sampling}. \\
+
+\sk
+Gibbs sampling leverages the {\em conditional} distributions of parameters to generate samples by proposing them one at a time. This is the algorithm implemented in the popular Bayesian packages {\sf BUGS}, {\sf WinBUGS}, and {\sf JAGS}/{\tt rjags}. 
+
+\sk 
+We will treat Gibbs sampling and other of the numerical methods as mostly ``black boxes''. We'll learn to diagnose output from these later on in the practical component.
+
+
+\end{frame}
+
+
+\begin{frame}
+\chap{What do we do with Posterior Samples?}
+
+We can treat the draws much like we would data:
+\begin{itemize}
+\item Calculate posterior summaries (mean, median, mode, etc) just like we would a data sample
+\item Calculate precision of the summaries (e.g., sample variance)
+\item CIs via quantiles (order statistics of the data) or HPD intervals (using {\tt CODA} package in R)
+\end{itemize}
+
+If the samples are parameters in a complex model, we can plug them all in, one at a time to get a range of possible predictions from the model (we'll see this in the practical bit, later on). 
+
+\end{frame}
+
+\begin{frame}
+\chap{How do we compare models?}
+
+The simplest way that we will use to compare models is via the {\bl Deviance Information Criterion} (DIC). Like AIC and BIC, DIC seeks to judge a model on how well it fits, penalized by the complexity of the model.
+\begin{align*}
+DIC = D(\bar{\theta}) + 2p_D
+\end{align*}
+where:
+\begin{itemize}
+\item Deviance: $D(\theta)=-2\log(\mathcal{L}(\theta; y)) + C$
+\item Penalty: $p_D = \bar{D} -D(\bar{\theta})$
+\item $D(\bar{\theta})$: deviance at the posterior mean of $\theta$
+\item $\bar{D}$: average deviance across the posterior samples.
+\end{itemize}
+{\rd $\rightarrow$ Already implemented in JAGS!}
+\end{frame}
+
+
+\end{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\iffalse
+\begin{frame}
+\begin{enumerate}
+
+
+
+
+
+\item[4. ] {\bf Posterior:}
+First we need to decide on an appropriate  {\bl prior} for $\rho.$ To look at the domain of $\rho$ we recall that 
+\begin{equation*}
+\rho = \pr(Y_i = 1),\Rightarrow \rho \in [0, 1] 
+\end{equation*}
+Hence, either a {\bl Beta} or a {\bl Uniform} distribution can be a prior for $\rho.$ Say we chose $\text{Beta}(a,b)$ with $a$ and $b$ specified as $a=b=1$ or $a=1,b=3$. Thus,
+
+$$ f(\rho) = \text{Beta}(a,b).$$
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\begin{enumerate}
+
+\item[4. ] {\bf Posterior: continued} 
+
+Next, we need to derive the likelihood. We have $Y_i|\rho   \stackrel{iid}{\sim} f(Y|\rho) = \text{Bern}(\rho),$ where $Y_i|\rho$ are assumed to be {\bl conditionally} independent and identically distributed, thus the likelihood is given by
+
+\begin{align*}
+f(\tilde{Y}|\rho) &= f(Y_1, Y_2, \cdots Y_5|\rho)\\
+& \stackrel{iid}{=}  f(Y_1|\rho) f(Y_2|\rho)  \cdots f(Y_5|\rho)\\
+& = \prod_{i=1}^{n=5} f(Y_i|\rho).
+\end{align*}
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+\begin{enumerate}
+
+\item[4. ] {\bf Posterior: continued} 
+
+Now we can use {\bl Bayes} formula to calculate the posterior distribution as follows
+\begin{align*}
+f(\rho|\tilde{Y}) &\propto \prod_{i=1}^{n=5} f(Y_i|\rho) f(\rho)\\
+&\propto  \prod_{i=1}^{n=5} \text{Bern}(Y_i|\rho)\text{Beta}(a,b)\\
+&\propto  \prod_{i=1}^{n=5} \rho^{Y_i} (1- \rho)^{n-Y_i} \dfrac{\Gamma (a+b)}{\Gamma (a)\Gamma (b)} \rho^{a-1} (1-\rho)^{b-1}
+\end{align*}
+
+Does this look like a known distribution? What do we do?
+
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+\begin{enumerate}
+
+\item[4. ] {\bf Posterior: continued} 
+
+We play the game {\bl name that distribution}
+\begin{enumerate}
+\item[a.] Simplify the best you can
+\item[b.] $\ast$ , $\div$ by constants
+\item[c.] Remember what is the RV in the expression
+\item[d.] Look for {\bl Kernels} of known distributions
+\end{enumerate}
+\sk
+{\rd Definition:} The {\bl Kernel} of a probability density function (or mass function) are all components which include the random variable. 
+
+eg: Let $Y_i \sim \textbf{N}(\mu, \sigma^2),$ with random variable $\mu$
+
+$$ f(Y_i) = \underbrace{\dfrac{1}{\sqrt{2\pi \sigma^2}}}_{constant} \underbrace{e^{-\dfrac{1}{2\sigma^2}(Y_i - \mu)^2}}_{Kernel}$$ 
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+\begin{enumerate}
+
+\item[4. ] {\bf Posterior: continued} 
+
+Back to our example: 
+\begin{align*}
+f(\rho|\tilde{Y}) &\propto  \prod_{i=1}^{n=5} \rho^{Y_i} (1- \rho)^{n-Y_i} \dfrac{\Gamma (a+b)}{\Gamma (a)\Gamma (b)} \rho^{a-1} (1-\rho)^{b-1}\\
+&\propto \rho^{\sum Y_i} (1- \rho)^{n-\sum Y_i} \dfrac{\Gamma (a+b)}{\Gamma (a)\Gamma (b)} \rho^{a-1} (1-\rho)^{b-1}\\
+&\propto \rho^{\sum Y_i +a -1} (1- \rho)^{n-\sum Y_i +b -1} \\
+&\propto \textbf{Beta} \left(\underbrace{\sum Y_i +a}_{a^*}, \underbrace{n-\sum Y_i +b}_{b^*}\right),
+\end{align*}
+where
+$ \textbf{Beta}(a^*, b^*) = \dfrac{\Gamma (a^*+b^*)}{\Gamma (a^*)\Gamma (b^*)} \rho^{a^*-1} (1-\rho)^{b^*-1}.$
+
+{\rd Now what do we do with this posterior?}
+
+\end{enumerate}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\begin{enumerate}
+
+\item[5.] {\bf Make inference:} We summarize the posterior to make inference using the following statistics
+\begin{enumerate}
+\item[a.] Expectation $\text{E}(\rho|\tilde{Y})$% = \dfrac{a^*}{a^* +b^*} = 0.25$
+\item[b.] Maximum A Posteriori (MAP) $\text(Mode) (f(\rho|\tilde{Y})$% = = \dfrac{a^* -1}{a^* +b^* -2} = 0.2$
+\item[c.] Variance $\text{Var}(\rho|\tilde{Y} )$%= (.12)^2$
+\item[d.] Calculate $\pr(\rho<.5|\tilde{Y}) $%= .96$
+\item[e.] Q Credible Interval $\pr(\rho \in [L, U] |\tilde{Y}) = Q,$ with $L = \dfrac{1-Q}{2},$ and $U = \dfrac{1-Q}{2} +Q$
+\item[f.] Q Highest Posterior Density Interval (HPDI) $\pr(\rho \in [L, U] |\tilde{Y}) = Q,$ where $L$ and $U$ are chosen so that $U-L$ is the shortest
+\end{enumerate}
+ \end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+\begin{enumerate}
+
+\item[5.] {\bf Inference Statements} 
+
+{\bf For a, b, c:} Given the data, we predict that the probability that the cancer drug is effective is $\text{E}(\rho|\tilde{Y})$ or  $\text{MAP}(\rho|\tilde{Y})$ with variance $\text{Var}(\rho|\tilde{Y})$. \\
+
+{\bf For d:} Given the data, we infer the prob of the cancer drug being effective is low because $\pr(\rho<.5|\tilde{Y}) = .96$ or high because $\pr(\rho<.5|\tilde{Y}) = .2$\\
+
+{\bf For e, f:} Given the data, the probability that $\rho \in [L, U]$ is Q. \\
+
+{\rd \bf Note:} {\bf QCI} Describes the behavior of the {\bl  tail} of the posterior distribution and { \bf HPDI} Describes where the {\bl mean} of the posterior distribution is.\\
+
+
+\end{enumerate}
+\end{frame}
+
+\fi
+
