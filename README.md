@@ -1,6 +1,4 @@
-# The VectorBiTE 2019 Training Workshop <!-- omit in toc --> 
-
-<img src="notebooks/graphics/VB_logo.jpg" alt="VBiTE Logo" width="75">
+# The <img src="notebooks/graphics/VB_logo.jpg" alt="VBiTE Logo" width="75"> 2019 Training Workshop <!-- omit in toc --> 
 
 ## Contents <!-- omit in toc --> 
 
@@ -11,6 +9,9 @@
 - [Pre-work / preparation](#pre-work--preparation)
 
 ---
+
+Welcome to the 2019 edition of the [VectorBiTE RCN](http://vectorbite.org/)'s Training workshops!
+
 ## Schedule
 
 *Training Team*: Leah Johnson (LJ); Samraat Pawar (SP): Marta Shocket (MS); Francis Windram (FW);  Matthew Watts (MW)); Deraj Wilson-Aggarwal (DW)
@@ -54,7 +55,7 @@ All the teaching materials, including the lectures, jupyter notebooks, code, and
 
 Please bring a laptop. We will be using `R` for all data manipulation and analyses/model fitting. Any operating system (Windows, Mac, Linux) will do, as long as you have `R` (version 3.2 or higher) installed. 
 
-You may use any IDE/ [GUI](https://en.wikipedia.org/wiki/Graphical_user_interface) for `R` (VScode, RStudio, Emacs, etc). For most people, [RStudio](https://www.rstudio.com/) is a good option . Whichever one you decide to use, please make sure it is installed and test it before the workshop. We have budgeted 30 min at the start of Day 1 in case there are any hardware/software issues.
+You may use any IDE/ [GUI](https://en.wikipedia.org/wiki/Graphical_user_interface) for `R` (VScode, RStudio, Emacs, etc). For most people, [RStudio](https://www.rstudio.com/) is a good option. Whichever one you decide to use, please make sure it is installed and test it before the workshop. We have budgeted 30 min at the start of Day 1 in case there are any hardware/software issues.
 
 ### Workshop content
 
