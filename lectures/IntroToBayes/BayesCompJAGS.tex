@@ -277,7 +277,46 @@ where:
 \end{frame}
 
 
+\begin{frame}
+\chap{Bayesian using JAGS}
+
+JAGS implements a version of Gibbs sampling in a fairly easy to use package. \\
+
+\bigskip
+
+That is, once you specify the appropriate {\bl \it sampling distribution/likelihood} and any {\rd \it priors} for the parameters, it will sequentially use MC to obtain samples from the posterior in the right ratios so that we can calculate whatever we want.
+
+
+\end{frame}
+
+
+\begin{frame}
+\chap{Specifying models in JAGS}
+
+The trickiest and most important part of each analysis is properly specifying the model for all of the data that you want to fit. Before you begin to code, you need to decide:
+\begin{itemize}
+\item What is the relationship between your predictors and your response?
+\item What kind of probability distribution should you use to describe your response variable?
+\item Are there any constraints on your parameters or responses that you need to encode in your prior or likelihood, respectively?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\chap{Example: Midge data?}
+
+
+NOTE: Your loop(s) need to go over every data point that you want use in the inference process!
+
+\end{frame}
+
+
+
+
 \end{document}
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
