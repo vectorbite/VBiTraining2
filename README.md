@@ -14,36 +14,39 @@ Welcome to the 2019 edition of the [VectorBiTE RCN](http://vectorbite.org/)'s Tr
 
 ## Schedule
 
-*Training Team*: Leah Johnson (LJ); Samraat Pawar (SP): Marta Shocket (MS); Francis Windram (FW);  Matthew Watts (MW)); Deraj Wilson-Aggarwal (DW)
+*Training Team*: Leah Johnson (LJ); Samraat Pawar (SP): Marta Shocket (MS); Zachary Gajewski (ZG); Francis Windram (FW);  Matthew Watts (MW)); Deraj Wilson-Aggarwal (DW)
 
 | Date                 | Time          | Topic                                      | Lead Instructor |
-|:-------------------- | ------------- |:------------------------------------------ | --------------- |
-| Monday, 17th June    | 08:30 - 09:00 | General Intro and Setting up               | SP              |
-|                      | 09:00 - 10:30 | Workshop: Handling Data, and Visualization in R       | SP+FW      |
+|:-------------------- | ------------- |:------------------------------------------ | ------ |
+| Monday, 17th June    | 08:30 - 09:00 | General Intro (Including to Open Challenge) and Setting up       | SP              |
+|                      | 09:00 - 10:30 | Workshop: Data and Visualization in R       | SP+FW      |
 |                      | 10:30 - 11:00 | *Break*                                    | --              |
-|                      | 11:00 - 12:00 | Lecture: Intro to Model Fitting            | SP              |
+|                      | 11:00 - 12:00 | Lecture: Model Fitting (General + Linear/Non-linear)       | SP + LJ              |
 |                      | 12:00 - 13:00 | *Lunch*                                    | --              |
-|                      | 13:00 - 15:00 | Workshop: Linear and Non-Linear Least Squares (NLLS) Model Fitting| SP+DW+FW  |
-|                      | 15:00 - 15:30 | *Break*                                    | --              |
-|                      | 15:30 - 16:30 | Workshop: Model Selection     | SP+DW+FW  |
-|                      | 16:30 - 17:00 | Intro to Traits (VecTraits)) / Abundances (VecDyn) Challenge     | SP+DW+FW  |
-| Tuesday, 18th June   | 08:30 - 10:00 | Traits (VecTraits)) / Abundances (VecDyn) Challenge       | All             |
-|                      | 10:30 - 11:00 | Traits/Abundances Challenge Discussion           | --              |
-|                      | 10:30 - 11:00 | *Break*                                    | --              |
-|                      | 11:00 - 12:00 | Workshop: Maximum-Likelihood Model Fitting | LJ+MS |
-|                      | 12:00 - 13:00 | *Lunch* (Start forming groups for Day 3 challenge)        | --              |
-|                      | 13:00 - 14:00 | Workshop: Maximum-Likelihood Model Fitting | LJ + MS          |
-|                      | 14:00 - 15:00 | Lecture: Bayesian Model Fitting         | LJ              |
-|                      | 15:00 - 15:30 | *Break*                                    | --              |
-|                      | 15:30 - 17:00 | Workshop: Bayesian Model Fitting       | LJ+MS         |
+|                      | 13:00 - 14:00 | Workshop: Model Fitting (General + Linear/Non-linear) | SP+DW+ZG+FW  |
+|                      | 14:00 - 15:00 | Workshop: Model Selection | SP+DW+ZG+FW  |
+|                      | 15:00 - 15:30 | *Break*                                   | --              |
+|                      | 15:30 - 16:30 | Lecture: Analyses of Abundance Data | SP + LJ    |
+|                      | 16:30 - 17:00 | Challenge: Abundances (Intro)      | SP  |
+| Tuesday, 18th June   | 08:30 - 09:00 | Q & A       | All             |
+|                      | 09:00 - 10:30 | Challenge: Abundances (Hackathon)      | All             |
+|                      | 10:30 - 11:00 | *Break*                               | --              |
+|                      | 11:00 - 12:00 | Challenge: Abundances (Hackathon) | All   |
+|                      | 12:00 - 13:00 | *Lunch* (Start forming concrete hackathon teams)        | --              |
+|                      | 13:00 - 14:00 |  Lecture: Likelihoods and Bayesian Models | LJ          |
+|                      | 14:00 - 15:00 | Workshop: Bayesian Model Fitting          | LJ           |
+|                      | 15:00 - 15:30 | *Break*                             | --              |
+|                      | 15:30 - 16:00 | Workshop: Bayesian Model Fitting       | LJ+MS         |
+|                      | 16:30 - 17:00 | Challenge: Traits  (Intro)       | All         |
 | Wednesday, 19th June | 08:30 - 09:00 | Q & A                                      | All             |
-|                      | 09:00 - 10:30 | Workshop: Bayesian Model Fitting            | LJ+MS      |
+|                      | 09:00 - 10:30 | Challenge: Traits  (Hackathon)            | All |
 |                      | 10:30 - 11:00 | *Break*                                    | --              |
-|                      | 11:00 - 12:00 | Coding Practices (Coding reproducible analyses)      | FW+SP+DW             |
-|                      | 12:00 - 13:00 | *Lunch* (Discuss your group Hackathon project/plan!)  | --              |
-|                      | 13:00 - 15:00 | Package Design / Model Fitting Hackathon | FW+DW+MS+MW          |
+|                      | 11:00 - 12:00 | Challenge: Traits  (Hackathon)      |              |
+|                      | 12:00 - 13:00 | *Lunch* (Discuss your Open Challenge project/plan!)  | --              |
+|                      | 13:00 - 13:30 | Coding Practices + Intro to Open Challenge | FW+SP          |
+|                      | 14:00 - 15:00 | Open Challenge Hackathon | FW+DW+MS+MW          |
 |                      | 15:00 - 15:30 | *Break*                                    |    --             |
-|                      | 15:30 - 17:00| Package Design / Model Fitting Hackathon*|  FW+DW+MS+MW          |
+|                      | 15:30 - 17:00| Open Challenge Hackathon*|  FW+DW+MS+MW          |
 
 *Presentation the next day - see [main workshop schedule](./VBiTE2019InfoPack.pdf).
 
