@@ -45,7 +45,7 @@ Welcome to the 2019 edition of the [VectorBiTE RCN](http://vectorbite.org/)'s Tr
 |                      | 15:00 - 15:30 | *Break*                                    |    --             |
 |                      | 15:30 - 17:00| Package Design / Model Fitting Hackathon*|  FW+DW+MS+MW          |
 
-*Presentation the next day - see main workshop schedule
+*Presentation the next day - see [main workshop schedule](./VBiTE2019InfoPack.pdf).
 
 All the teaching materials, including the lectures, jupyter notebooks, code, and data are at [this git repository](https://github.com/vectorbite/VBiTraining2).
 
