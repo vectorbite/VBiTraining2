@@ -21,29 +21,29 @@ The Workshop will consist of lectures, practicals (where you will be guided) and
 | Date                 | Time          | Topic                                      | Lead Instructor |
 |:-------------------- | ------------- |:------------------------------------------ | ------ |
 | Monday, 17th June    | 08:30 - 09:00 | General Intro (Including to Open Challenge) and Setting up       | SP              |
-|                      | 09:00 - 10:30 | Practicals: Data and Visualization in R + Coding Practices      | SP+FW      |
+|                      | 09:00 - 10:30 | *Practicals*: [Data and Coding](https://nbviewer.jupyter.org/github/mhasoba/TheMulQuaBio/blob/master/notebooks/07-R.ipynb) in R   | SP+FW      |
 |                      | 10:30 - 11:30 | *Break*                                    | --              |
-|                      | 11:00 - 12:00 | Lecture: Model Fitting (General + Linear/Non-linear)     | SP              |
+|                      | 11:00 - 12:00 | *Lecture*: Model Fitting ([General](./lectures/ModelFitting/) + [Linear/Non-linear](./lectures/NLLS/))     | SP              |
 |                      | 12:00 - 13:00 | *Lunch*                                    | --              |
-|                      | 13:00 - 15:00 | Practicals: Model Fitting (General + Linear/Non-linear)  +   Selection | SP+DW+ZG+FW  |
+|                      | 13:00 - 15:00 | *Practicals*: [Model Fitting  +   Selection](./notebooks/ModelFitting.ipynb) | SP+DW+ZG+FW  |
 |                      | 15:00 - 15:30 | *Break*                                   | --              |
-|                      | 15:30 - 16:30 | Lecture: Analyses of Abundance (incl. Time Series) Data | SP + LJ    |
-|                      | 16:30 - 17:00 | Practicals: Analyses of Abundance Data      | SP  |
+|                      | 15:30 - 16:30 | *Lecture*: Analyses of Abundance (incl. Time Series) Data | SP + LJ    |
+|                      | 16:30 - 17:00 | *Practicals*: Analyses of Abundance Data      | SP  |
 | Tuesday, 18th June   | 08:30 - 09:00 | Q & A       | All             |
-|                      | 09:00 - 10:30 | Practicals: Analyses of Abundance (incl. Time Series) Data      | All             |
+|                      | 09:00 - 10:30 | *Practicals*: Analyses of Abundance (incl. Time Series) Data      | All             |
 |                      | 10:30 - 11:00 | *Break*                               | --              |
-|                      | 11:00 - 12:00 | Lecture: Likelihoods and Bayesian Models | LJ   |
+|                      | 11:00 - 12:00 | *Lecture*: Likelihoods and Bayesian Models | LJ   |
 |                      | 12:00 - 13:00 | *Lunch* (Start forming concrete hackathon teams)        | --              |
-|                      | 13:00  - 15:00 | Practicals: Bayesian Model Fitting          | LJ+MS+ZG           |
+|                      | 13:00  - 15:00 | *Practicals*: Bayesian Model Fitting          | LJ+MS+ZG           |
 |                      | 15:00 - 15:30 | *Break*                             | --              |
-|                      | 15:30 - 16:00 | Practicals: Bayesian Model Fitting       | LJ+MS+ZG         |
-|                      | 16:30 - 17:00 | Challenge: Traits/Abundances  (Intro)       | All         |
+|                      | 15:30 - 16:00 | *Practicals*: Bayesian Model Fitting       | LJ+MS+ZG         |
+|                      | 16:30 - 17:00 | *Challenge*: Traits/Abundances  (Intro)       | All         |
 | Wednesday, 19th June | 08:30 - 09:00 | Q & A                                      | All             |
-|                      | 09:00 - 10:30 | Challenge: Traits/Abundances  (Hackathon)            | All |
+|                      | 09:00 - 10:30 | *Challenge*: Traits/Abundances  (Hackathon)            | All |
 |                      | 10:30 - 11:00 | *Break*                                    | --              |
-|                      | 11:00 - 12:00 | Challenge: Traits/Abundances  (Hackathon)      |              |
+|                      | 11:00 - 12:00 | *Challenge*: Traits/Abundances  (Hackathon)      |              |
 |                      | 12:00 - 13:00 | *Lunch* (Discuss your Open Challenge project/plan!)  | --              |
-|                      | 13:00 - 13:30 | Challenge: Traits/Abundances  (Review; Q&A) | SP + LJ          |
+|                      | 13:00 - 13:30 | *Challenge*: Traits/Abundances  (Review; Q&A) | SP + LJ          |
 |                      | 14:00 - 15:00 | Open Challenge (Hackathon) | FW+DW+MS+MW+ZG          |
 |                      | 15:00 - 15:30 | *Break*                                    |    --             |
 |                      | 15:30 - 17:00| Open Challenge (Hackathon*)|  FW+DW+MS+MW+ZG          |
