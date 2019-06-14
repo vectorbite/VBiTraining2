@@ -20,24 +20,24 @@ The Workshop will consist of lectures, practicals (where you will be guided) and
 
 | Date                 | Time          | Topic                                      | Lead Instructor |
 |:-------------------- | ------------- |:------------------------------------------ | ------ |
-| Monday, 17th June    | 08:30 - 09:00 | General Intro (Including to Open Challenge) and Setting up       | SP              |
-|                      | 09:00 - 10:30 | *Practicals*: [Data, Coding](https://nbviewer.jupyter.org/github/mhasoba/TheMulQuaBio/blob/master/notebooks/07-R.ipynb) and [Packages](./notebooks/Packages.ipynb) in R   | SP+FW      |
+| Monday, 17th June    | 08:30 - 09:00 | General Intro (Including to Open Challenge) and [Setting up](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/Intro.ipynb)       | SP              |
+|                      | 09:00 - 10:30 | *Practicals*: [Data, Coding](https://nbviewer.jupyter.org/github/mhasoba/TheMulQuaBio/blob/master/notebooks/07-R.ipynb) and [Packages](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/tree/master/notebooks/Packages.ipynb) in R   | SP+FW      |
 |                      | 10:30 - 11:30 | *Break*                                    | --              |
-|                      | 11:00 - 12:00 | *Lecture*: Model Fitting ([General](./lectures/ModelFitting/) + [Linear/Non-linear](./lectures/NLLS/))     | SP              |
+|                      | 11:00 - 12:00 | *Lecture*: Model Fitting ([General](https://github.com/vectorbite/VBiTraining2/blob/master/lectures/ModelFitting/)) + [Linear/Non-linear](https://github.com/vectorbite/VBiTraining2/blob/master/lectures/NLLS/))     | SP              |
 |                      | 12:00 - 13:00 | *Lunch*                                    | --              |
-|                      | 13:00 - 15:00 | *Practicals*: [Model Fitting  +   Selection](./notebooks/ModelFitting.ipynb) | SP+DW+ZG+FW  |
+|                      | 13:00 - 15:00 | *Practicals*: [Model Fitting & Selection](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb) | SP+DW+ZG+FW  |
 |                      | 15:00 - 15:30 | *Break*                                   | --              |
-|                      | 15:30 - 16:30 | *Lecture*: [Analyses of Abundance (incl. Time Series) Data](./lectures/TimeSeries/) | SP + LJ    |
-|                      | 16:30 - 17:00 | *Practicals*: [Analyses of Abundance Data](./notebooks/ModelFitting.ipynb)      | All |
+|                      | 15:30 - 16:30 | *Lecture*: [Analyses of Abundance (incl. Time Series) Data](https://github.com/vectorbite/VBiTraining2/blob/master/lectures/TimeSeries/) | SP + LJ    |
+|                      | 16:30 - 17:00 | *Practicals*: [Analyses of Abundance Data](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)      | All |
 | Tuesday, 18th June   | 08:30 - 09:00 | Q & A       | All             |
-|                      | 09:00 - 10:30 | *Practicals*: [Analyses of Abundance Data](./notebooks/ModelFitting.ipynb)      | All             |
+|                      | 09:00 - 10:30 | *Practicals*: [Analyses of Abundance Data](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)      | All             |
 |                      | 10:30 - 11:00 | *Break*                               | --              |
-|                      | 11:00 - 12:00 | *Lecture+Practical*: [Likelihoods](./notebooks/ModelFitting.ipynb) | LJ   |
+|                      | 11:00 - 12:00 | *Lecture+Practical*: [Likelihoods](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb) | LJ   |
 |                      | 12:00 - 13:00 | *Lunch* (Start forming final hackathon teams)        | --              |
-|                      | 13:00  - 14:00 | *Lecture*: [Bayesian Model Fitting](./lectures/IntroToBayes/)          | LJ           |
-|                      | 14:00  - 15:00 | *Practicals*: [Bayesian Model Fitting](./notebooks/ModelFitting.ipynb)          | LJ+MS+ZG           |
+|                      | 13:00  - 14:00 | *Lecture*: [Bayesian Model Fitting](https://github.com/vectorbite/VBiTraining2/blob/master/lectures/IntroToBayes/)          | LJ           |
+|                      | 14:00  - 15:00 | *Practicals*: [Bayesian Model Fitting](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)          | LJ+MS+ZG           |
 |                      | 15:00 - 15:30 | *Break*                             | --              |
-|                      | 15:30 - 16:30 | *Practicals*: [Bayesian Model Fitting](./notebooks/ModelFitting.ipynb)       | LJ+MS+ZG         |
+|                      | 15:30 - 16:30 | *Practicals*: [Bayesian Model Fitting](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)       | LJ+MS+ZG         |
 |                      | 16:30 - 17:00 | *Challenge*: [Traits/Abundances]()  (Intro)       | All         |
 | Wednesday, 19th June | 08:30 - 09:00 | Q & A                                      | All             |
 |                      | 09:00 - 10:30 | *Challenge*: [Traits/Abundances]()  (Hackathon)            | All |
