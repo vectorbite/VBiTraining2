@@ -21,7 +21,7 @@ The Workshop will consist of lectures, practicals (where you will be guided) and
 | Date                 | Time          | Topic                                      | Lead Instructor |
 |:-------------------- | ------------- |:------------------------------------------ | ------ |
 | Monday, 17th June    | 08:30 - 09:00 | General Intro (Including to Open Challenge) and Setting up       | SP              |
-|                      | 09:00 - 10:30 | *Practicals*: [Data and Coding](https://nbviewer.jupyter.org/github/mhasoba/TheMulQuaBio/blob/master/notebooks/07-R.ipynb) in R   | SP+FW      |
+|                      | 09:00 - 10:30 | *Practicals*: [Data, Coding](https://nbviewer.jupyter.org/github/mhasoba/TheMulQuaBio/blob/master/notebooks/07-R.ipynb) and [Packages](./notebooks/Packages.ipynb) in R   | SP+FW      |
 |                      | 10:30 - 11:30 | *Break*                                    | --              |
 |                      | 11:00 - 12:00 | *Lecture*: Model Fitting ([General](./lectures/ModelFitting/) + [Linear/Non-linear](./lectures/NLLS/))     | SP              |
 |                      | 12:00 - 13:00 | *Lunch*                                    | --              |
@@ -32,11 +32,12 @@ The Workshop will consist of lectures, practicals (where you will be guided) and
 | Tuesday, 18th June   | 08:30 - 09:00 | Q & A       | All             |
 |                      | 09:00 - 10:30 | *Practicals*: [Analyses of Abundance Data](./notebooks/ModelFitting.ipynb)      | All             |
 |                      | 10:30 - 11:00 | *Break*                               | --              |
-|                      | 11:00 - 12:00 | *Lecture*: [Likelihoods and Bayesian Models](./lectures/IntroToBayes/) | LJ   |
-|                      | 12:00 - 13:00 | *Lunch* (Start forming concrete hackathon teams)        | --              |
-|                      | 13:00  - 15:00 | *Practicals*: [Bayesian Model Fitting](./notebooks/ModelFitting.ipynb)          | LJ+MS+ZG           |
+|                      | 11:00 - 12:00 | *Lecture+Practical*: [Likelihoods](./notebooks/ModelFitting.ipynb) | LJ   |
+|                      | 12:00 - 13:00 | *Lunch* (Start forming final hackathon teams)        | --              |
+|                      | 13:00  - 14:00 | *Lecture*: [Bayesian Model Fitting](./lectures/IntroToBayes/)          | LJ           |
+|                      | 14:00  - 15:00 | *Practicals*: [Bayesian Model Fitting](./notebooks/ModelFitting.ipynb)          | LJ+MS+ZG           |
 |                      | 15:00 - 15:30 | *Break*                             | --              |
-|                      | 15:30 - 16:00 | *Practicals*: [Bayesian Model Fitting](./notebooks/ModelFitting.ipynb)       | LJ+MS+ZG         |
+|                      | 15:30 - 16:30 | *Practicals*: [Bayesian Model Fitting](./notebooks/ModelFitting.ipynb)       | LJ+MS+ZG         |
 |                      | 16:30 - 17:00 | *Challenge*: [Traits/Abundances]()  (Intro)       | All         |
 | Wednesday, 19th June | 08:30 - 09:00 | Q & A                                      | All             |
 |                      | 09:00 - 10:30 | *Challenge*: [Traits/Abundances]()  (Hackathon)            | All |
