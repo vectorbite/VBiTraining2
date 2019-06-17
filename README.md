@@ -28,7 +28,7 @@ The Workshop will consist of lectures, practicals (where you will be guided) and
 |                      | 13:00 - 15:00 | *Practicals*: [Model Fitting & Selection](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb) | SP+DW+ZG+FW  |
 |                      | 15:00 - 15:30 | *Break*                                   | --              |
 |                      | 15:30 - 16:30 | *Lecture*: [Analyses of Abundance (incl. Time Series) Data](https://github.com/vectorbite/VBiTraining2/blob/master/lectures/TimeSeries/) | SP + LJ    |
-|                      | 16:30 - 17:00 | *Practicals*: [Analyses of Abundance Data](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)      | All |
+|                      | 16:30 - 17:00 | *Practicals*: [Analyses of Abundance Data](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/TimeSeries.ipynb)      | All |
 | Tuesday, 18th June   | 08:30 - 09:00 | Q & A       | All             |
 |                      | 09:00 - 10:30 | *Practicals*: [Analyses of Abundance Data](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)      | All             |
 |                      | 10:30 - 11:00 | *Break*                               | --              |
@@ -38,15 +38,16 @@ The Workshop will consist of lectures, practicals (where you will be guided) and
 |                      | 14:00  - 15:00 | *Practicals*: [Bayesian Model Fitting](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)          | LJ+MS+ZG           |
 |                      | 15:00 - 15:30 | *Break*                             | --              |
 |                      | 15:30 - 16:30 | *Practicals*: [Bayesian Model Fitting](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)       | LJ+MS+ZG         |
-|                      | 16:30 - 17:00 | *Challenge*: [Traits/Abundances]()  (Intro)       | All         |
+|                      | 16:30 - 17:00 | *Challenge*: [Traits/Abundances](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting_Challenges.ipynb)  (Intro)       | All         |
 | Wednesday, 19th June | 08:30 - 09:00 | Q & A                                      | All             |
-|                      | 09:00 - 10:30 | *Challenge*: [Traits/Abundances]()  (Hackathon)            | All |
+|                      | 09:00 - 10:30 | *Challenge*: [Traits/Abundances](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting_Challenges.ipynb)  (Hackathon)            | All |
 |                      | 10:30 - 11:00 | *Break*                                    | --              |
-|                      | 11:00 - 12:00 | *Challenge*: [Traits/Abundances]()  (Hackathon)      |              |
+|                      | 11:00 - 12:00 | *Challenge*: [Traits/Abundances](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting_Challenges.ipynb)  (Hackathon)      |              |
 |                      | 12:00 - 13:00 | *Lunch* (Discuss your Open Challenge project/plan!)  | --              |
 |                      | 13:00 - 13:30 | *Challenge*: Traits/Abundances  (Review; Q&A) | SP + LJ          |
-|                      | 14:00 - 15:00 | [Open Challenge]() (Hackathon) | FW+DW+MS+MW+ZG          |
+|                      | 14:00 - 15:00 | [Open Challenge](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting_Challenges.ipynb) (Hackathon) | FW+DW+MS+MW+ZG          |
 |                      | 15:00 - 15:30 | *Break*                                    |    --             |
+|                      | 14:00 - 15:00 | [Open Challenge](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting_Challenges.ipynb) (Hackathon) | FW+DW+MS+MW+ZG          |
 |                      | 15:30 - 17:00| [Open Challenge]() (Hackathon*)|  FW+DW+MS+MW+ZG          |
 
 *Presentation the next day - see [main workshop schedule](./VBiTE2019InfoPack.pdf).

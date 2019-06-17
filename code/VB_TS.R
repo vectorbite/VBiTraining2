@@ -1,4 +1,4 @@
-## Code to accompany VectorBiTE 2018
+## Code to accompany VectorBiTE 2019
 ## Intro to Time Series lecture 
 ## Leah R Johnson, Stats, VT
 

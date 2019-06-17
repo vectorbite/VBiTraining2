@@ -109,7 +109,7 @@
 	\item Why Non-Linear Least Squares regression / fitting? 
 	\item The NLLS fitting method 
 	\item NLLS in {\tt R}
-	\item Afternoon practicals overview
+	\item Practicals overview
 \end{itemize}
 
 \end{frame}
@@ -159,16 +159,24 @@
 
 {\bf Recall what the Least Squares method does:}
 
-	\begin{itemize}[<+->] \itemsep10pt
+	\begin{itemize}[<+->] \itemsep8pt
 
-		\item Consider a predictor $x$, data $y$, $n$ observations, and a 
-		model that we want to fit to the data: \\
+		\item Consider a predictor $x$, data $y$, $n$ observations, and a model
+		that we want to fit to the data: \\
 		
 		$f(x_i,\boldsymbol\beta) + \varepsilon_i$ \\ 
 		
 		where $\boldsymbol\beta = (\beta_1, \beta_2, \ldots,\beta_k)$ are 
-		the model's $k$ parameters
-	
+		the model's $k$ parameters. 
+		
+		Examples of $f(x_i,\boldsymbol\beta) + \varepsilon_i$:
+		\begin{itemize}
+			\item $y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$
+			\item $y_i = \exp(\beta_0) + \beta_1 x_i + \beta_2 x_i^2 + \varepsilon_i$
+			\item $y_i = \beta_0 + \beta_1 x_i^{\beta_2} + \varepsilon_i$
+			\item $y_i = \beta_0 e^{\beta_2 x_i} + \varepsilon_i$
+		\end{itemize}
+
 		\item The objective is to find estimates of values of the $k$ 
 		parameters ($\hat{\beta_j}$) that minimize the sum ($S$) of squared 
 		residuals ($r_i$) (AKA RSS):
@@ -216,12 +224,17 @@
 				
 \end{columns}		
 
+\pause 
+\begin{itemize}
+\item The Ordinary Least Squares (Linear Regression) solution is {\it identical} to the Maximum Likelihood (MLE) solution. 	
+\end{itemize}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Intrinsic non-linearity does not allow a algebraic solution}
 
-\begin{itemize}[<+->]\itemsep10pt
+\begin{itemize}[<+->]\itemsep20pt
 
 	\item So, then, in an {intrinsically non-linear model} such as $y_i = 
 	\beta_0 e^{\beta_2 x_i} + \varepsilon_i$ the derivatives 
@@ -300,7 +313,7 @@ But we can use brute-force computation to find close-to-optimal least squares mi
 
 		\item Consumer-Resource (e.g., predator-prey) functional responses 
 		
-		\item Time-series data (e.g., fitting a sinusoidal function)
+		\item Many time-series data (e.g., fitting a sinusoidal function, or time series driven by logistic growth)
 			
 	\end{itemize}
 

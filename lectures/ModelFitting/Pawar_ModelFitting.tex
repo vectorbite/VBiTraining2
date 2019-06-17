@@ -61,29 +61,17 @@
 \setbeamertemplate{footline}
 {
   \leavevmode%
-  \hbox{%
-%   \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in 
-% head/foot}%
-%     \usebeamerfont{author in head/foot}\insertshortauthor
-%   \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=.93\paperwidth,ht=2.25ex,dp=1ex,left]{title in 
-head/foot}%
-    \usebeamerfont{title in head/foot}\insertshorttitle\hspace*{3em}
-  \end{beamercolorbox}}%
-  \begin{beamercolorbox}[wd=.07\paperwidth,ht=2.25ex,dp=1ex,center]{}
-     \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
-%       \insertframenumber{}
+  \hbox{
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.2ex,dp=1ex,center]{author in head/foot}
+    \usebeamerfont{author in head/foot}\insertshortauthor
   \end{beamercolorbox}
-
+  \begin{beamercolorbox}[wd=.8\paperwidth,ht=2.2ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle\hspace*{3em}
+  \end{beamercolorbox}}
+  \begin{beamercolorbox}[wd=.05\paperwidth,ht=2.2ex,dp=1ex,center]{}
+     \insertframenumber{} / \inserttotalframenumber\hspace*{-3ex}
+  \end{beamercolorbox}
 }
-% \setbeamercolor*{lower separation line head}{bg=DeepSkyBlue4} 
-% \setbeamercolor*{normal text}{fg=black,bg=white} 
-% \setbeamercolor*{alerted text}{fg=red} 
-% \setbeamercolor*{example text}{fg=black} 
-% \setbeamercolor*{structure}{fg=black}
-%  
-% \setbeamercolor*{palette tertiary}{fg=black,bg=black!10} 
-% \setbeamercolor*{palette quaternary}{fg=black,bg=black!10} 
 
 \renewcommand{\(}{\begin{columns}}
 \renewcommand{\)}{\end{columns}}
@@ -98,71 +86,138 @@ head/foot}%
 \newenvironment{aquote}[1]
   {\savebox\mybox{#1}\begin{quote}}
   {\signed{\usebox\mybox}\end{quote}}
-
-% \title{CMEE Masters Week 6: Python week II}
-\title{VectorBiTE Training: Model fitting}
-\author{Samraat Pawar}
-  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title[Model Fitting]{Fitting Models to Data in (VBD) Ecology and Evolution}
+\author [Samraat]{Samraat Pawar}
+\institute{{\it Department of Life Sciences (Silwood Park)}\\
+  \vspace{12pt}
+  \centering
+  \includegraphics[height = .3in]{graphics/Imperial_Color1.pdf}
+}  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[plain]
-
-% \title{Fitting Models to Data in Ecology and Evolution}
-\title{Fitting Models to Data in Vector-Borne Disease Systems}
-% \vspace{12pt}
-% \subtitle{CMEE Masters}
-\author{
-    Samraat Pawar\\
-    \vspace{20pt}
-  \centering
-%   \includegraphics[height = .3in]{Imperial_Color1.pdf}\\
-  \includegraphics[height = .5in]{../../notebooks/graphics/VB_logo.jpg}
-}
- 
 \titlepage
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Mechanisms in vector-borne disease dynamics?}
+% \title{Fitting Models to Data in Ecology and Evolution}
+% % \vspace{12pt}
+% % \subtitle{CMEE Masters}
+% \author{
+%     Samraat Pawar\\
+%     \vspace{20pt}
+%   \centering
+%   \includegraphics[height = .3in]{Imperial_Color1.pdf}\\
+% }
+ 
 
-\begin{center}
-	\includegraphics[width=.8\textwidth]{VecTraitOverview.png}	
-\end{center}
-
-\end{frame}
 	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Mechanistic vs. phenomenological models}
+\begin{frame}{Mechanistic vs. Phenomenological models}
 
-	\begin{itemize}\itemsep4pt
-		  \item Mechanistic models aim to explain the PROCESSES underlying 
-		  observed patterns
+	\begin{center}
+
+		\it What does ``modelling data'' mean to you?
+		
+	\end{center}
+
  
-		 \item Empirical or phenomenological models show relationships 
-		 between observed data (e.g. vector population size or disease incidence as a function of temperature or rainfall), but provide no insights into the processes/mechanisms that inter-link these data.
+ \end{frame}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Mechanistic vs. Phenomenological models}
+
+	\begin{itemize}[<+->]\itemsep20pt
+
+		\item {\it Mechanistic models} aim to explain the PROCESSES or
+		MECHANISMS underlying PATTERNS or PHENOMENA in empirical data 
+		\begin{itemize}
+			\item These models have a THEORETICAL BASIS
+		\end{itemize}
+ 
+		\item {\it Empirical/Phenomenological models} establish the existence of
+		STATISTICALLY SIGNIFICANT, NON-RANDOM PATTERNS or PHENOMENA in empirical
+		data 
+		\begin{itemize}
+			\item They make no assumptions about the processes or mechanisms that generate the patterns
+			\item That is, these models lack a THEORETICAL BASIS
+		\end{itemize}
+			
 	  \end{itemize}
  
- \pause
+ \end{frame}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Mechanistic vs. Phenomenological model fitting}
+
+\begin{center}
+		\includegraphics[width=.7\textwidth]{graphics/L-H_cycle.png}\\
+		{\it \tiny source: \url{https://www.cds.caltech.edu/~murray/amwiki/images/8/8f/LHgraph.gif}}
+\end{center}
+\pause
+\begin{itemize}[<+->] \itemsep6pt
+
+	\item {\bf Mechanistic model}: \it The Lynx-Hare Cycle is driven by density-dependent population growth in hares
+
+	\item {\bf Phenomenological model}: \it The Lynx and Hare Cycles have a significant asynchrony (period shift) of x years
+
+\end{itemize}
+
+ \end{frame}
+ 
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Mechanistic vs. Phenomenological model fitting}
+
+	\begin{itemize}[<+->]\itemsep10pt
+		\item {\it It's not really one vs. the other}; Both types of models play a role in science (and Biology)
+		\item Phenomenological model-fitting reveals patterns in data that generate HYPOTHESES 
+ 		\begin{itemize}
+			\item These can be tested using further model fitting
+			\item Example: {\it Whether} climatic temperature affects the Lynx-Hare cycle (using Generalized Linear Model-fitting)
+		\end{itemize} 
+
+		\item Mechanistic model-fitting {\it tries} to validate a mechanistic model that can explain the observed phenomenological pattern and generate MORE ACCURATE, MECHANISTIC HYPOTHESES
+		\begin{itemize}
+			\item Example: {\it How} climatic temperature {\it drives} the Lynx-Hare cycle
+		\end{itemize} 
+		\item \it Ultimately, successful, EMPIRICALLY-GROUNDED mechanistic models are the best path towards a THEORY in any scientific discipline (including ecology and evolution)  
+	  \end{itemize}
+ 
+ 
+ \end{frame}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Mechanistic vs. Phenomenological model fitting}
 	 
   \begin{center}
 	  \includegraphics[width=\textwidth]{Mechanisms.pdf}
   \end{center} 
  
  \end{frame}
- 
+
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Mechanisms in vector-borne disease dynamics?}
+\begin{frame}{Mechanistic models in Ecology and Evolution?}
 
 \begin{itemize}[<+->] \itemsep12pt
-	\item Ecological studies often focus on explaining phenomena 
-	using somewhat phenomenological models. 
+	\item \it Do most ecological studies perform phenomenological or mechanistic modelling (or model-fitting)?
 	
-	\item For example, disease invasions, outbreaks and spread: Why cycles? Why traveling waves? 
+	\item The answer is mostly Phenomenological \pause --- {\it Why?} \pause
+	\begin{itemize}
+		\item Partly because we are still establishing the existence of GENERAL PATTERNS/PHENOMENA,
+		\item  ... and partly because we are (or are forced to be) interested in FORECASTING rather than EXPLAINING. 
+ 
+	\end{itemize}	  
 	
-	\item What mechanisms operate? Vector-parasite interaction? Vector-environment interaction? 
+	\item {\it So the big question is, can we FORECAST WITHOUT EXPLAINING?}
+	
+	\begin{itemize}
+		\item For example, disease outbreaks: Do we really need to care about the underlying mechanisms if we can predict a future event using phenomenological modelling (e.g., Machine-learning of time series patterns)?
+		
+	\end{itemize}
 
 \end{itemize}
 
@@ -175,54 +230,54 @@ head/foot}%
 			\item Somewhat subjective! 
 			\item For example, the Ricker model can be thought of as 
 			mechanistic:
-			\begin{equation} 
+			$$ 
 				N_{t+1} = N_t e^{r\left(1-\frac{N_t}{k}\right)} 
-			\end{equation} 
+			$$ 
 				
-			\item What is the mechanism? --- Density dependence through scramble competition 
-			(Brannstrom \& Sumpter 2005)
+			\item What is the mechanism? \pause --- Density dependence through scramble competition (Brannstrom \& Sumpter 2005)
 
 			\item If the Ricker model and another model with contest 
-			competition were compared with data --- some would call it mechanistic 
-			modelling because one is trying to get at the underlying 
-			mechanism, scramble or contest competition
+			competition were compared with data --- some would call it mechanistic  modelling because one is trying to get at the underlying mechanism, scramble or contest competition
 			
 			\item But is this REALLY mechanistic? What are $r$ and $k$ really?
-	
-			\item Many (including yours truly!) now argue that we have not 
-			progressed far enough because the first level has been ignored!
    \end{itemize}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{An example of a fundamental mechanism: metabolism (Trait)}
-      
-\begin{columns}[c]
-  \column{2.1in}
+\begin{frame}{Example of a fundamental mechanism: metabolic rate}
+
+	\begin{itemize}
+		\item Proponents of {\it Metabolic Theory of Ecology} argue that we have not progressed far enough towards mechanistic modelling because metabolism has been ignored
+	\end{itemize}
+
+	\begin{columns}[c]
+  \column{.4\textwidth}
     \pause
       \includegraphics[width=\textwidth]{graphics/Photobacterium.pdf}
   \pause
-  \column{2.7in}
+  \column{.6\textwidth}
+  \scriptsize
     $B = B_0 \boxed {e^{-\frac{E}{kT}}}f(T,T_{pk},E_D)$\\
     \vspace{10pt}
     \raggedright{$T$ = temperature (K)\\
      $k$ = Boltzmann constant (eV K$^{-1}$)}\\
      $E$ = Activation energy (eV)\\
      $T_{pk}$ = Temperature of peak performance\\
-     $E_D$ = Deactivation energy (eV)\\
-    {\small (J H van't Hoff 1884, S Arrhenius 1889)}
+	 $E_D$ = Deactivation energy (eV)\\
+	 
+    {\tiny (J H van't Hoff 1884, S Arrhenius 1889)}
 \end{columns}
 
 \begin{itemize}\setlength{\itemindent}{0em}
   \pause
   \item Surely there is more to thermal responses?
-    \begin{itemize}\setlength{\itemindent}{-1em}
-     \item Oxygen limitation
-     \item Complexity of metabolic network
-     \item Hormonal regulation
-    \end{itemize}
-    \pause
+    % \begin{itemize}\setlength{\itemindent}{-1em}
+    %  \item Oxygen limitation
+    %  \item Complexity of metabolic network
+    %  \item Hormonal regulation
+    % \end{itemize}
+    % \pause
   \item \textit{What about alternative models?}\\
 
 \end{itemize}
@@ -230,18 +285,30 @@ head/foot}%
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Mechanisms in vector-borne disease dynamics?}
+
+	\begin{center}
+		\includegraphics[width=.8\textwidth]{VecTraitOverview.png}	
+	\end{center}
+	
+	{\small Cator et al. ``More than a flying syringe: Using functional traits in vector-borne disease research'' (Under Review)}
+
+\end{frame}
+
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Modelling, and fitting models to data: What's the big idea?}
 
-\begin{itemize} \itemsep8pt
+\begin{itemize} [<+->] \itemsep8pt
 
-	\item If possible, use biological knowledge to construct models
-	\item See if the models "agree well" with data
-	\item Whichever model "agrees best" is most likely to have the right 
+	\item {\it If possible}, use biological knowledge to construct models
+	\item See if the models ``agree well'' with data
+	\item Whichever model ``agrees best'' is most likely to have the right 
 	mechanisms
 	\item That's the one that's best for predictions (e.g. population 
 	cycles), estimating rates (e.g. population or individual growth rates), etc
 	\item Don't use models you already know have the wrong mechanisms just because they are popular!
-	\item Phenomenological/statistical models often perform better than mechanistic ones
+	\item Phenomenological/statistical models often perform better than mechanistic ones. \pause {\it Why? \pause --- because they have lest restrictive assumptions}   
 
 \end{itemize}
   
@@ -271,75 +338,76 @@ head/foot}%
 
 \end{frame}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{What is model selection?}
-
-	\begin{itemize}[<+->]\itemsep12pt
-		 \item Ideally, several competing (meaningful, not just null) hypotheses (Mathematical models) should be fitted to data and compared using statistical theory 
-		 \item This is an advance over the traditional ``null hypothesis'' approach in Biology
-		 \item Necessary for developing the advancement of Biology from from an observational and axiomatic discipline to one with general theories.
-		 \item Necessary for understanding the mechanisms underlying Biological (read, VBD) patterns and dynamics   
-	  \end{itemize}
- 
- \end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Fitting models to data}
 
-Two main ways to do it:
+Multiple ways to do it:
 
 \begin{itemize}\itemsep10pt
 
-	\item One-step forecasting and machine learning (appropriate for discrete models) and time 
-	series data --- focus in on maximizing ability to predict at the cost of mechanistic insights 
-
-	\item Ensemble fitting (appropriate for full time series or responses)
-	\begin{itemize}
 	\item Least Squares methods
 	\begin{itemize}
-	 \item Linear 
-	 \item Non-linear
+		 \item Linear 
+		 \item Non-linear
 	\end{itemize}
-	\item Likelihood based methods 
+	\item Likelihood-based methods 
 	\begin{itemize}
 	 \item Maximum Likelihood Estimation (MLE) 
 	 \item Bayesian
 	\end{itemize}
-
+	\item Artificial intelligence and Machine learning
+	\begin{itemize}
+		\item  Focus in on maximizing ability to discover pattern and predict at the cost of mechanistic insights
 	\end{itemize}
-	
+
+	% One-step forecasting (appropriate for discrete patterns/models), including time series data
+
 \end{itemize}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Ensemble fitting}
+\begin{frame}{Methods you can use}
 
 \begin{itemize} \itemsep12pt
 	
-\item These include MLE, Bayesian methods, and least squares optimization or fitting. 
+\item Least squares: along with Linear Model fitting, Non-linear Least Squares (NLLS) fitting is a particularly versatile and powerful approach because many mechanisms in biology and inherently non-linear
 
-\item Non-linear least squares (NLLS) fitting is a particularly versatile and powerful approach, because many mechanisms in biology and inherently non-linear.  
+\item MLE/Bayesian methods: more robust if you are able to calculate the likelihood function analytically or numerically. 
 
-\item MLE/Bayesian methods are more robust if you are able to calculate the likelihood function.
+\item AI/machine Learning: most versatile for large amounts of noisy data
 
 \end{itemize}
 
 \end{frame}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary: Model selection is the key}
+
+\begin{itemize}[<+->]\itemsep12pt
+	\item Ideally, several competing (meaningful, not just null) hypotheses (mathematical models) should be fitted to data and compared using statistical theory 
+	\item This is an advance over the traditional ``null hypothesis'' approach in Biology
+	\item Necessary for developing the advancement of Biology from from an observational and axiomatic discipline to one with general theories.
+	\item Necessary for understanding the mechanisms underlying biological patterns/phenomena
+\end{itemize}
+ 
+ \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Comparing and selecting models}
 
 \begin{itemize}
+	
 	\item It's all about the ``Likelihood'' of a model: \\
-	the set of parameter values of the	model ($\theta$) given outcomes ($x$), equals the probability of those 
-	observed outcomes given those parameter values, that is,
+	the set of parameter values of the	model ($\theta$) given outcomes ($x$),
+	equals the probability of those observed outcomes given those parameter
+	values, that is,
 
 	$$ \mathcal{L}(\theta |x) = P(x | \theta)$$
 
-	\item The easiest thing to do for you is to use information theory 
+	\item The easiest thing to do for you is to use information theory
 	(including AIC and BIC) to compare models. 
 
 	\item Both AIC and BIC use the {\it estimated likelihoods of a model}:\\
@@ -357,7 +425,7 @@ Two main ways to do it:
 
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Comparing and selecting models}
 
@@ -391,19 +459,27 @@ tss = sum((Observations - mean(Predictions)) ** 2)\\
 
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Comparing and selecting models: More stuff}
 
 \begin{itemize} \itemsep12pt
-	\item You can also calculate Akaike Weights, which is very useful/important when comparing $
-	> 2$ models. These weights can then be used to perform {\it model averaging}
+	\item You can also calculate Akaike Weights, which is very useful/important
+	when comparing $ > 2$ models. These weights can then be used to perform {\it
+	model averaging}.
 
-	\item Model selection using the Likelihood-Ratio test (LRT) is another option when you are comparing 2 models
+	\item Model selection using the Likelihood-Ratio test (LRT) is another
+	option when you are comparing 2 models.
 	
-	\item Adjusted $R^2$ can be used to get rigorous ``idea'' about how alternative models are performing. 
+	\item Adjusted $R^2$ can be used to get rigorous ``idea'' about how
+	alternative models are performing. 
 	
-	\item Very often, you will end up doing  model simplification, especially in {\it for linear least squares model fitting} --- starting with a complex model and then dropping terms till you have found a the most parsimonious version of the original model. There are functions in {\tt R} to do this (of course!). 
+	\item Very often, you will end up doing  model simplification, especially in
+	{\it for linear least squares model fitting} --- starting with a complex
+	model and then dropping terms till you have found a the most parsimonious
+	version of the original model. There are functions in {\tt R} to do this (of
+	course!).
+ 
 \end{itemize}
 
 \end{frame}
@@ -421,12 +497,10 @@ and evolution. Trends Ecol. Evol. 19, 101--108.
 
 \item Bolker, B. M. et al.  (2013) Strategies for fitting nonlinear ecological models in R, AD Model Builder, and BUGS. Methods Ecol. Evol. 4, 501--512 .
 
-\item Some illustrative examples of (non-linear) model fitting to 
-ecological/evolutionary data 
-\url{https://groups.nceas.ucsb.edu/non-linear-modeling/projects} 
+\item Cator et al. More than a flying syringe: Using functional traits in vector-borne disease research (Under Review)
 
-\item Additional readings in the git repository 
- 
+\item Additional readings in the git repository
+
 \end{itemize}
 \end{frame}
 
