@@ -35,9 +35,9 @@ The Workshop will consist of lectures, practicals (where you will be guided) and
 |                      | 11:00 - 12:00 | *Lecture+Practical*: [Likelihoods](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/lectures/ProbStatsIntro/) | LJ   |
 |                      | 12:00 - 13:00 | *Lunch* (Start forming final hackathon teams)        | --              |
 |                      | 13:00  - 14:00 | *Lecture*: [Bayesian Model Fitting](https://github.com/vectorbite/VBiTraining2/blob/master/lectures/IntroToBayes/)          | LJ           |
-|                      | 14:00  - 15:00 | *Practicals*: [Bayesian Model Fitting](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)          | LJ+MS+ZG           |
+|                      | 14:00  - 15:00 | *Practicals*: [Bayesian Model Fitting](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb#Fitting-Models-the-Bayesian-way)          | LJ+MS+ZG           |
 |                      | 15:00 - 15:30 | *Break*                             | --              |
-|                      | 15:30 - 16:30 | *Practicals*: [Bayesian Model Fitting](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)       | LJ+MS+ZG         |
+|                      | 15:30 - 16:30 | *Practicals*: [Bayesian Model Fitting](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb#Fitting-Models-the-Bayesian-way)       | LJ+MS+ZG         |
 |                      | 16:30 - 17:00 | *Challenge*: [Traits/Abundances](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting_Challenges.ipynb)  (Intro)       | All         |
 | Wednesday, 19th June | 08:30 - 09:00 | Q & A                                      | All             |
 |                      | 09:00 - 10:30 | *Challenge*: [Traits/Abundances](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting_Challenges.ipynb)  (Hackathon)            | All |
