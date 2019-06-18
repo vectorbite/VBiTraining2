@@ -30,7 +30,7 @@ The Workshop will consist of lectures, practicals (where you will be guided) and
 |                      | 15:30 - 16:30 | *Lecture*: [Analyses of Abundance (incl. Time Series) Data](https://github.com/vectorbite/VBiTraining2/blob/master/lectures/TimeSeries/) | SP + LJ    |
 |                      | 16:30 - 17:00 | *Practicals*: [Analyses of Abundance Data](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/TimeSeries.ipynb)      | All |
 | Tuesday, 18th June   | 08:30 - 09:00 | Q & A       | All             |
-|                      | 09:00 - 10:30 | *Practicals*: [Analyses of Abundance Data](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)      | All             |
+|                      | 09:00 - 10:30 | *Practicals*: [Analyses of Abundance Data](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/TimeSeries.ipynb)      | All             |
 |                      | 10:30 - 11:00 | *Break*                               | --              |
 |                      | 11:00 - 12:00 | *Lecture+Practical*: [Likelihoods](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb) | LJ   |
 |                      | 12:00 - 13:00 | *Lunch* (Start forming final hackathon teams)        | --              |
