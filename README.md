@@ -14,7 +14,7 @@ Welcome to the 2019 edition of the [VectorBiTE RCN](http://vectorbite.org/)'s Tr
 
 ## Schedule
 
-The Workshop will consist of lectures, practicals (where you will be guided) and challenges (where you will work more independently, but in groups, to deliver some specific results (*a la* [Hackathons](https://en.wikipedia.org/wiki/Hackathon)))). 
+The Workshop will consist of lectures, practicals (where you will be guided) and challenges (where you will work more independently, but in groups, to deliver some specific results (*a la* [Hackathons](https://en.wikipedia.org/wiki/Hackathon)))).
 
 *Training Team*: Leah Johnson (LJ); Samraat Pawar (SP): Marta Shocket (MS); Zachary Gajewski (ZG); Francis Windram (FW);  Matthew Watts (MW)); Deraj Wilson-Aggarwal (DW)
 
@@ -32,7 +32,7 @@ The Workshop will consist of lectures, practicals (where you will be guided) and
 | Tuesday, 18th June   | 08:30 - 09:00 | Q & A       | All             |
 |                      | 09:00 - 10:30 | *Practicals*: [Analyses of Abundance Data](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/TimeSeries.ipynb)      | All             |
 |                      | 10:30 - 11:00 | *Break*                               | --              |
-|                      | 11:00 - 12:00 | *Lecture+Practical*: [Likelihoods](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb) | LJ   |
+|                      | 11:00 - 12:00 | *Lecture+Practical*: [Likelihoods](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/lectures/ProbStatsIntro/) | LJ   |
 |                      | 12:00 - 13:00 | *Lunch* (Start forming final hackathon teams)        | --              |
 |                      | 13:00  - 14:00 | *Lecture*: [Bayesian Model Fitting](https://github.com/vectorbite/VBiTraining2/blob/master/lectures/IntroToBayes/)          | LJ           |
 |                      | 14:00  - 15:00 | *Practicals*: [Bayesian Model Fitting](https://nbviewer.jupyter.org/github/vectorbite/VBiTraining2/blob/master/notebooks/ModelFitting.ipynb)          | LJ+MS+ZG           |
